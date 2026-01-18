@@ -31,7 +31,7 @@ public class UserResponseDTO extends BaseResponseDTO {
     @JsonProperty("login")
     private String login;
 
-    @Schema(description = "Permissão do usuário.", example = "OWNER")
+    @Schema(description = "Permissão do usuário.", example = "HEALTH_PROFESSIONAL")
     @JsonProperty("type")
     private String type;
 

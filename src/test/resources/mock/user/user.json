@@ -53,12 +53,12 @@
       }
     }
   },
-  "userPostRequestDTOOwner": {
-    "name": "New Owner",
-    "email": "newowner@email.com",
-    "login": "newowner",
-    "password": "newowner",
-    "type": "OWNER",
+  "userPostRequestDTHealthProfessional": {
+    "name": "New Health Professional",
+    "email": "newhealthprofessional@email.com",
+    "login": "newhealthprofessional",
+    "password": "newhealthprofessional",
+    "userType": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "New Description 00",
       "number": "00",
@@ -69,13 +69,12 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-
-  "userPostRequestDTOClient": {
-    "name": "New Client",
-    "email": "newclient@email.com",
-    "login": "newclient",
-    "password": "newclient",
-    "type": "CLIENT",
+  "userPostRequestDTOPatient": {
+    "name": "New Patient",
+    "email": "newpatient@email.com",
+    "login": "newpatient",
+    "password": "newpatient",
+    "userType": "PATIENT",
     "address": {
       "description": "New Description",
       "number": "00",
@@ -86,11 +85,11 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userPutRequestDTOOwner": {
-    "name": "Updated Owner",
-    "email": "updatedowner@email.com",
-    "login": "updatedowner",
-    "type": "OWNER",
+  "userPutRequestDTOHealthProfessional": {
+    "name": "Updated Health Professional",
+    "email": "updatedhealthprofessional@email.com",
+    "login": "updatedhealthprofessional",
+    "userType": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "Updated Description 00",
       "number": "00",
@@ -101,11 +100,11 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userPutRequestDTOClient": {
-    "name": "Updated Client",
-    "email": "updatedclient@email.com",
-    "login": "updatedclient",
-    "type": "CLIENT",
+  "userPutRequestDTOPatient": {
+    "name": "Updated Patient",
+    "email": "updatedpatient@email.com",
+    "login": "updatedpatient",
+    "userType": "PATIENT",
     "address": {
       "description": "Updated Description",
       "number": "00",
@@ -116,29 +115,29 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userUpdatePasswordPatchRequestDTOOwner": {
-    "actualPassword": "owner",
-    "newPassword": "newowner",
-    "newPasswordConfirmation": "newowner"
+  "userUpdatePasswordPatchRequestDTOHealthProfessional": {
+    "actualPassword": "healthprofessional",
+    "newPassword": "newhealthprofessional",
+    "newPasswordConfirmation": "newhealthprofessional"
   },
-  "userUpdatePasswordPatchRequestDTOClient": {
-    "actualPassword": "client",
-    "newPassword": "newclient",
-    "newPasswordConfirmation": "newclient"
+  "userUpdatePasswordPatchRequestDTOPatient": {
+    "actualPassword": "patient",
+    "newPassword": "newpatient",
+    "newPasswordConfirmation": "newpatient"
   },
-  "userUpdatePasswordPatchRequestDTOClientWrongActualPassword": {
+  "userUpdatePasswordPatchRequestDTOPatientWrongActualPassword": {
     "actualPassword": "wrongactualpassword",
-    "newPassword": "newclient",
-    "newPasswordConfirmation": "newclient"
+    "newPassword": "newpatient",
+    "newPasswordConfirmation": "newpatient"
   },
-  "userUpdatePasswordPatchRequestDTOClientSamePassword": {
-    "actualPassword": "client",
-    "newPassword": "client",
-    "newPasswordConfirmation": "client"
+  "userUpdatePasswordPatchRequestDTOPatientSamePassword": {
+    "actualPassword": "patient",
+    "newPassword": "patient",
+    "newPasswordConfirmation": "patient"
   },
-  "userUpdatePasswordPatchRequestDTOClientWrongPasswordConfirmation": {
-    "actualPassword": "client",
-    "newPassword": "newclient",
+  "userUpdatePasswordPatchRequestDTOPatientWrongPasswordConfirmation": {
+    "actualPassword": "patient",
+    "newPassword": "newpatient",
     "newPasswordConfirmation": "wrongconfirmationpassword"
   }
 }

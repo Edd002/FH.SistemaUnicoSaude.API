@@ -77,7 +77,7 @@ public class UserController {
 
     @Operation(method = "GET", summary = "Buscar usuário por filtro.", description = "Buscar usuário por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'OWNER')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<UserResponseDTO>> find(@ParameterObject @Valid UserGetFilter filter) {
         log.info("Buscando usuários por filtro...");

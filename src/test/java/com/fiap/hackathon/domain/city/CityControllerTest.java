@@ -68,7 +68,7 @@ public class CityControllerTest {
                 .queryParam("name", name)
                 .build().encode()
                 .toUri();
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         BasePageableSuccessResponse200<CityResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -87,7 +87,7 @@ public class CityControllerTest {
                 .queryParam("ufState", UfState)
                 .build().encode()
                 .toUri();
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         BasePageableSuccessResponse200<CityResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -102,7 +102,7 @@ public class CityControllerTest {
     @Test
     public void findByHashIdSuccess() {
         final String EXISTING_CITY_HASH_ID = "d6a42563ee504e11858dfc73579171fd";
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/cities/" + EXISTING_CITY_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         BaseSuccessResponse200<CityResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -115,7 +115,7 @@ public class CityControllerTest {
     @Test
     public void findByHashIdFailure() {
         final String NOT_EXISTING_CITY_HASH_ID = "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a";
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/cities/" + NOT_EXISTING_CITY_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         BaseErrorResponse404 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), responseEntity.getStatusCode().value());
