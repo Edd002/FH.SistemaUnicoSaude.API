@@ -6,6 +6,7 @@ import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.constraint.ConstraintComponent;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import com.fiap.hackathon.global.exception.ApiException;
+import com.fiap.hackathon.global.exception.ConstraintNotAssociatedWithEntityException;
 import com.fiap.hackathon.global.util.HttpUtil;
 import com.fiap.hackathon.global.util.ValidationUtil;
 import jakarta.persistence.EntityManager;

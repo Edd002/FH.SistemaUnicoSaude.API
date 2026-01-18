@@ -22,7 +22,7 @@ import static java.util.Collections.singletonMap;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "localEntityManagerFactory",
         transactionManagerRef = "localTransactionManager",
-        basePackages = "com.fiap.hackathon"
+        basePackages = "com.fiap.hackathon.domain"
 )
 @EnableTransactionManagement
 public class LocalDataSourceConfig {
@@ -39,7 +39,7 @@ public class LocalDataSourceConfig {
     public LocalContainerEntityManagerFactoryBean localEntityManagerFactory(final EntityManagerFactoryBuilder builder, final @Qualifier("local-db") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.fiap.hackathon")
+                .packages("com.fiap.hackathon.domain")
                 .persistenceUnit("localDb")
                 .properties(singletonMap("hibernate.hbm2ddl.auto", environment.getProperty("spring.jpa.hibernate.ddl-auto")))
                 .build();
