@@ -53,20 +53,12 @@ public class HttpHeaderComponent {
         return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOAdmin", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
     }
 
-    public HttpHeaders generateHeaderWithOwnerBearerToken() {
-        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOOwner", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
+    public HttpHeaders generateHeaderWithPatientBearerToken() {
+        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOPatient", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
     }
 
-    public HttpHeaders generateHeaderWithOwnerWithoutRestaurantBearerToken() {
-        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOOwnerWithoutRestaurant", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
-    }
-
-    public HttpHeaders generateHeaderWithOwnerWithOneRestaurantBearerToken() {
-        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOOwnerWithOneRestaurant", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
-    }
-
-    public HttpHeaders generateHeaderWithClientBearerToken() {
-        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOClient", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
+    public HttpHeaders generateHeaderWithHealthProfessionalBearerToken() {
+        return generateHeaderWithBearerToken(JsonUtil.objectFromJson("jwtGeneratePostRequestDTOHealthProfessional", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue()));
     }
 
     private HttpHeaders generateHeaderWithBearerToken(JwtGeneratePostRequestDTO jwtGeneratePostRequestDTO) {

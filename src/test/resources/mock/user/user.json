@@ -4,7 +4,7 @@
     "email": "admin@email.com",
     "login": "admin",
     "password": "admin",
-    "userType": "ADMIN",
+    "type": "ADMIN",
     "address": {
       "description": "Description 00",
       "number": "00",
@@ -22,7 +22,7 @@
     "email": "patient@email.com",
     "login": "patient",
     "password": "patient",
-    "userType": "PATIENT",
+    "type": "PATIENT",
     "address": {
       "description": "Description 01",
       "number": "01",
@@ -40,7 +40,7 @@
     "email": "healthprofessional@email.com",
     "login": "healthprofessional",
     "password": "healthprofessional",
-    "userType": "HEALTH_PROFESSIONAL",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "Description 02",
       "number": "02",
@@ -53,12 +53,12 @@
       }
     }
   },
-  "userPostRequestDTOOwner": {
-    "name": "New Owner",
-    "email": "newowner@email.com",
-    "login": "newowner",
-    "password": "newowner",
-    "type": "OWNER",
+  "userPostRequestDTHealthProfessional": {
+    "name": "New Health Professional",
+    "email": "newhealthprofessional@email.com",
+    "login": "newhealthprofessional",
+    "password": "newhealthprofessional",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "New Description 00",
       "number": "00",
@@ -69,13 +69,12 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-
-  "userPostRequestDTOClient": {
-    "name": "New Client",
-    "email": "newclient@email.com",
-    "login": "newclient",
-    "password": "newclient",
-    "type": "CLIENT",
+  "userPostRequestDTOPatient": {
+    "name": "New Patient",
+    "email": "newpatient@email.com",
+    "login": "newpatient",
+    "password": "newpatient",
+    "type": "PATIENT",
     "address": {
       "description": "New Description",
       "number": "00",
@@ -86,11 +85,11 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userPutRequestDTOOwner": {
-    "name": "Updated Owner",
-    "email": "updatedowner@email.com",
-    "login": "updatedowner",
-    "type": "OWNER",
+  "userPutRequestDTOHealthProfessional": {
+    "name": "Updated Health Professional",
+    "email": "updatedhealthprofessional@email.com",
+    "login": "updatedhealthprofessional",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "Updated Description 00",
       "number": "00",
@@ -101,11 +100,11 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userPutRequestDTOClient": {
-    "name": "Updated Client",
-    "email": "updatedclient@email.com",
-    "login": "updatedclient",
-    "type": "CLIENT",
+  "userPutRequestDTOPatient": {
+    "name": "Updated Patient",
+    "email": "updatedpatient@email.com",
+    "login": "updatedpatient",
+    "type": "PATIENT",
     "address": {
       "description": "Updated Description",
       "number": "00",
@@ -116,29 +115,41 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
-  "userUpdatePasswordPatchRequestDTOOwner": {
-    "actualPassword": "owner",
-    "newPassword": "newowner",
-    "newPasswordConfirmation": "newowner"
+  "userUpdateLoginPatchRequestDTOHealthProfessional": {
+    "newLogin": "healthprofessional4"
   },
-  "userUpdatePasswordPatchRequestDTOClient": {
-    "actualPassword": "client",
-    "newPassword": "newclient",
-    "newPasswordConfirmation": "newclient"
+  "userUpdateLoginPatchRequestDTOPatient": {
+    "newLogin": "patient4"
   },
-  "userUpdatePasswordPatchRequestDTOClientWrongActualPassword": {
+  "userUpdateLoginPatchRequestDTOAdmin": {
+    "newLogin": "newadmin"
+  },
+  "userUpdateLoginPatchRequestDTOPatientSameLogin": {
+    "newLogin": "patient1"
+  },
+  "userUpdatePasswordPatchRequestDTOHealthProfessional": {
+    "actualPassword": "healthprofessional1",
+    "newPassword": "newhealthprofessional",
+    "newPasswordConfirmation": "newhealthprofessional"
+  },
+  "userUpdatePasswordPatchRequestDTOPatient": {
+    "actualPassword": "patient1",
+    "newPassword": "newpatient",
+    "newPasswordConfirmation": "newpatient"
+  },
+  "userUpdatePasswordPatchRequestDTOPatientWrongActualPassword": {
     "actualPassword": "wrongactualpassword",
-    "newPassword": "newclient",
-    "newPasswordConfirmation": "newclient"
+    "newPassword": "newpatient",
+    "newPasswordConfirmation": "newpatient"
   },
-  "userUpdatePasswordPatchRequestDTOClientSamePassword": {
-    "actualPassword": "client",
-    "newPassword": "client",
-    "newPasswordConfirmation": "client"
+  "userUpdatePasswordPatchRequestDTOPatientSamePassword": {
+    "actualPassword": "patient",
+    "newPassword": "patient",
+    "newPasswordConfirmation": "patient"
   },
-  "userUpdatePasswordPatchRequestDTOClientWrongPasswordConfirmation": {
-    "actualPassword": "client",
-    "newPassword": "newclient",
+  "userUpdatePasswordPatchRequestDTOPatientWrongPasswordConfirmation": {
+    "actualPassword": "patient",
+    "newPassword": "newpatient",
     "newPasswordConfirmation": "wrongconfirmationpassword"
   }
 }

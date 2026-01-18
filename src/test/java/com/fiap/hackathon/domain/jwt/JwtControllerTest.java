@@ -49,7 +49,6 @@ public class JwtControllerTest {
                 "persistence/city/before_test_city.sql",
                 "persistence/address/before_test_address.sql",
                 "persistence/loadtable/before_test_load_table.sql",
-                "persistence/usertype/before_test_user_type.sql",
                 "persistence/user/before_test_user.sql",
                 "persistence/jwt/before_test_jwt.sql"
         );
@@ -65,7 +64,7 @@ public class JwtControllerTest {
     @Test
     public void generateJwtSuccess() {
         HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
-        JwtGeneratePostRequestDTO jwtGeneratePostRequestDTO = JsonUtil.objectFromJson("jwtGeneratePostRequestDTOOwner", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        JwtGeneratePostRequestDTO jwtGeneratePostRequestDTO = JsonUtil.objectFromJson("jwtGeneratePostRequestDTOHealthProfessional", PATH_RESOURCE_JWT, JwtGeneratePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/jwts/generate", HttpMethod.POST, new HttpEntity<>(jwtGeneratePostRequestDTO, headers), new ParameterizedTypeReference<>() {});
         BaseSuccessResponse201<JwtResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCode().value());
@@ -91,7 +90,7 @@ public class JwtControllerTest {
     @DisplayName(value = "Teste de sucesso - Validar um JWT")
     @Test
     public void validateJwtSuccess() {
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/jwts/validate", HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         NoPayloadBaseSuccessResponse200<?> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -125,7 +124,7 @@ public class JwtControllerTest {
     @DisplayName(value = "Teste de sucesso - Invalidar um JWT")
     @Test
     public void invalidateJwtSuccess() {
-        HttpHeaders headers = httpHeaderComponent.generateHeaderWithOwnerBearerToken();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
 
         ResponseEntity<?> responseEntityInvalidate = testRestTemplate.exchange("/api/v1/jwts/invalidate", HttpMethod.POST, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         NoPayloadBaseSuccessResponse200<?> responseObjectInvalidate = httpBodyComponent.responseEntityToObject(responseEntityInvalidate, new TypeToken<>() {});

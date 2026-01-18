@@ -22,13 +22,13 @@ public class MockAuthenticationComponent {
         this.bundleAuthUserDetailsService = bundleAuthUserDetailsService;
     }
 
-    public void mockAuthenticationOwner() {
-        User user = JsonUtil.objectFromJson("userOwner", PATH_RESOURCE_USER, User.class);
+    public void mockAuthenticationHealthProfessional() {
+        User user = JsonUtil.objectFromJson("userHealthProfessional", PATH_RESOURCE_USER, User.class);
         mockAuthentication(user);
     }
 
-    public void mockAuthenticationClient() {
-        User user = JsonUtil.objectFromJson("userClient", PATH_RESOURCE_USER, User.class);
+    public void mockAuthenticationPatient() {
+        User user = JsonUtil.objectFromJson("userPatient", PATH_RESOURCE_USER, User.class);
         mockAuthentication(user);
     }
 

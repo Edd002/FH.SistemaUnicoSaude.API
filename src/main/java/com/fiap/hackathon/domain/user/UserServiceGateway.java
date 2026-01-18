@@ -2,14 +2,13 @@ package com.fiap.hackathon.domain.user;
 
 import com.fiap.hackathon.domain.city.CityServiceGateway;
 import com.fiap.hackathon.domain.city.entity.City;
+import com.fiap.hackathon.domain.jwt.JwtServiceGateway;
 import com.fiap.hackathon.domain.user.authuser.AuthUserContextHolder;
 import com.fiap.hackathon.domain.user.dto.*;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
 import com.fiap.hackathon.domain.user.specification.UserSpecificationBuilder;
-import com.fiap.hackathon.domain.user.usecase.UserCreateUseCase;
-import com.fiap.hackathon.domain.user.usecase.UserUpdatePasswordUseCase;
-import com.fiap.hackathon.domain.user.usecase.UserUpdateUseCase;
+import com.fiap.hackathon.domain.user.usecase.*;
 import com.fiap.hackathon.global.base.BaseServiceGateway;
 import com.fiap.hackathon.global.exception.EntityNotFoundException;
 import com.fiap.hackathon.global.search.builder.PageableBuilder;
@@ -34,13 +33,15 @@ public class UserServiceGateway extends BaseServiceGateway<IUserRepository, User
     private String cryptoKey;
 
     private final IUserRepository userRepository;
+    private final JwtServiceGateway jwtServiceGateway;
     private final CityServiceGateway cityServiceGateway;
     private final PageableBuilder pageableBuilder;
     private final ModelMapper modelMapperPresenter;
 
     @Autowired
-    public UserServiceGateway(IUserRepository userRepository, CityServiceGateway cityServiceGateway, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter) {
+    public UserServiceGateway(IUserRepository userRepository, JwtServiceGateway jwtServiceGateway, CityServiceGateway cityServiceGateway, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter) {
         this.userRepository = userRepository;
+        this.jwtServiceGateway = jwtServiceGateway;
         this.cityServiceGateway = cityServiceGateway;
         this.pageableBuilder = pageableBuilder;
         this.modelMapperPresenter = modelMapperPresenter;
@@ -60,6 +61,12 @@ public class UserServiceGateway extends BaseServiceGateway<IUserRepository, User
         City city = cityServiceGateway.findByHashId(userPutRequestDTO.getAddress().getHashIdCity());
         User updatedUser = new UserUpdateUseCase(AuthUserContextHolder.getAuthUser(), UserTypeEnum.valueOf(userPutRequestDTO.getType()), city, userPutRequestDTO).getRebuiltedUser();
         return modelMapperPresenter.map(save(updatedUser), UserResponseDTO.class);
+    }
+
+    @Transactional
+    public void updateLogin(UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO) {
+        User updatedLoginUser = save(new UserUpdateLoginUseCase(AuthUserContextHolder.getAuthUser(), userUpdateLoginPatchRequestDTO).getBuiltedUser());
+        jwtServiceGateway.invalidate(updatedLoginUser);
     }
 
     @Transactional
@@ -85,8 +92,10 @@ public class UserServiceGateway extends BaseServiceGateway<IUserRepository, User
     @Transactional
     public void delete() {
         User loggedUser = AuthUserContextHolder.getAuthUser();
-        delete(loggedUser);
-        SecurityContextHolder.clearContext();
+        if (new UserCheckForDeleteUseCase(loggedUser).isAllowedToDelete()) {
+            delete(loggedUser);
+            SecurityContextHolder.clearContext();
+        }
     }
 
     public User findByLogin(String login) {

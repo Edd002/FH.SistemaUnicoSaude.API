@@ -19,10 +19,10 @@
       }
     },
     {
-      "name": "Patient",
-      "email": "patient@email.com",
-      "login": "patient",
-      "password": "patient",
+      "name": "Patient 1",
+      "email": "patient1@email.com",
+      "login": "patient1",
+      "password": "patient1",
       "userType": "PATIENT",
       "address": {
         "description": "Description 01",
@@ -37,10 +37,10 @@
       }
     },
     {
-      "name": "Health Professional",
-      "email": "healthprofessional@email.com",
-      "login": "healthprofessional",
-      "password": "healthprofessional",
+      "name": "Health Professional 1",
+      "email": "healthprofessional1@email.com",
+      "login": "healthprofessional1",
+      "password": "healthprofessional1",
       "userType": "HEALTH_PROFESSIONAL",
       "address": {
         "description": "Description 02",

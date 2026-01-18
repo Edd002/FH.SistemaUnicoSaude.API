@@ -72,6 +72,12 @@ public class JwtServiceGateway extends BaseServiceGateway<IJwtRepository, Jwt> {
         SecurityContextHolder.clearContext();
     }
 
+    @Transactional
+    public void invalidate(User user) {
+        jwtRepository.deleteAll(Optional.of(jwtRepository.findAllByUser(user)).orElseThrow(AuthenticationHttpException::new));
+        SecurityContextHolder.clearContext();
+    }
+
     private String extractBearerToken(String bearerToken) {
         return ValidationUtil.isNotNull(bearerToken) ? bearerToken.substring("Bearer ".length()) : Strings.EMPTY;
     }
