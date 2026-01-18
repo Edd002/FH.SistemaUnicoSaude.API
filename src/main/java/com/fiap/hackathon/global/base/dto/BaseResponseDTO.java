@@ -1,0 +1,4 @@
+package com.fiap.hackathon.global.base.dto;
+
+public abstract class BaseResponseDTO {
+}

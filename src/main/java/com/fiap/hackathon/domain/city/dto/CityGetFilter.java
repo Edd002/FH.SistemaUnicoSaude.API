@@ -1,0 +1,21 @@
+package com.fiap.hackathon.domain.city.dto;
+
+import com.fiap.hackathon.global.base.BasePaginationFilter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public final class CityGetFilter extends BasePaginationFilter {
+
+    @Schema(description = "Nome da cidade.", example = "Ariquemes")
+    private String name;
+
+    @Schema(description = "UF do estado da cidade.", example = "AC")
+    private String ufState;
+
+    public CityGetFilter(Integer pageNumber, Integer pageSize) {
+        super(pageNumber, pageSize);
+    }
+}

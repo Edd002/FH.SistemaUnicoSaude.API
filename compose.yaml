@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+
+  # FH FHSistemaUnicoSaudeAPI Service
+  app:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fh_sistema_unico_saude_api
+    ports:
+      - "8085:8085"
+      - "5005:5005"
+    depends_on:
+      - fh_sistema_unico_saude_database
+      - broker
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://fh_sistema_unico_saude_database:5432/fh_sistema_unico_saude_database
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - fh_sistema_unico_saude_net
+    profiles: ["docker"]
+
+
+  # Database Service
+  fh_sistema_unico_saude_database:
+    env_file:
+      - .env
+    container_name: fh_sistema_unico_saude_database
+    image: postgres:17.4
+    ports:
+      - '5453:5432'
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: fh_sistema_unico_saude_database
+    networks:
+      - fh_sistema_unico_saude_net
+    volumes:
+      - fh_sistema_unico_saude_database:/var/lib/postgresql
+      - fh_sistema_unico_saude_database_data:/var/lib/postgresql/data
+
+
+  # PGAdmin Service
+  fh_sistema_unico_saude_pgadmin:
+    env_file:
+      - .env
+    container_name: fh_sistema_unico_saude_pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "80:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - fh_sistema_unico_saude_net
+    depends_on:
+      - fh_sistema_unico_saude_database
+
+
+networks:
+  fh_sistema_unico_saude_net:
+    driver: bridge
+
+volumes:
+  fh_sistema_unico_saude_database:
+  fh_sistema_unico_saude_database_data:

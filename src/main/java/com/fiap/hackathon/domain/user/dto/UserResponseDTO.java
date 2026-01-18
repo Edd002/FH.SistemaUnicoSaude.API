@@ -1,0 +1,41 @@
+package com.fiap.hackathon.domain.user.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fiap.hackathon.domain.address.dto.AddressResponseDTO;
+import com.fiap.hackathon.global.base.dto.BaseResponseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResponseDTO extends BaseResponseDTO {
+
+    @Schema(description = "Hash id do usuário.", example = "103c72619967461987ec61537515073d")
+    @JsonProperty("hashId")
+    private String hashId;
+
+    @Schema(description = "Nome do usuário.", example = "Roberto Afonso")
+    @JsonProperty("name")
+    private String name;
+
+    @Schema(description = "E-mail do usuário.", example = "robertoafonso@email.com")
+    @JsonProperty("email")
+    private String email;
+
+    @Schema(description = "Login do usuário.", example = "roberto_afonso_001")
+    @JsonProperty("login")
+    private String login;
+
+    @Schema(description = "Permissão do usuário.", example = "OWNER")
+    @JsonProperty("type")
+    private String type;
+
+    @Schema(description = "Endereço do usuário.")
+    @JsonProperty("address")
+    private AddressResponseDTO address;
+}
