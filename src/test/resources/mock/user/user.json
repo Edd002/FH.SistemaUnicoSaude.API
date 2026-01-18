@@ -115,6 +115,18 @@
       "hashIdCity": "2d366493bd7e491da4e1ec9032ee4bc8"
     }
   },
+  "userUpdateLoginPatchRequestDTOHealthProfessional": {
+    "newLogin": "healthprofessional4"
+  },
+  "userUpdateLoginPatchRequestDTOPatient": {
+    "newLogin": "patient4"
+  },
+  "userUpdateLoginPatchRequestDTOAdmin": {
+    "newLogin": "newadmin"
+  },
+  "userUpdateLoginPatchRequestDTOPatientSameLogin": {
+    "newLogin": "patient1"
+  },
   "userUpdatePasswordPatchRequestDTOHealthProfessional": {
     "actualPassword": "healthprofessional1",
     "newPassword": "newhealthprofessional",

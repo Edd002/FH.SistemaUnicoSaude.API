@@ -1,9 +1,6 @@
 package com.fiap.hackathon.domain.user;
 
-import com.fiap.hackathon.domain.user.dto.UserPostRequestDTO;
-import com.fiap.hackathon.domain.user.dto.UserPutRequestDTO;
-import com.fiap.hackathon.domain.user.dto.UserResponseDTO;
-import com.fiap.hackathon.domain.user.dto.UserUpdatePasswordPatchRequestDTO;
+import com.fiap.hackathon.domain.user.dto.*;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse400;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
@@ -122,6 +119,54 @@ public class UserControllerTest {
         Assertions.assertTrue(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getAddress().getHashId()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Atualizar login de um usuário profissional de saúde")
+    @Test
+    public void updateUserLoginHealthProfessionalSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO = JsonUtil.objectFromJson("userUpdateLoginPatchRequestDTOHealthProfessional", PATH_RESOURCE_USER, UserUpdateLoginPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/users/change-login", HttpMethod.PATCH, new HttpEntity<>(userUpdateLoginPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        NoPayloadBaseSuccessResponse200<?> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertNull(responseObject);
+    }
+
+    @DisplayName(value = "Teste de sucesso - Atualizar login de um usuário paciente")
+    @Test
+    public void updateUserLoginPatientSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO = JsonUtil.objectFromJson("userUpdateLoginPatchRequestDTOPatient", PATH_RESOURCE_USER, UserUpdateLoginPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/users/change-login", HttpMethod.PATCH, new HttpEntity<>(userUpdateLoginPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        NoPayloadBaseSuccessResponse200<?> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertNull(responseObject);
+    }
+
+    @DisplayName(value = "Teste de falha - Atualizar login de usuário administrador")
+    @Test
+    public void updateAdminUserLoginFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithAdminBearerToken();
+        UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO = JsonUtil.objectFromJson("userUpdateLoginPatchRequestDTOAdmin", PATH_RESOURCE_USER, UserUpdateLoginPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/users/change-login", HttpMethod.PATCH, new HttpEntity<>(userUpdateLoginPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse400 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de falha - Atualizar login de um usuário paciente com login cadastrada igual ao novo")
+    @Test
+    public void updateUserLoginPatientSameLoginFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO = JsonUtil.objectFromJson("userUpdateLoginPatchRequestDTOPatientSameLogin", PATH_RESOURCE_USER, UserUpdateLoginPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/users/change-login", HttpMethod.PATCH, new HttpEntity<>(userUpdateLoginPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse400 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 
     @DisplayName(value = "Teste de sucesso - Atualizar senha de um usuário profissional de saúde")
