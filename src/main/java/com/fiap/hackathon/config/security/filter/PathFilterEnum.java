@@ -17,7 +17,8 @@ public enum PathFilterEnum {
     API_V1_USERS_DELETE(HttpMethod.DELETE, "/api/v1/users"),
     API_V1_USERS_GET(HttpMethod.GET, "/api/v1/users"),
     API_V1_USERS_FILTER_GET(HttpMethod.GET, "/api/v1/users/filter"),
-    API_V1_USERS_PATCH(HttpMethod.PATCH, "/api/v1/users/change-password"),
+    API_V1_USERS_LOGIN_PATCH(HttpMethod.PATCH, "/api/v1/users/change-login"),
+    API_V1_USERS_PASSWORD_PATCH(HttpMethod.PATCH, "/api/v1/users/change-password"),
     API_V1_USERS_POST(HttpMethod.POST, "/api/v1/users"),
     API_V1_USERS_PUT(HttpMethod.PUT, "/api/v1/users");
 

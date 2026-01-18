@@ -18,7 +18,6 @@ public final class UserUpdateUseCase {
         return loggedUser.rebuild(
                 userPutRequestDTO.getName(),
                 userPutRequestDTO.getEmail(),
-                userPutRequestDTO.getLogin(),
                 userType,
                 loggedUser.getAddress().rebuild(
                         userPutRequestDTO.getAddress().getDescription(),

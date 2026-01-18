@@ -42,12 +42,16 @@ public class User extends Audit implements Serializable {
         this.setAddress(address);
     }
 
-    public User rebuild(@NonNull String name, @NonNull String email, @NonNull String login, @NonNull UserTypeEnum type, @NonNull Address address) {
+    public User rebuild(@NonNull String name, @NonNull String email, @NonNull UserTypeEnum type, @NonNull Address address) {
         this.setName(name);
         this.setEmail(email);
-        this.setLogin(login);
         this.setUserType(type);
         this.setAddress(address);
+        return this;
+    }
+
+    public User rebuild(@NonNull String login) {
+        this.setLogin(login);
         return this;
     }
 

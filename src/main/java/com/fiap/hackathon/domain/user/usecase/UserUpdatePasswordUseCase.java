@@ -10,18 +10,18 @@ public final class UserUpdatePasswordUseCase {
 
     private final User user;
 
-    public UserUpdatePasswordUseCase(@NonNull User loggedlUser, @NonNull UserUpdatePasswordPatchRequestDTO userUpdatePasswordPatchRequestDTO, @NonNull String passwordCryptoKey) {
+    public UserUpdatePasswordUseCase(@NonNull User loggedUser, @NonNull UserUpdatePasswordPatchRequestDTO userUpdatePasswordPatchRequestDTO, @NonNull String passwordCryptoKey) {
         CryptoUtil crypto = CryptoUtil.newInstance(passwordCryptoKey);
-        if (!crypto.matches(userUpdatePasswordPatchRequestDTO.getActualPassword(), loggedlUser.getPassword())) {
+        if (!crypto.matches(userUpdatePasswordPatchRequestDTO.getActualPassword(), loggedUser.getPassword())) {
             throw new InvalidUserPasswordException("A senha cadastrada é diferente da senha atual.");
         }
-        if (crypto.matches(userUpdatePasswordPatchRequestDTO.getNewPassword(), loggedlUser.getPassword())) {
+        if (crypto.matches(userUpdatePasswordPatchRequestDTO.getNewPassword(), loggedUser.getPassword())) {
             throw new InvalidUserPasswordException("A senha cadastrada não pode ser igual a senha nova.");
         }
         if (!userUpdatePasswordPatchRequestDTO.getNewPassword().equals(userUpdatePasswordPatchRequestDTO.getNewPasswordConfirmation())) {
             throw new InvalidUserPasswordException("A senha nova é difente da confirmação de senha nova.");
         }
-        this.user = loggedlUser;
+        this.user = loggedUser;
         this.user.setEncryptedPassword(passwordCryptoKey, userUpdatePasswordPatchRequestDTO.getNewPassword());
     }
 

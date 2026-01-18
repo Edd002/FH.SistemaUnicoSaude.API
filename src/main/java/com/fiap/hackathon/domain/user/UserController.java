@@ -65,6 +65,16 @@ public class UserController {
         return new BaseSuccessResponse200<>(userServiceGateway.update(userPutRequestDTO)).buildResponse();
     }
 
+    @Operation(method = "PATCH", summary = "Atualizar login do usuário logado. Após atualização será necessário efetuar login novamente.", description = "Atualizar login do usuário logado. Após atualização será necessário efetuar login novamente.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "isAuthenticated()")
+    @PatchMapping(value = "/change-login")
+    public ResponseEntity<NoPayloadBaseSuccessResponse200<UserResponseDTO>> updateLogin(@RequestBody @Valid UserUpdateLoginPatchRequestDTO userUpdateLoginPatchRequestDTO) {
+        log.info("Atualizando senha do usuário...");
+        userServiceGateway.updateLogin(userUpdateLoginPatchRequestDTO);
+        return new NoPayloadBaseSuccessResponse200<UserResponseDTO>().buildResponseWithoutPayload();
+    }
+
     @Operation(method = "PATCH", summary = "Atualizar senha do usuário logado.", description = "Atualizar senha do usuário logado.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "isAuthenticated()")

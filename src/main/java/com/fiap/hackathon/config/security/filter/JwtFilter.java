@@ -18,6 +18,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -52,11 +53,11 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             SecurityContextHolder.getContext().setAuthentication(bundleAuthUserDetailsService.getAuthentication(jwt.getLogin()));
             filterChain.doFilter(httpServletRequest, httpServletResponse);
-            if (httpServletResponse.getStatus() != HttpStatus.UNAUTHORIZED.value() && (!ArrayUtils.contains(PathFilterEnum.getIgnoreResponseFilterPaths().stream().map(PathFilterEnum::getPath).toArray(), httpServletRequest.getServletPath()) && !isDeletingUser(httpServletRequest))) {
+            if (httpServletResponse.getStatus() != HttpStatus.UNAUTHORIZED.value() && (!ArrayUtils.contains(PathFilterEnum.getIgnoreResponseFilterPaths().stream().map(PathFilterEnum::getPath).toArray(), httpServletRequest.getServletPath()) && (!isChangingUserLogin(httpServletRequest) && !isDeletingUser(httpServletRequest)))) {
                 jwtServiceGateway.refreshByBearerToken(jwt.getBearerToken());
             }
             return;
-        } catch (TokenValidationException | AuthenticationHttpException | EntityNotFoundException exception) {
+        } catch (TokenValidationException | AuthenticationHttpException | EntityNotFoundException | UsernameNotFoundException exception) {
             httpServletRequest.setAttribute("jwtError", exception.getMessage());
             log.severe(exception.getMessage());
             SecurityContextHolder.clearContext();
@@ -70,6 +71,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private boolean isGeneratingJwt(HttpServletRequest httpServletRequest) {
         return httpServletRequest.getServletPath().equals(PathFilterEnum.API_V1_JWTS_GENERATE_POST.getPath()) && httpServletRequest.getMethod().equals(PathFilterEnum.API_V1_JWTS_GENERATE_POST.getHttpMethod().name());
+    }
+
+    private boolean isChangingUserLogin(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getServletPath().equals(PathFilterEnum.API_V1_USERS_LOGIN_PATCH.getPath()) && httpServletRequest.getMethod().equals(PathFilterEnum.API_V1_USERS_LOGIN_PATCH.getHttpMethod().name());
     }
 
     private boolean isDeletingUser(HttpServletRequest httpServletRequest) {

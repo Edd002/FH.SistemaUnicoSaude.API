@@ -6,7 +6,6 @@ import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
 import com.fiap.hackathon.global.base.dto.BaseRequestDTO;
 import com.fiap.hackathon.global.util.EmailValidatorUtil;
 import com.fiap.hackathon.global.util.deserializer.StrictStringNormalizeSpaceDeserializer;
-import com.fiap.hackathon.global.util.deserializer.StrictStringNormalizeSpaceUpperCaseDeserializer;
 import com.fiap.hackathon.global.util.enumerated.validation.ValueOfEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -31,13 +30,6 @@ public abstract class UserRequestDTO extends BaseRequestDTO {
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
     @JsonProperty("email")
     private String email;
-
-    @Schema(description = "Login do usuário.", example = "roberto_afonso_001", maxLength = 255)
-    @Size(max = 255, message = "O número de caracteres máximo para o login do usuário é 255 caracteres.")
-    @NotBlank(message = "O login do usuário não pode ser nulo ou em branco.")
-    @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
-    @JsonProperty("login")
-    private String login;
 
     @Schema(description = "Tipo de usuário.", example = "PATIENT", maxLength = 255)
     @Size(max = 255, message = "O número de caracteres máximo para o tipo de usuário é 255 caracteres.")
