@@ -39,6 +39,7 @@ public class User extends Audit implements Serializable {
         this.setLogin(login);
         this.setEncryptedPassword(passwordCryptoKey, password);
         this.setUserType(userType);
+        this.setAddress(address);
     }
 
     public User rebuild(@NonNull String name, @NonNull String email, @NonNull String login, @NonNull UserTypeEnum type, @NonNull Address address) {
@@ -46,6 +47,7 @@ public class User extends Audit implements Serializable {
         this.setEmail(email);
         this.setLogin(login);
         this.setUserType(type);
+        this.setAddress(address);
         return this;
     }
 

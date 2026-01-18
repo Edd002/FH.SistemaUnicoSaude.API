@@ -7,6 +7,7 @@ import com.fiap.hackathon.domain.user.dto.*;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
 import com.fiap.hackathon.domain.user.specification.UserSpecificationBuilder;
+import com.fiap.hackathon.domain.user.usecase.UserCheckForDeleteUseCase;
 import com.fiap.hackathon.domain.user.usecase.UserCreateUseCase;
 import com.fiap.hackathon.domain.user.usecase.UserUpdatePasswordUseCase;
 import com.fiap.hackathon.domain.user.usecase.UserUpdateUseCase;
@@ -85,8 +86,10 @@ public class UserServiceGateway extends BaseServiceGateway<IUserRepository, User
     @Transactional
     public void delete() {
         User loggedUser = AuthUserContextHolder.getAuthUser();
-        delete(loggedUser);
-        SecurityContextHolder.clearContext();
+        if (new UserCheckForDeleteUseCase(loggedUser).isAllowedToDelete()) {
+            delete(loggedUser);
+            SecurityContextHolder.clearContext();
+        }
     }
 
     public User findByLogin(String login) {

@@ -4,7 +4,7 @@
     "email": "admin@email.com",
     "login": "admin",
     "password": "admin",
-    "userType": "ADMIN",
+    "type": "ADMIN",
     "address": {
       "description": "Description 00",
       "number": "00",
@@ -22,7 +22,7 @@
     "email": "patient@email.com",
     "login": "patient",
     "password": "patient",
-    "userType": "PATIENT",
+    "type": "PATIENT",
     "address": {
       "description": "Description 01",
       "number": "01",
@@ -40,7 +40,7 @@
     "email": "healthprofessional@email.com",
     "login": "healthprofessional",
     "password": "healthprofessional",
-    "userType": "HEALTH_PROFESSIONAL",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "Description 02",
       "number": "02",
@@ -58,7 +58,7 @@
     "email": "newhealthprofessional@email.com",
     "login": "newhealthprofessional",
     "password": "newhealthprofessional",
-    "userType": "HEALTH_PROFESSIONAL",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "New Description 00",
       "number": "00",
@@ -74,7 +74,7 @@
     "email": "newpatient@email.com",
     "login": "newpatient",
     "password": "newpatient",
-    "userType": "PATIENT",
+    "type": "PATIENT",
     "address": {
       "description": "New Description",
       "number": "00",
@@ -89,7 +89,7 @@
     "name": "Updated Health Professional",
     "email": "updatedhealthprofessional@email.com",
     "login": "updatedhealthprofessional",
-    "userType": "HEALTH_PROFESSIONAL",
+    "type": "HEALTH_PROFESSIONAL",
     "address": {
       "description": "Updated Description 00",
       "number": "00",
@@ -104,7 +104,7 @@
     "name": "Updated Patient",
     "email": "updatedpatient@email.com",
     "login": "updatedpatient",
-    "userType": "PATIENT",
+    "type": "PATIENT",
     "address": {
       "description": "Updated Description",
       "number": "00",
@@ -116,12 +116,12 @@
     }
   },
   "userUpdatePasswordPatchRequestDTOHealthProfessional": {
-    "actualPassword": "healthprofessional",
+    "actualPassword": "healthprofessional1",
     "newPassword": "newhealthprofessional",
     "newPasswordConfirmation": "newhealthprofessional"
   },
   "userUpdatePasswordPatchRequestDTOPatient": {
-    "actualPassword": "patient",
+    "actualPassword": "patient1",
     "newPassword": "newpatient",
     "newPasswordConfirmation": "newpatient"
   },
