@@ -11,7 +11,7 @@ create table public.t_questionnaire
     updated_by              varchar(255),
     name                    varchar(255) not null,
     description             varchar(255) not null,
-    profissional_cns        varchar(255) not null,
+    professional_cns        varchar(255) not null,
     cbo                     varchar(255) not null,
     cnes                    varchar(255) not null,
     ine                     varchar(255) not null,

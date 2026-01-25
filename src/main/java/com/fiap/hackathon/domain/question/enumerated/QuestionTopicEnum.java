@@ -2,7 +2,9 @@ package com.fiap.hackathon.domain.question.enumerated;
 
 public enum QuestionTopicEnum {
 
-    SANITARY_SURVEILLANCE,
+    HYPERTENSION,
+    DIABETES,
+    VACCINATION,
     EPIDEMIOLOGICAL_SURVEILLANCE,
     HEALTH_AND_ENVIRONMENTAL_SURVEILLANCE,
     PHARMACEUTICAL_ASSISTANCE,
