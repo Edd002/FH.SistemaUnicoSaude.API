@@ -12,7 +12,8 @@ public enum UserConstraintEnum {
     @FieldNameConstants.Include T_USER__HASH_ID_UK("O hash id informado para o usuário já encontra-se cadastrado."),
     @FieldNameConstants.Include T_USER__EMAIL_UK("O email informado para o usuário já encontra-se cadastrado."),
     @FieldNameConstants.Include T_USER__LOGIN_UK("O login informado para o usuário já encontra-se cadastrado."),
-    @FieldNameConstants.Include T_USER__FK_ADDRESS_UK("O endereço informado para o usuário já encontra-se vinculado à outro usuário.");
+    @FieldNameConstants.Include T_USER__FK_ADDRESS_UK("O endereço informado para o usuário já encontra-se vinculado à outro usuário."),
+    @FieldNameConstants.Include T_USER__USER_TYPE_CHECK("O tipo informada para o usuário não é uma opção válida.");
 
     private final String errorMessage;
 }
