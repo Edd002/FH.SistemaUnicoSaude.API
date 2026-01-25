@@ -48,7 +48,7 @@ public class QuestionnaireUser extends Audit implements Serializable {
     @JoinColumn(name = "fk_user", nullable = false)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "answers")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaireUser")
     private List<Answer> answers;
 
     @Transient
