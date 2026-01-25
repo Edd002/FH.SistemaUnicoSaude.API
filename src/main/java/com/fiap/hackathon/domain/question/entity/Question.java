@@ -1,8 +1,8 @@
 package com.fiap.hackathon.domain.question.entity;
 
 import com.fiap.hackathon.domain.answer.entity.Answer;
-import com.fiap.hackathon.domain.question.enumerated.QuestionAlternative;
-import com.fiap.hackathon.domain.question.enumerated.QuestionTopic;
+import com.fiap.hackathon.domain.question.enumerated.QuestionAlternativeEnum;
+import com.fiap.hackathon.domain.question.enumerated.QuestionTopicEnum;
 import com.fiap.hackathon.domain.questionnairequestion.entity.QuestionnaireQuestion;
 import com.fiap.hackathon.domain.user.UserEntityListener;
 import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
@@ -46,11 +46,11 @@ public class Question extends Audit implements Serializable {
 
     @Column(name = "topic", nullable = false)
     @Enumerated(EnumType.STRING)
-    private QuestionTopic topic;
+    private QuestionTopicEnum topic;
 
     @Column(name = "correct_alternative", nullable = false)
     @Enumerated(EnumType.STRING)
-    private QuestionAlternative correctAlternative;
+    private QuestionAlternativeEnum correctAlternative;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<QuestionnaireQuestion> questionnaireQuestions;

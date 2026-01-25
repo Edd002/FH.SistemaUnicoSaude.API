@@ -1,7 +1,7 @@
 package com.fiap.hackathon.domain.answer.entity;
 
 import com.fiap.hackathon.domain.question.entity.Question;
-import com.fiap.hackathon.domain.question.enumerated.QuestionAlternative;
+import com.fiap.hackathon.domain.question.enumerated.QuestionAlternativeEnum;
 import com.fiap.hackathon.domain.questionnaireuser.entity.QuestionnaireUser;
 import com.fiap.hackathon.domain.user.UserEntityListener;
 import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
@@ -38,7 +38,7 @@ public class Answer extends Audit implements Serializable {
 
     @Column(name = "answered_alternative", nullable = false)
     @Enumerated(EnumType.STRING)
-    private QuestionAlternative answeredAlternative;
+    private QuestionAlternativeEnum answeredAlternative;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
     @JoinColumn(name = "fk_question", nullable = false)

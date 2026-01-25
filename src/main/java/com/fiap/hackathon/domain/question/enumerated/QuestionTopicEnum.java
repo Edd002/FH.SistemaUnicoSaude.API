@@ -1,6 +1,6 @@
 package com.fiap.hackathon.domain.question.enumerated;
 
-public enum QuestionTopic {
+public enum QuestionTopicEnum {
 
     SANITARY_SURVEILLANCE,
     EPIDEMIOLOGICAL_SURVEILLANCE,
