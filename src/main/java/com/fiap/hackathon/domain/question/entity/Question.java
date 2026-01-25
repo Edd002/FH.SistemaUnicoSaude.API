@@ -1,6 +1,5 @@
 package com.fiap.hackathon.domain.question.entity;
 
-import com.fiap.hackathon.domain.alternative.entity.Alternative;
 import com.fiap.hackathon.domain.answer.entity.Answer;
 import com.fiap.hackathon.domain.question.QuestionEntityListener;
 import com.fiap.hackathon.domain.question.enumerated.QuestionTopicEnum;
@@ -41,15 +40,12 @@ public class Question extends Audit implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "body", nullable = false)
-    private String body;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "topic", nullable = false)
     @Enumerated(EnumType.STRING)
     private QuestionTopicEnum topic;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-    private List<Alternative> alternatives;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<QuestionnaireQuestion> questionnaireQuestions;

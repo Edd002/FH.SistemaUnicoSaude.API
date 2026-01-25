@@ -1,6 +1,6 @@
-package com.fiap.hackathon.domain.alternative.enumerated;
+package com.fiap.hackathon.domain.question.enumerated;
 
-public enum AlternativeEnum {
+public enum QuestionAlternativeEnum {
 
     A_1,
     A_2,
