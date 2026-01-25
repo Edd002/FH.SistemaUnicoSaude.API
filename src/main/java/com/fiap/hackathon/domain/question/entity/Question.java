@@ -48,10 +48,6 @@ public class Question extends Audit implements Serializable {
     @Enumerated(EnumType.STRING)
     private QuestionTopicEnum topic;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_correct_alternative", nullable = false)
-    private Alternative correctAlternative;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<Alternative> alternatives;
 
