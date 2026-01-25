@@ -5,6 +5,7 @@ import com.fiap.hackathon.domain.jwt.entity.Jwt;
 import com.fiap.hackathon.domain.user.UserEntityListener;
 import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
 import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
+import com.fiap.hackathon.domain.questionnaireuser.entity.QuestionnaireUser;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import com.fiap.hackathon.global.exception.UserTypeAdminNotAllowedException;
@@ -86,6 +87,9 @@ public class User extends Audit implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Jwt> jwts;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<QuestionnaireUser> questionnaireUsers;
 
     @Transient
     private transient User userSavedState;
