@@ -44,9 +44,6 @@ public class Alternative extends Audit implements Serializable {
     @Column(name = "body", nullable = false)
     private String body;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "correctAlternative")
-    private Question questionCorrectAlternative;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "answeredAlternative")
     private List<Answer> answers;
 

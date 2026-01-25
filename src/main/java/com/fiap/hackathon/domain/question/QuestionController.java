@@ -53,6 +53,7 @@ public class QuestionController {
 
     @Operation(method = "POST", summary = "Criar questão.", description = "Criar questão.")
     @ApiResponse(responseCode = "201", description = "Created")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @PostMapping
     public ResponseEntity<BaseSuccessResponse201<QuestionResponseDTO>> create(@RequestBody @Valid QuestionPostRequestDTO questionPostRequestDTO) {
         log.info("Criando questão...");
@@ -61,8 +62,8 @@ public class QuestionController {
 
     @Operation(method = "PUT", summary = "Atualizar questão.", description = "Atualizar questão.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "isAuthenticated()")
-    @PutMapping
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
+    @PutMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> update(@RequestBody @Valid QuestionPutRequestDTO questionPutRequestDTO) {
         log.info("Atualizando questão...");
         return new BaseSuccessResponse200<>(questionServiceGateway.update(questionPutRequestDTO)).buildResponse();
@@ -79,17 +80,17 @@ public class QuestionController {
 
     @Operation(method = "GET", summary = "Buscar questão.", description = "Buscar questão.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "isAuthenticated()")
-    @GetMapping
-    public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> find() {
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
+    @GetMapping(value = "/{hashId}")
+    public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando questão...");
-        return new BaseSuccessResponse200<>(/*questionServiceGateway.find()*/new QuestionResponseDTO()).buildResponse();
+        return new BaseSuccessResponse200<>(questionServiceGateway.find(hashId)).buildResponse();
     }
 
     @Operation(method = "DELETE", summary = "Excluir questão.", description = "Excluir questão.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "isAuthenticated()")
-    @DeleteMapping
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
+    @DeleteMapping(value = "/{hashId}")
     public ResponseEntity<NoPayloadBaseSuccessResponse200<QuestionResponseDTO>> delete() {
         log.info("Excluindo questão...");
         questionServiceGateway.delete();

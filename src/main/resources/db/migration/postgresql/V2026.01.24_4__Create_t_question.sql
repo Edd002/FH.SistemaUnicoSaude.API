@@ -12,15 +12,11 @@ create table public.t_question
     title                   varchar(255) not null,
     body                    text         not null,
     topic                   varchar(255) not null,
-    fk_correct_alternative  int8         not null,
     primary key (id)
 );
 
 create sequence public.sq_question start with 1 increment by 1;
 
-alter table if exists public.t_question add constraint t_question__fk_correct_alternative foreign key (fk_correct_alternative) references t_alternative;
-
 CREATE UNIQUE INDEX T_QUESTION__HASH_ID_UK ON public.t_question (hash_id);
-CREATE UNIQUE INDEX T_QUESTION__FK_CORRECT_ALTERNATIVE_UK ON public.t_question (fk_correct_alternative, deleted) WHERE deleted IS NULL OR deleted = false;
 
 ALTER TABLE public.t_question ADD CONSTRAINT T_QUESTION__TOPIC_CHECK CHECK (topic IN ('SANITARY_SURVEILLANCE', 'EPIDEMIOLOGICAL_SURVEILLANCE', 'HEALTH_AND_ENVIRONMENTAL_SURVEILLANCE', 'PHARMACEUTICAL_ASSISTANCE', 'OCCUPATIONAL_HEALTH', 'INDIGENOUS_HEALTH', 'MANAGEMENT_AND_EDUCATION'));
