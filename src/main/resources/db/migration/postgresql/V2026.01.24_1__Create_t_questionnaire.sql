@@ -17,4 +17,4 @@ create table public.t_questionnaire
 create sequence public.sq_questionnaire start with 1 increment by 1;
 
 CREATE UNIQUE INDEX T_QUESTIONNAIRE__HASH_ID_UK ON public.t_questionnaire (hash_id);
-CREATE UNIQUE INDEX T_QUESTIONNAIRE__NAME_UK ON public.t_questionnaire (name, deleted) WHERE deleted IS NULL OR deleted = false;
+CREATE UNIQUE INDEX T_QUESTIONNAIRE__NAME_UK ON public.t_questionnaire (upper(name), deleted) WHERE deleted IS NULL OR deleted = false;

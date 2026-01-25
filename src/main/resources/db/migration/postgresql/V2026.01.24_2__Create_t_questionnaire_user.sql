@@ -21,3 +21,4 @@ alter table if exists public.t_questionnaire_user add constraint t_questionnaire
 alter table if exists public.t_questionnaire_user add constraint t_questionnaire_user__fk_user foreign key (fk_user) references t_user;
 
 CREATE UNIQUE INDEX T_QUESTIONNAIRE_USER__HASH_ID_UK ON public.t_questionnaire_user (hash_id);
+CREATE UNIQUE INDEX T_QUESTIONNAIRE_USER__FK_QUESTIONNAIRE_AND_FK_USER_UK ON public.t_questionnaire_user (fk_questionnaire, fk_user, deleted) WHERE deleted IS NULL OR deleted = false;

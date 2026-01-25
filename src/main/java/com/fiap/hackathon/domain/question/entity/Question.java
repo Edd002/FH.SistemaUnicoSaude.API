@@ -1,11 +1,11 @@
 package com.fiap.hackathon.domain.question.entity;
 
+import com.fiap.hackathon.domain.alternative.entity.Alternative;
 import com.fiap.hackathon.domain.answer.entity.Answer;
-import com.fiap.hackathon.domain.question.enumerated.QuestionAlternativeEnum;
+import com.fiap.hackathon.domain.question.QuestionEntityListener;
 import com.fiap.hackathon.domain.question.enumerated.QuestionTopicEnum;
+import com.fiap.hackathon.domain.question.enumerated.constraint.QuestionConstraint;
 import com.fiap.hackathon.domain.questionnairequestion.entity.QuestionnaireQuestion;
-import com.fiap.hackathon.domain.user.UserEntityListener;
-import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -25,8 +25,8 @@ import java.util.List;
 @Table(name = "t_question")
 @SQLDelete(sql = "UPDATE t_user SET deleted = true WHERE id = ?")
 @SQLRestriction(value = "deleted = false")
-@EntityListeners({ UserEntityListener.class })
-@ConstraintMapper(constraintClass = UserConstraint.class)
+@EntityListeners({ QuestionEntityListener.class })
+@ConstraintMapper(constraintClass = QuestionConstraint.class)
 public class Question extends Audit implements Serializable {
 
     @Serial
@@ -48,15 +48,18 @@ public class Question extends Audit implements Serializable {
     @Enumerated(EnumType.STRING)
     private QuestionTopicEnum topic;
 
-    @Column(name = "correct_alternative", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private QuestionAlternativeEnum correctAlternative;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_correct_alternative", nullable = false)
+    private Alternative correctAlternative;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
+    private List<Alternative> alternatives;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<QuestionnaireQuestion> questionnaireQuestions;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "question", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
-    private Answer answer;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
+    private List<Answer> answers;
 
     @Transient
     private transient Question questionSavedState;
