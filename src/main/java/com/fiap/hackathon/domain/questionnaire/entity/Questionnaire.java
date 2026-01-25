@@ -42,6 +42,18 @@ public class Questionnaire extends Audit implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "profissional_cns", nullable = false)
+    private String profissional_cns;
+
+    @Column(name = "cbo", nullable = false)
+    private String cbo;
+
+    @Column(name = "cnes", nullable = false)
+    private String cnes;
+
+    @Column(name = "ine", nullable = false)
+    private String ine;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire")
     private List<QuestionnaireQuestion> questionnaireQuestions;
 
