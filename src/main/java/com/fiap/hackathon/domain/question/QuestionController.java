@@ -9,6 +9,7 @@ import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,6 +52,7 @@ public class QuestionController {
         this.questionServiceGateway = questionServiceGateway;
     }
 
+    @Hidden
     @Operation(method = "POST", summary = "Criar questão.", description = "Criar questão.")
     @ApiResponse(responseCode = "201", description = "Created")
     @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
@@ -60,6 +62,7 @@ public class QuestionController {
         return new BaseSuccessResponse201<>(questionServiceGateway.create(questionPostRequestDTO)).buildResponse();
     }
 
+    @Hidden
     @Operation(method = "PUT", summary = "Atualizar questão.", description = "Atualizar questão.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
@@ -87,6 +90,7 @@ public class QuestionController {
         return new BaseSuccessResponse200<>(questionServiceGateway.find(hashId)).buildResponse();
     }
 
+    @Hidden
     @Operation(method = "DELETE", summary = "Excluir questão.", description = "Excluir questão.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")

@@ -1,4 +1,9 @@
 package com.fiap.hackathon.domain.question.dto;
 
-public class QuestionPutRequestDTO {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class QuestionPutRequestDTO extends QuestionRequestDTO {
 }
