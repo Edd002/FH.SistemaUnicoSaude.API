@@ -14,11 +14,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionResponseDTO extends BaseResponseDTO {
 
-    @Schema(description = "Título da questão.", example = "Roberto Afonso")
+    @Schema(description = "Título da questão.", example = "Exame")
     @JsonProperty("title")
     private String title;
 
-    @Schema(description = "Descrição da questão.", example = "robertoafonso@email.com")
+    @Schema(description = "Descrição da questão.", example = "Questão de exame de hipertensão")
     @JsonProperty("description")
     private String description;
+
+    @Schema(description = "Tema da questão.", example = "HYPERTENSION")
+    @JsonProperty("topic")
+    private String topic;
 }

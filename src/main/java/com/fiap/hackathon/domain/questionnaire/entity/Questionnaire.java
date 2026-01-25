@@ -43,7 +43,7 @@ public class Questionnaire extends Audit implements Serializable {
     private String description;
 
     @Column(name = "professional_cns", nullable = false)
-    private String professional_cns;
+    private String professionalCns;
 
     @Column(name = "cbo", nullable = false)
     private String cbo;
