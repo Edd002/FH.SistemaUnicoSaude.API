@@ -1,8 +1,8 @@
 package com.fiap.hackathon.domain.questionnaire.entity;
 
+import com.fiap.hackathon.domain.questionnaire.QuestionnaireEntityListener;
+import com.fiap.hackathon.domain.questionnaire.enumerated.constraint.QuestionnaireConstraint;
 import com.fiap.hackathon.domain.questionnairequestion.entity.QuestionnaireQuestion;
-import com.fiap.hackathon.domain.user.UserEntityListener;
-import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
 import com.fiap.hackathon.domain.questionnaireuser.entity.QuestionnaireUser;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
@@ -23,8 +23,8 @@ import java.util.List;
 @Table(name = "t_questionnaire")
 @SQLDelete(sql = "UPDATE t_user SET deleted = true WHERE id = ?")
 @SQLRestriction(value = "deleted = false")
-@EntityListeners({ UserEntityListener.class })
-@ConstraintMapper(constraintClass = UserConstraint.class)
+@EntityListeners({ QuestionnaireEntityListener.class })
+@ConstraintMapper(constraintClass = QuestionnaireConstraint.class)
 public class Questionnaire extends Audit implements Serializable {
 
     @Serial
@@ -42,11 +42,11 @@ public class Questionnaire extends Audit implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire")
     private List<QuestionnaireQuestion> questionnaireQuestions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire")
-    private List<QuestionnaireUser> QuestionnaireUsers;
+    private List<QuestionnaireUser> questionnaireUsers;
 
     @Transient
     private transient Questionnaire questionnaireSavedState;

@@ -2,8 +2,8 @@ package com.fiap.hackathon.domain.questionnairequestion.entity;
 
 import com.fiap.hackathon.domain.question.entity.Question;
 import com.fiap.hackathon.domain.questionnaire.entity.Questionnaire;
-import com.fiap.hackathon.domain.user.UserEntityListener;
-import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
+import com.fiap.hackathon.domain.questionnairequestion.QuestionnaireQuestionEntityListener;
+import com.fiap.hackathon.domain.questionnairequestion.enumerated.constraint.QuestionnaireQuestionConstraint;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -22,8 +22,8 @@ import java.io.Serializable;
 @Table(name = "t_questionnaire_question")
 @SQLDelete(sql = "UPDATE t_user SET deleted = true WHERE id = ?")
 @SQLRestriction(value = "deleted = false")
-@EntityListeners({ UserEntityListener.class })
-@ConstraintMapper(constraintClass = UserConstraint.class)
+@EntityListeners({ QuestionnaireQuestionEntityListener.class })
+@ConstraintMapper(constraintClass = QuestionnaireQuestionConstraint.class)
 public class QuestionnaireQuestion extends Audit implements Serializable {
 
     @Serial

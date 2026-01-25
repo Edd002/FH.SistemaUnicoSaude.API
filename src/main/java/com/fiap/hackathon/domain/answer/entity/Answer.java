@@ -1,10 +1,10 @@
 package com.fiap.hackathon.domain.answer.entity;
 
+import com.fiap.hackathon.domain.alternative.entity.Alternative;
+import com.fiap.hackathon.domain.answer.AnswerEntityListener;
+import com.fiap.hackathon.domain.answer.enumerated.constraint.AnswerConstraint;
 import com.fiap.hackathon.domain.question.entity.Question;
-import com.fiap.hackathon.domain.question.enumerated.QuestionAlternativeEnum;
 import com.fiap.hackathon.domain.questionnaireuser.entity.QuestionnaireUser;
-import com.fiap.hackathon.domain.user.UserEntityListener;
-import com.fiap.hackathon.domain.user.enumerated.constraint.UserConstraint;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -21,10 +21,10 @@ import java.io.Serializable;
 @Setter(value = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "t_answer")
-@SQLDelete(sql = "UPDATE t_user SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE t_answer SET deleted = true WHERE id = ?")
 @SQLRestriction(value = "deleted = false")
-@EntityListeners({ UserEntityListener.class })
-@ConstraintMapper(constraintClass = UserConstraint.class)
+@EntityListeners({ AnswerEntityListener.class })
+@ConstraintMapper(constraintClass = AnswerConstraint.class)
 public class Answer extends Audit implements Serializable {
 
     @Serial
@@ -36,11 +36,11 @@ public class Answer extends Audit implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "answered_alternative", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private QuestionAlternativeEnum answeredAlternative;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_answered_alternative", nullable = false)
+    private Alternative answeredAlternative;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
 

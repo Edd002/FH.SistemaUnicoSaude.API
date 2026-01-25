@@ -10,7 +10,7 @@ import lombok.experimental.FieldNameConstants;
 public enum AnswerConstraintEnum {
 
     @FieldNameConstants.Include T_ANSWER__HASH_ID_UK("O hash id informado para a resposta já encontra-se cadastrado."),
-    @FieldNameConstants.Include T_ANSWER__ANSWERED_ALTERNATIVE_CHECK("A alternativa definida como resposta não é uma opção válida.");
+    @FieldNameConstants.Include T_ANSWER__FK_QUESTION_AND_FK_QUESTIONNAIRE_USER_UK("A questão informada para a resposta já enconstra-se cadastrada para o questionário do usuário.");
 
     private final String errorMessage;
 }

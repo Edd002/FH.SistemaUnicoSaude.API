@@ -35,9 +35,9 @@ public class OpenAPIConfig {
                                 .bearerFormat("JWT")
                 ))
                 .info(new Info()
-                        .title("Fiap Hackathon - Sistema Único de Saúde API")
+                        .title("Fiap Hackathon - Sistema Único de Saúde API - Agente 360")
                         .version("v1.0")
-                        .description("Documentação da API Sistema Único de Saúde.")
+                        .description("Documentação da API Sistema Único de Saúde - Agente 360.")
                         .contact(new Contact().name("Hackathon Team").email("hackathon@fiap.com.br")))
                 .servers(List.of(server));
     }
