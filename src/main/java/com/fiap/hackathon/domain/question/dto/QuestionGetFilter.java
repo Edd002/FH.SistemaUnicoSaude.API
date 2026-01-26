@@ -16,7 +16,7 @@ public class QuestionGetFilter extends BasePaginationFilter {
     @Schema(description = "Corpo da questão.", example = "Informe a faixa de idade")
     private String body;
 
-    @Schema(description = "Tema da questão.", example = "HEALTH_AND_ENVIRONMENTAL_SURVEILLANCE")
+    @Schema(description = "Tema da questão.", example = "HYPERTENSION")
     private QuestionTopicEnum topic;
 
     public QuestionGetFilter(Integer pageNumber, Integer pageSize) {
