@@ -1,0 +1,328 @@
+{
+  "question": [
+    {
+      "title": "TURNO",
+      "description": null,
+      "topic": "GERAL",
+      "type": "SHIFT_FIELD"
+    },
+    {
+      "title": "MICROÁREA",
+      "description": null,
+      "topic": "GERAL",
+      "type": "NUMERIC_FIELD"
+    },
+    {
+      "title": "TIPO DE IMÓVEL",
+      "description": null,
+      "topic": "GERAL",
+      "type": "NUMERIC_FIELD"
+    },
+    {
+      "title": "Nº PRONTUÁRIO",
+      "description": null,
+      "topic": "GERAL",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "CNS ou CPF do Cidadão",
+      "description": "(para visita periódica ou visita domiciliar para controle vetorial, usar o CNS do responsável familiar)",
+      "topic": "GERAL",
+      "type": "NUMERIC_FIELD"
+    },
+    {
+      "title": "Data de nascimento",
+      "description": null,
+      "topic": "GERAL",
+      "type": "DATE_FIELD"
+    },
+    {
+      "title": "Sexo",
+      "description": "(F) Feminino (M) Masculino (I) Indeterminado",
+      "topic": "GERAL",
+      "type": "GENDER_FIELD"
+    },
+    {
+      "title": "Visita compartilhada com outro profissional",
+      "description": null,
+      "topic": "GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Cadastramento/Atualização",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Visita periódica",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Consulta",
+      "description": null,
+      "topic": "MOTIVO_VISITA_BUSCA_ATIVA",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Exame",
+      "description": null,
+      "topic": "MOTIVO_VISITA_BUSCA_ATIVA",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Vacina",
+      "description": null,
+      "topic": "MOTIVO_VISITA_BUSCA_ATIVA",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Condicionalidades do Bolsa Família",
+      "description": null,
+      "topic": "MOTIVO_VISITA_BUSCA_ATIVA",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Gestante",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Puérpera",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Recém-nascido",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Criança",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com desnutrição",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa em reabilitação ou com deficiência",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com hipertensão",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa idosa",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com diabetes",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com asma",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com DPOC/enfisema",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com câncer",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com outras doenças crônicas",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com hanseníase",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Pessoa com tuberculose",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Sintomáticos respiratórios",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Tabagista",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Domiciliados/Acamados",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Condições de vulnerabilidade social",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Condicionalidades de Bolsa Família",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Saúde mental",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Usuário de álcool",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Usuário de outras drogas",
+      "description": null,
+      "topic": "MOTIVO_VISITA_ACOMPANHAMENTO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Ação educativa",
+      "description": null,
+      "topic": "MOTIVO_VISITA_CONTROLE_AMBIENTAL_VETORIAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Imóvel com foco",
+      "description": null,
+      "topic": "MOTIVO_VISITA_CONTROLE_AMBIENTAL_VETORIAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Ação mecânica",
+      "description": null,
+      "topic": "MOTIVO_VISITA_CONTROLE_AMBIENTAL_VETORIAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Trantamento focal",
+      "description": null,
+      "topic": "MOTIVO_VISITA_CONTROLE_AMBIENTAL_VETORIAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Egresso da Internação",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Convite atividades coletivas/campanha de saúde",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Orientação/prevenção",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Outros",
+      "description": null,
+      "topic": "MOTIVO_VISITA_GERAL",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Peso (kg)",
+      "description": null,
+      "topic": "ANTROPOMETRIA",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Altura (cm)",
+      "description": null,
+      "topic": "ANTROPOMETRIA",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Temperatura (ºC)",
+      "description": null,
+      "topic": "SINAIS_VITAIS",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Pressão arterial (mmHg)",
+      "description": null,
+      "topic": "SINAIS_VITAIS",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Glicemia capilar (mg/dL)",
+      "description": null,
+      "topic": "GLICEMIA",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Momento da coleta",
+      "description": null,
+      "topic": "GLICEMIA",
+      "type": "OPEN_FIELD"
+    },
+    {
+      "title": "Visita realizada",
+      "description": null,
+      "topic": "DESFECHO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Visita recusada",
+      "description": null,
+      "topic": "DESFECHO",
+      "type": "BOOLEAN_FIELD"
+    },
+    {
+      "title": "Ausente",
+      "description": null,
+      "topic": "DESFECHO",
+      "type": "BOOLEAN_FIELD"
+    }
+  ]
+}
