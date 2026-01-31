@@ -1,6 +1,7 @@
 package com.fiap.hackathon.domain.questionnaire.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.global.base.dto.BaseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,11 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionnaireResponseDTO extends BaseResponseDTO {
+
+    @Schema(description = "Hash do questionário", example = "")
+    private String hashId;
 
     @Schema(description = "Nome do questionário", example = "")
     @JsonProperty("name")
@@ -37,4 +43,8 @@ public class QuestionnaireResponseDTO extends BaseResponseDTO {
     @Schema(description = "INE do questionário", example = "")
     @JsonProperty("ine")
     private String ine;
+
+    @Schema(description = "Questões do questionário")
+    @JsonProperty("questions")
+    private List<QuestionResponseDTO> questions;
 }

@@ -1,5 +1,6 @@
 package com.fiap.hackathon.domain.questionnaire;
 
+import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.domain.questionnaire.dto.QuestionnaireGetFilter;
 import com.fiap.hackathon.domain.questionnaire.dto.QuestionnaireResponseDTO;
 import com.fiap.hackathon.domain.questionnaire.entity.Questionnaire;
@@ -16,7 +17,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionnaireServiceGateway extends BaseServiceGateway<IQuestionnaireRepository, Questionnaire> {
@@ -42,7 +45,13 @@ public class QuestionnaireServiceGateway extends BaseServiceGateway<IQuestionnai
 
     @Transactional
     public QuestionnaireResponseDTO find(String hashId) {
-        return modelMapperPresenter.map(this.findByHashId(hashId), QuestionnaireResponseDTO.class);
+        Questionnaire questionnaire = this.findByHashId(hashId);
+        QuestionnaireResponseDTO dto = modelMapperPresenter.map(questionnaire, QuestionnaireResponseDTO.class);
+        List<QuestionResponseDTO> questions = questionnaire.getQuestionnaireQuestions().stream()
+                .map(qq -> modelMapperPresenter.map(qq.getQuestion(), QuestionResponseDTO.class))
+                .collect(Collectors.toList());
+        dto.setQuestions(questions);
+        return dto;
     }
 
     @Override

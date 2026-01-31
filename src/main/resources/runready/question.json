@@ -1,0 +1,40 @@
+{
+  "question": [
+    {
+      "title": "Você foi diagnosticado com hipertensão?",
+      "topic": "HYPERTENSION"
+    },
+    {
+      "title": "Você toma medicamentos para hipertensão regularmente?",
+      "topic": "HYPERTENSION"
+    },
+    {
+      "title": "Sua pressão arterial tem estado controlada ultimamente?",
+      "topic": "HYPERTENSION"
+    },
+    {
+      "title": "Você foi diagnosticado com diabetes?",
+      "topic": "DIABETES"
+    },
+    {
+      "title": "Você usa insulina?",
+      "topic": "DIABETES"
+    },
+    {
+      "title": "Você monitora sua glicemia regularmente?",
+      "topic": "DIABETES"
+    },
+    {
+      "title": "Você está com a vacinação em dia?",
+      "topic": "VACCINATION"
+    },
+    {
+      "title": "Você teve febre nos últimos dias?",
+      "topic": "EPIDEMIOLOGICAL_SURVEILLANCE"
+    },
+    {
+      "title": "Você tem acesso fácil a medicamentos na farmácia popular?",
+      "topic": "PHARMACEUTICAL_ASSISTANCE"
+    }
+  ]
+}

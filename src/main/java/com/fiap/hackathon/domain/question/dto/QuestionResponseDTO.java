@@ -18,10 +18,6 @@ public class QuestionResponseDTO extends BaseResponseDTO {
     @JsonProperty("title")
     private String title;
 
-    @Schema(description = "Descrição da questão.", example = "Questão de exame de hipertensão")
-    @JsonProperty("description")
-    private String description;
-
     @Schema(description = "Tema da questão.", example = "HYPERTENSION")
     @JsonProperty("topic")
     private String topic;

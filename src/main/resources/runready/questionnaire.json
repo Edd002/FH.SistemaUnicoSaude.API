@@ -1,0 +1,12 @@
+{
+  "questionnaire": [
+    {
+      "name": "Questionário de Acompanhamento de Hipertensão e Diabetes",
+      "description": "Questionário para monitoramento de pacientes com hipertensão e diabetes",
+      "professionalCns": "123456789012345",
+      "cbo": "223505",
+      "cnes": "1234567",
+      "ine": "1234567890"
+    }
+  ]
+}

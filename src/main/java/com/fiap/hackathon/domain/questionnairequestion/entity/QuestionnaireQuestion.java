@@ -46,6 +46,11 @@ public class QuestionnaireQuestion extends Audit implements Serializable {
     @Transient
     private transient QuestionnaireQuestion questionnaireQuestionSavedState;
 
+    public QuestionnaireQuestion(Questionnaire questionnaire, Question question) {
+        this.questionnaire = questionnaire;
+        this.question = question;
+    }
+
     public void saveState(QuestionnaireQuestion questionnaireQuestionSavedState) {
         this.questionnaireQuestionSavedState = questionnaireQuestionSavedState;
     }

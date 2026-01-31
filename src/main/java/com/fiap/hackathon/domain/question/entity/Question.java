@@ -40,9 +40,6 @@ public class Question extends Audit implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "topic", nullable = false)
     @Enumerated(EnumType.STRING)
     private QuestionTopicEnum topic;

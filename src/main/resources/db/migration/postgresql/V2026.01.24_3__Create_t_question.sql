@@ -10,7 +10,6 @@ create table public.t_question
     updated_in              timestamp(6),
     updated_by              varchar(255),
     title                   varchar(255) not null,
-    description             text,
     topic                   varchar(255) not null,
     primary key (id)
 );

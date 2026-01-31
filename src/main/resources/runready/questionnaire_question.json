@@ -1,0 +1,76 @@
+{
+  "questionnaireQuestion": [
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você foi diagnosticado com hipertensão?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você toma medicamentos para hipertensão regularmente?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Sua pressão arterial tem estado controlada ultimamente?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você foi diagnosticado com diabetes?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você usa insulina?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você monitora sua glicemia regularmente?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você está com a vacinação em dia?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você teve febre nos últimos dias?"
+      }
+    },
+    {
+      "questionnaire": {
+        "name": "Questionário de Acompanhamento de Hipertensão e Diabetes"
+      },
+      "question": {
+        "title": "Você tem acesso fácil a medicamentos na farmácia popular?"
+      }
+    }
+  ]
+}
