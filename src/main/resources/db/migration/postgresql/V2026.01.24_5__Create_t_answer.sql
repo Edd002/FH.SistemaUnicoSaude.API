@@ -12,6 +12,7 @@ create table public.t_answer
     visitation_option       varchar(255) not null,
     delivered_answer        varchar(255) not null,
     fk_question             int8         not null,
+    fk_patient              int8         not null,
     fk_form_submission      int8         not null,
     primary key (id)
 );
@@ -19,6 +20,7 @@ create table public.t_answer
 create sequence public.sq_answer start with 1 increment by 1;
 
 alter table if exists public.t_answer add constraint t_answer__fk_question foreign key (fk_question) references t_question;
+alter table if exists public.t_answer add constraint t_answer__fk_patient foreign key (fk_patient) references t_user;
 alter table if exists public.t_answer add constraint t_answer__fk_form_submission foreign key (fk_form_submission) references t_form_submission;
 
 CREATE UNIQUE INDEX T_ANSWER__HASH_ID_UK ON public.t_answer (hash_id);

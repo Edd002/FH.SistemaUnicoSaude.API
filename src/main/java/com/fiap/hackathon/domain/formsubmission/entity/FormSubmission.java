@@ -57,10 +57,6 @@ public class FormSubmission extends Audit implements Serializable {
     private FormTemplate formTemplate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_patient", nullable = false)
-    private User patient;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_health_professional", nullable = false)
     private User healthProfessional;
 

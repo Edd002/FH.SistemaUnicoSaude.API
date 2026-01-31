@@ -14,7 +14,6 @@ create table public.t_form_submission
     synced_at               timestamp(6) not null,
     general_observation     text,
     fk_form_template        int8         not null,
-    fk_patient              int8         not null,
     fk_health_professional  int8         not null,
     primary key (id)
 );
@@ -22,7 +21,6 @@ create table public.t_form_submission
 create sequence public.sq_form_submission start with 1 increment by 1;
 
 alter table if exists public.t_form_submission add constraint t_form_submission__fk_form_template foreign key (fk_form_template) references t_form_template;
-alter table if exists public.t_form_submission add constraint t_form_submission__fk_patient foreign key (fk_patient) references t_user;
 alter table if exists public.t_form_submission add constraint t_form_submission__fk_health_professional foreign key (fk_health_professional) references t_user;
 
 CREATE UNIQUE INDEX T_FORM_SUBMISSION__HASH_ID_UK ON public.t_form_submission (hash_id);

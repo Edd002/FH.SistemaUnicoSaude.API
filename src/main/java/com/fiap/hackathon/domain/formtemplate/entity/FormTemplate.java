@@ -55,7 +55,7 @@ public class FormTemplate extends Audit implements Serializable {
     private String ine;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive = Boolean.FALSE;
+    private Boolean isActive = Boolean.TRUE;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate")
     private List<FormTemplateQuestion> formTemplateQuestions;

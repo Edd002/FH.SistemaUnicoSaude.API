@@ -5,6 +5,7 @@ import com.fiap.hackathon.domain.answer.enumerated.constraint.AnswerConstraint;
 import com.fiap.hackathon.domain.question.entity.Question;
 import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
 import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
+import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -46,6 +47,10 @@ public class Answer extends Audit implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_patient", nullable = false)
+    private User patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_form_submission", nullable = false)

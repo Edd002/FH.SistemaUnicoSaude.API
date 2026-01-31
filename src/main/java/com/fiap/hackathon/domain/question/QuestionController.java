@@ -1,15 +1,10 @@
 package com.fiap.hackathon.domain.question;
 
 import com.fiap.hackathon.domain.question.dto.QuestionGetFilter;
-import com.fiap.hackathon.domain.question.dto.QuestionPostRequestDTO;
-import com.fiap.hackathon.domain.question.dto.QuestionPutRequestDTO;
 import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
-import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
-import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,7 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Log
 @Validated
@@ -52,26 +50,6 @@ public class QuestionController {
         this.questionServiceGateway = questionServiceGateway;
     }
 
-    @Hidden
-    @Operation(method = "POST", summary = "Criar questão.", description = "Criar questão.")
-    @ApiResponse(responseCode = "201", description = "Created")
-    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
-    @PostMapping
-    public ResponseEntity<BaseSuccessResponse201<QuestionResponseDTO>> create(@RequestBody @Valid QuestionPostRequestDTO questionPostRequestDTO) {
-        log.info("Criando questão...");
-        return new BaseSuccessResponse201<>(questionServiceGateway.create(questionPostRequestDTO)).buildResponse();
-    }
-
-    @Hidden
-    @Operation(method = "PUT", summary = "Atualizar questão.", description = "Atualizar questão.")
-    @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
-    @PutMapping(value = "/{hashId}")
-    public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> update(@RequestBody @Valid QuestionPutRequestDTO questionPutRequestDTO) {
-        log.info("Atualizando questão...");
-        return new BaseSuccessResponse200<>(questionServiceGateway.update(questionPutRequestDTO)).buildResponse();
-    }
-
     @Operation(method = "GET", summary = "Buscar questão por filtro.", description = "Buscar questão por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
@@ -88,16 +66,5 @@ public class QuestionController {
     public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando questão...");
         return new BaseSuccessResponse200<>(questionServiceGateway.find(hashId)).buildResponse();
-    }
-
-    @Hidden
-    @Operation(method = "DELETE", summary = "Excluir questão.", description = "Excluir questão.")
-    @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
-    @DeleteMapping(value = "/{hashId}")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<QuestionResponseDTO>> delete() {
-        log.info("Excluindo questão...");
-        questionServiceGateway.delete();
-        return new NoPayloadBaseSuccessResponse200<QuestionResponseDTO>().buildResponseWithoutPayload();
     }
 }
