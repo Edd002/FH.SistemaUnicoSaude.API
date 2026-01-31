@@ -10,7 +10,8 @@ import lombok.experimental.FieldNameConstants;
 public enum QuestionConstraintEnum {
 
     @FieldNameConstants.Include T_QUESTION__HASH_ID_UK("O hash id informado para a questão já encontra-se cadastrado."),
-    @FieldNameConstants.Include T_QUESTION__TOPIC_CHECK("O tema da questão não é uma opção válida.");
+    @FieldNameConstants.Include T_QUESTION__TOPIC_CHECK("O tema da questão não é uma opção válida."),
+    @FieldNameConstants.Include T_QUESTION__TYPE_CHECK("O tipo da questão não é uma opção válida.");
 
     private final String errorMessage;
 }
