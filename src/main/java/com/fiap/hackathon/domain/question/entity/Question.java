@@ -3,8 +3,9 @@ package com.fiap.hackathon.domain.question.entity;
 import com.fiap.hackathon.domain.answer.entity.Answer;
 import com.fiap.hackathon.domain.question.QuestionEntityListener;
 import com.fiap.hackathon.domain.question.enumerated.QuestionTopicEnum;
+import com.fiap.hackathon.domain.question.enumerated.QuestionTypeEnum;
 import com.fiap.hackathon.domain.question.enumerated.constraint.QuestionConstraint;
-import com.fiap.hackathon.domain.questionnairequestion.entity.QuestionnaireQuestion;
+import com.fiap.hackathon.domain.formtemplatequestion.entity.FormTemplateQuestion;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -22,7 +23,7 @@ import java.util.List;
 @Setter(value = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "t_question")
-@SQLDelete(sql = "UPDATE t_user SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE t_question SET deleted = true WHERE id = ?")
 @SQLRestriction(value = "deleted = false")
 @EntityListeners({ QuestionEntityListener.class })
 @ConstraintMapper(constraintClass = QuestionConstraint.class)
@@ -47,8 +48,12 @@ public class Question extends Audit implements Serializable {
     @Enumerated(EnumType.STRING)
     private QuestionTopicEnum topic;
 
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private QuestionTypeEnum type;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-    private List<QuestionnaireQuestion> questionnaireQuestions;
+    private List<FormTemplateQuestion> formTemplateQuestions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
     private List<Answer> answers;

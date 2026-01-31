@@ -4,7 +4,7 @@ import com.fiap.hackathon.domain.answer.AnswerEntityListener;
 import com.fiap.hackathon.domain.answer.enumerated.constraint.AnswerConstraint;
 import com.fiap.hackathon.domain.question.entity.Question;
 import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
-import com.fiap.hackathon.domain.questionnaireuser.entity.QuestionnaireUser;
+import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
@@ -48,13 +48,13 @@ public class Answer extends Audit implements Serializable {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_questionnaire_user", nullable = false)
-    private QuestionnaireUser questionnaireUser;
+    @JoinColumn(name = "fk_form_submission", nullable = false)
+    private FormSubmission formSubmission;
 
     @Transient
-    private transient Answer answerQuestionnaireSavedState;
+    private transient Answer answerSavedState;
 
-    public void saveState(Answer answerQuestionnaireSavedState) {
-        this.answerQuestionnaireSavedState = answerQuestionnaireSavedState;
+    public void saveState(Answer answerSavedState) {
+        this.answerSavedState = answerSavedState;
     }
 }
