@@ -7,6 +7,7 @@ import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
+import com.fiap.hackathon.global.exception.EntityCannotBeUpdatedException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class FormSubmission extends Audit implements Serializable {
     }
 
     public FormSubmission rebuild() {
+        if (this.isSubmitted) {
+            throw new EntityCannotBeUpdatedException("A submissão do formulário já foi concluída.");
+        }
         this.setIsSubmitted(Boolean.TRUE);
         this.setSubmittedAt(new Date());
         return this;
