@@ -24,6 +24,6 @@ alter table if exists public.t_answer add constraint t_answer__fk_patient foreig
 alter table if exists public.t_answer add constraint t_answer__fk_form_submission foreign key (fk_form_submission) references t_form_submission;
 
 CREATE UNIQUE INDEX T_ANSWER__HASH_ID_UK ON public.t_answer (hash_id);
-CREATE UNIQUE INDEX T_ANSWER__FK_QUESTION_AND_VIS_OPTION_AND_FK_FORM_SUBMISSION_UK ON public.t_answer (fk_question, visitation_option, fk_form_submission, deleted) WHERE deleted IS NULL OR deleted = false;
+CREATE UNIQUE INDEX T_ANSWER__FK_QUES_AND_FK_PAT_AND_VIS_OPTION_AND_FK_FORM_SUB_UK ON public.t_answer (fk_question, visitation_option, fk_form_submission, deleted) WHERE deleted IS NULL OR deleted = false;
 
 ALTER TABLE public.t_answer ADD CONSTRAINT T_ANSWER__VISITATION_OPTION_CHECK CHECK (visitation_option IN ('V_1', 'V_2', 'V_3', 'V_4', 'V_5', 'V_6', 'V_7', 'V_8', 'V_9', 'V_10', 'V_11', 'V_12', 'V_13', 'V_14', 'V_15', 'V_16', 'V_17', 'V_18', 'V_19', 'V_20', 'V_21', 'V_22', 'V_23'));
