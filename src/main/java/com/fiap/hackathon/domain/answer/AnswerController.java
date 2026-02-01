@@ -61,7 +61,7 @@ public class AnswerController {
 
     @Operation(method = "PATCH", summary = "Responder uma questão de um questionário por um paciente.", description = "Responder uma questão de um questionário por um paciente.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('PACIENT')")
+    @PreAuthorize(value = "hasAnyAuthority('PATIENT')")
     @PatchMapping(value = "/reply")
     public ResponseEntity<NoPayloadBaseSuccessResponse200<AnswerResponseDTO>> replyAnswer(@RequestBody @Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
         log.info("Respondendo uma questão...");
