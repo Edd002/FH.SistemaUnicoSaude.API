@@ -28,6 +28,8 @@ import java.io.Serializable;
 @ConstraintMapper(constraintClass = AnswerConstraint.class)
 public class Answer extends Audit implements Serializable {
 
+    protected Answer() {}
+
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -1,9 +1,9 @@
 package com.fiap.hackathon.domain.formsubmission.entity;
 
 import com.fiap.hackathon.domain.answer.entity.Answer;
-import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.formsubmission.FormSubmissionEntityListener;
 import com.fiap.hackathon.domain.formsubmission.enumerated.constraint.FormSubmissionConstraint;
+import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
@@ -28,6 +28,8 @@ import java.util.List;
 @EntityListeners({FormSubmissionEntityListener.class})
 @ConstraintMapper(constraintClass = FormSubmissionConstraint.class)
 public class FormSubmission extends Audit implements Serializable {
+
+    protected FormSubmission() {}
 
     @Serial
     private static final long serialVersionUID = 1L;
