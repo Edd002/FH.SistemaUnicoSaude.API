@@ -3,11 +3,9 @@ package com.fiap.hackathon.domain.formsubmission;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionGetFilter;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
-import com.fiap.hackathon.domain.formsubmission.dto.SubmitFormPatchRequestDTO;
 import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
-import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,11 +61,10 @@ public class FormSubmissionController {
     @Operation(method = "PATCH", summary = "Submeter um formulário.", description = "Submeter um formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
-    @PatchMapping(value = "/register")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>> submitForm(@RequestBody @Valid SubmitFormPatchRequestDTO submitFormPatchRequestDTO) {
+    @PatchMapping(value = "/submit/{hashId}")
+    public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> submitForm(@PathVariable("hashId") String hashId) {
         log.info("Submetendo um formulário...");
-        formSubmissionServiceGateway.submitForm(submitFormPatchRequestDTO);
-        return new NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>().buildResponseWithoutPayload();
+        return new BaseSuccessResponse200<>(formSubmissionServiceGateway.submitForm(hashId)).buildResponse();
     }
 
     @Operation(method = "GET", summary = "Buscar submissão de formulário por filtro.", description = "Buscar submissão de formulário por filtro.")

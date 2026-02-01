@@ -32,12 +32,17 @@ public class FormSubmission extends Audit implements Serializable {
 
     protected FormSubmission() {}
 
-    public FormSubmission(@NonNull Boolean isAnswered, @NonNull Date collectedAt, @NonNull String generalObservation, @NonNull FormTemplate formTemplate, @NonNull User healthProfessional) {
-        this.setIsAnswered(isAnswered);
-        this.setCollectedAt(collectedAt);
+    public FormSubmission(@NonNull String generalObservation, @NonNull FormTemplate formTemplate, @NonNull User healthProfessional) {
+        this.setIsSubmitted(Boolean.FALSE);
         this.setGeneralObservation(generalObservation);
         this.setFormTemplate(formTemplate);
         this.setHealthProfessional(healthProfessional);
+    }
+
+    public FormSubmission rebuild() {
+        this.setIsSubmitted(Boolean.TRUE);
+        this.setSubmittedAt(new Date());
+        return this;
     }
 
     @Serial
@@ -49,16 +54,12 @@ public class FormSubmission extends Audit implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "is_answered", nullable = false)
-    private Boolean isAnswered = Boolean.FALSE;
+    @Column(name = "is_submitted", nullable = false)
+    private Boolean isSubmitted = Boolean.FALSE;
 
-    @Column(name = "collected_at", nullable = false)
+    @Column(name = "submitted_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date collectedAt = new Date();
-
-    @Column(name = "synced_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date syncedAt;
+    private Date submittedAt = new Date();
 
     @Column(name = "general_observation")
     private String generalObservation;
@@ -71,7 +72,7 @@ public class FormSubmission extends Audit implements Serializable {
     @JoinColumn(name = "fk_health_professional", nullable = false)
     private User healthProfessional;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formSubmission")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formSubmission", cascade = { CascadeType.REMOVE })
     private List<Answer> answers;
 
     @Transient

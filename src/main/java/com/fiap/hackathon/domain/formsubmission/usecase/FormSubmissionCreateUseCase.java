@@ -16,8 +16,6 @@ public final class FormSubmissionCreateUseCase {
 
     private FormSubmission buildFormSubmission(User healthProfessionalUser, FormTemplate formTemplate, FormSubmissionPostRequestDTO formSubmissionPostRequestDTO) {
         return new FormSubmission(
-                Boolean.FALSE,
-                formSubmissionPostRequestDTO.getCollectedAt(),
                 formSubmissionPostRequestDTO.getGeneralObservation(),
                 formTemplate,
                 healthProfessionalUser
