@@ -39,6 +39,16 @@ docker exec -it fh_sistema_unico_saude_database psql -U postgres # entrar no con
 SELECT * FROM t_question; # ver o conteúdo delas
 ```
 
+## Usuários de Teste
+
+O sistema é inicializado com os seguintes usuários para teste (definidos em `src/main/resources/runready/user.json`):
+
+| Nome | Login | Senha | Perfil |
+|---|---|---|---|
+| Admin | `admin` | `admin` | ADMIN |
+| Patient 1 | `patient1` | `patient1` | PATIENT |
+| Health Professional 1 | `healthprofessional1` | `healthprofessional1` | HEALTH_PROFESSIONAL |
+
 ## Documentação da API
 
 A documentação completa dos endpoints da API pode ser acessada através do Swagger UI:

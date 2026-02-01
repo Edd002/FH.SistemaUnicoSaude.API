@@ -10,6 +10,7 @@ import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateCheckForDelete
 import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateCreateUseCase;
 import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateUpdateUseCase;
 import com.fiap.hackathon.domain.question.QuestionServiceGateway;
+import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.global.base.BaseServiceGateway;
 import com.fiap.hackathon.global.search.builder.PageableBuilder;
 import jakarta.transaction.Transactional;
@@ -62,7 +63,14 @@ public class FormTemplateServiceGateway extends BaseServiceGateway<IFormTemplate
 
     @Transactional
     public FormTemplateResponseDTO find(String hashId) {
-        return modelMapperPresenter.map(this.findByHashId(hashId), FormTemplateResponseDTO.class);
+        FormTemplate formTemplate = this.findByHashId(hashId);
+        FormTemplateResponseDTO formTemplateResponseDTO = modelMapperPresenter.map(formTemplate, FormTemplateResponseDTO.class);
+        if (formTemplate.getFormTemplateQuestions() != null) {
+            formTemplateResponseDTO.setQuestions(formTemplate.getFormTemplateQuestions().stream()
+                    .map(formTemplateQuestion -> modelMapperPresenter.map(formTemplateQuestion.getQuestion(), QuestionResponseDTO.class))
+                    .toList());
+        }
+        return formTemplateResponseDTO;
     }
 
     @Override

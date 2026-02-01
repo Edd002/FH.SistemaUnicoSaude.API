@@ -2,6 +2,8 @@ package com.fiap.hackathon.config;
 
 import com.fiap.hackathon.domain.city.CityServiceGateway;
 import com.fiap.hackathon.domain.city.entity.City;
+import com.fiap.hackathon.domain.formtemplate.FormTemplateServiceGateway;
+import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.loadtable.LoadTableServiceGateway;
 import com.fiap.hackathon.domain.question.QuestionServiceGateway;
 import com.fiap.hackathon.domain.question.entity.Question;
@@ -32,20 +34,23 @@ public class RunOnReady {
     private static final String PATH_RESOURCE_CITY = "/runready/city.json";
     private static final String PATH_RESOURCE_USER = "/runready/user.json";
     private static final String PATH_QUESTION = "/runready/question.json";
+    private static final String PATH_FORM_TEMPLATE = "/runready/form_template.json";
 
     private final LoadTableServiceGateway loadTableServiceGateway;
     private final StateServiceGateway stateServiceGateway;
     private final CityServiceGateway cityServiceGateway;
     private final UserServiceGateway userServiceGateway;
     private final QuestionServiceGateway questionServiceGateway;
+    private final FormTemplateServiceGateway formTemplateServiceGateway;
 
     @Autowired
-    public RunOnReady(LoadTableServiceGateway loadTableServiceGateway, StateServiceGateway stateServiceGateway, CityServiceGateway cityServiceGateway, UserServiceGateway userServiceGateway, QuestionServiceGateway questionServiceGateway) {
+    public RunOnReady(LoadTableServiceGateway loadTableServiceGateway, StateServiceGateway stateServiceGateway, CityServiceGateway cityServiceGateway, UserServiceGateway userServiceGateway, QuestionServiceGateway questionServiceGateway, FormTemplateServiceGateway formTemplateServiceGateway) {
         this.loadTableServiceGateway = loadTableServiceGateway;
         this.stateServiceGateway = stateServiceGateway;
         this.cityServiceGateway = cityServiceGateway;
         this.userServiceGateway = userServiceGateway;
         this.questionServiceGateway = questionServiceGateway;
+        this.formTemplateServiceGateway = formTemplateServiceGateway;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -57,6 +62,8 @@ public class RunOnReady {
         List<User> userList = JsonUtil.objectListFromJson("user", PATH_RESOURCE_USER, new TypeToken<ArrayList<User>>() {
         }.getType());
         List<Question> questionList = JsonUtil.objectListFromJson("question", PATH_QUESTION, new TypeToken<ArrayList<Question>>() {
+        }.getType());
+        List<FormTemplate> formTemplateList = JsonUtil.objectListFromJson("formTemplate", PATH_FORM_TEMPLATE, new TypeToken<ArrayList<FormTemplate>>() {
         }.getType());
 
         if ((loadTableServiceGateway.isEntityLoadEnabled(State.class.getSimpleName()))) {
@@ -74,6 +81,10 @@ public class RunOnReady {
         if ((loadTableServiceGateway.isEntityLoadEnabled(Question.class.getSimpleName()))) {
             questionList.forEach(this::createQuestion);
             loadTableServiceGateway.create(Question.class.getSimpleName());
+        }
+        if ((loadTableServiceGateway.isEntityLoadEnabled(FormTemplate.class.getSimpleName()))) {
+            formTemplateList.forEach(this::createFormTemplate);
+            loadTableServiceGateway.create(FormTemplate.class.getSimpleName());
         }
     }
 
@@ -107,6 +118,17 @@ public class RunOnReady {
             questionServiceGateway.save(question);
         } catch (Exception exception) {
             log.severe(String.format("A questão de título %s não pode ser cadastrada. Erro: %s", question.getTitle(), exception.getMessage()));
+        }
+    }
+
+    private void createFormTemplate(FormTemplate formTemplate) {
+        try {
+            if (formTemplate.getFormTemplateQuestions() != null) {
+                formTemplate.getFormTemplateQuestions().forEach(question -> question.rebuild(formTemplate));
+            }
+            formTemplateServiceGateway.save(formTemplate);
+        } catch (Exception exception) {
+            log.severe(String.format("O template de formulário de nome %s não pode ser cadastrado. Erro: %s", formTemplate.getName(), exception.getMessage()));
         }
     }
 }
