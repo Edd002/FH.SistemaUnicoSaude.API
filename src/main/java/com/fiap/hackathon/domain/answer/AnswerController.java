@@ -2,7 +2,7 @@ package com.fiap.hackathon.domain.answer;
 
 import com.fiap.hackathon.domain.answer.dto.AnswerRegisterPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerReplyPatchRequestDTO;
-import com.fiap.hackathon.domain.user.dto.UserResponseDTO;
+import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,19 +53,19 @@ public class AnswerController {
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @PatchMapping(value = "/register")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<UserResponseDTO>> registerAnswer(@RequestBody @Valid AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
+    public ResponseEntity<NoPayloadBaseSuccessResponse200<AnswerResponseDTO>> registerAnswer(@RequestBody @Valid AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
         log.info("Registrando resposta de uma questão...");
         answerServiceGateway.registerAnswer(answerRegisterPatchRequestDTO);
-        return new NoPayloadBaseSuccessResponse200<UserResponseDTO>().buildResponseWithoutPayload();
+        return new NoPayloadBaseSuccessResponse200<AnswerResponseDTO>().buildResponseWithoutPayload();
     }
 
     @Operation(method = "PATCH", summary = "Responder uma questão de um questionário por um paciente.", description = "Responder uma questão de um questionário por um paciente.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('PACIENT')")
     @PatchMapping(value = "/reply")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<UserResponseDTO>> replyAnswer(@RequestBody @Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
+    public ResponseEntity<NoPayloadBaseSuccessResponse200<AnswerResponseDTO>> replyAnswer(@RequestBody @Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
         log.info("Respondendo uma questão...");
         answerServiceGateway.replyAnswer(answerReplyPatchRequestDTO);
-        return new NoPayloadBaseSuccessResponse200<UserResponseDTO>().buildResponseWithoutPayload();
+        return new NoPayloadBaseSuccessResponse200<AnswerResponseDTO>().buildResponseWithoutPayload();
     }
 }

@@ -12,8 +12,6 @@ import lombok.Getter;
 @Getter
 public abstract class FormTemplateRequestDTO extends BaseRequestDTO {
 
-    private Boolean isActive = Boolean.TRUE;
-
     @Schema(description = "Nome do formulário.", example = "FICHA DE VISITA DOMICILIAR E TERRITORIAL", maxLength = 255)
     @Size(max = 255, message = "O número de caracteres máximo para o nome do formulário é 255 caracteres.")
     @NotBlank(message = "O nome do formulário não pode ser nulo ou em branco.")
