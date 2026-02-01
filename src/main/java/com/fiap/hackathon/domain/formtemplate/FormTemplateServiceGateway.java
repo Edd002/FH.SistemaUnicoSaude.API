@@ -67,7 +67,7 @@ public class FormTemplateServiceGateway extends BaseServiceGateway<IFormTemplate
 
     @Override
     public FormTemplate findByHashId(String hashId) {
-        return super.findByHashId(hashId, String.format("O formulário com o hash id %s não foi encontrado.", hashId));
+        return super.findByHashId(hashId, String.format("O template de formulário com o hash id %s não foi encontrado.", hashId));
     }
 
     @Transactional

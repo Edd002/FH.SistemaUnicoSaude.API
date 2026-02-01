@@ -10,6 +10,7 @@ import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -31,6 +32,14 @@ public class FormSubmission extends Audit implements Serializable {
 
     protected FormSubmission() {}
 
+    public FormSubmission(@NonNull Boolean isAnswered, @NonNull Date collectedAt, @NonNull String generalObservation, @NonNull FormTemplate formTemplate, @NonNull User healthProfessional) {
+        this.setIsAnswered(isAnswered);
+        this.setCollectedAt(collectedAt);
+        this.setGeneralObservation(generalObservation);
+        this.setFormTemplate(formTemplate);
+        this.setHealthProfessional(healthProfessional);
+    }
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +56,7 @@ public class FormSubmission extends Audit implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date collectedAt = new Date();
 
-    @Column(name = "synced_at", nullable = false)
+    @Column(name = "synced_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date syncedAt;
 

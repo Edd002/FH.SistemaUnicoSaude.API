@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Log
 @Validated
 @RestController
-@RequestMapping(value = "/api/v1/forms")
+@RequestMapping(value = "/api/v1/form-templates")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse400.class))),
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse401.class))),
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.*;
         @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse422.class))),
         @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse500.class)))
 })
-@Tag(name = "Formulário - Endpoints de Formulários")
+@Tag(name = "Template de Formulário - Endpoints de Templates de Formulário")
 public class FormTemplateController {
 
     private final FormTemplateServiceGateway formTemplateServiceGateway;
@@ -51,48 +51,48 @@ public class FormTemplateController {
         this.formTemplateServiceGateway = formTemplateServiceGateway;
     }
 
-    @Operation(method = "POST", summary = "Criar formulário.", description = "Criar formulário.")
+    @Operation(method = "POST", summary = "Criar template de formulário.", description = "Criar template de formulário.")
     @ApiResponse(responseCode = "201", description = "Created")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @PostMapping
     public ResponseEntity<BaseSuccessResponse201<FormTemplateResponseDTO>> create(@RequestBody @Valid FormTemplatePostRequestDTO formTemplatePostRequestDTO) {
-        log.info("Criando formulário...");
+        log.info("Criando template de formulário...");
         return new BaseSuccessResponse201<>(formTemplateServiceGateway.create(formTemplatePostRequestDTO)).buildResponse();
     }
 
-    @Operation(method = "PUT", summary = "Atualizar formulário.", description = "Atualizar formulário.")
+    @Operation(method = "PUT", summary = "Atualizar template de formulário.", description = "Atualizar template de formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @PutMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<FormTemplateResponseDTO>> update(@PathVariable("hashId") String hashId, @RequestBody @Valid FormTemplatePutRequestDTO formTemplatePutRequestDTO) {
-        log.info("Atualizando formulário...");
+        log.info("Atualizando de template de formulário...");
         return new BaseSuccessResponse200<>(formTemplateServiceGateway.update(hashId, formTemplatePutRequestDTO)).buildResponse();
     }
 
-    @Operation(method = "GET", summary = "Buscar formulário por filtro.", description = "Buscar formulário por filtro.")
+    @Operation(method = "GET", summary = "Buscar template de formulário por filtro.", description = "Buscar template de formulário por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<FormTemplateResponseDTO>> find(@ParameterObject @Valid FormTemplateGetFilter filter) {
-        log.info("Buscando formulários por filtro...");
+        log.info("Buscando templates de formulário por filtro...");
         return new BasePageableSuccessResponse200<>(formTemplateServiceGateway.find(filter)).buildPageableResponse();
     }
 
-    @Operation(method = "GET", summary = "Buscar formulário.", description = "Buscar formulário.")
+    @Operation(method = "GET", summary = "Buscar template de formulário.", description = "Buscar template de formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<FormTemplateResponseDTO>> find(@PathVariable("hashId") String hashId) {
-        log.info("Buscando formulário...");
+        log.info("Buscando template de formulário...");
         return new BaseSuccessResponse200<>(formTemplateServiceGateway.find(hashId)).buildResponse();
     }
 
-    @Operation(method = "DELETE", summary = "Excluir formulário.", description = "Excluir formulário.")
+    @Operation(method = "DELETE", summary = "Excluir template de formulário.", description = "Excluir template de formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @DeleteMapping(value = "/{hashId}")
     public ResponseEntity<NoPayloadBaseSuccessResponse200<FormTemplateResponseDTO>> delete(@PathVariable("hashId") String hashId) {
-        log.info("Excluindo formulário...");
+        log.info("Excluindo template de formulário...");
         formTemplateServiceGateway.delete(hashId);
         return new NoPayloadBaseSuccessResponse200<FormTemplateResponseDTO>().buildResponseWithoutPayload();
     }
