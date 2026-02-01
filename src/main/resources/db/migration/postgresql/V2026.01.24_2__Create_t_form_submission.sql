@@ -11,7 +11,7 @@ create table public.t_form_submission
     updated_by              varchar(255),
     is_answered             boolean      not null,
     collected_at            timestamp(6) not null,
-    synced_at               timestamp(6) not null,
+    synced_at               timestamp(6),
     general_observation     text,
     fk_form_template        int8         not null,
     fk_health_professional  int8         not null,

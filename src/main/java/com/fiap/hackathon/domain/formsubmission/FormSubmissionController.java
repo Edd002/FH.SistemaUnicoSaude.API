@@ -1,9 +1,14 @@
 package com.fiap.hackathon.domain.formsubmission;
 
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionGetFilter;
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.SubmitFormPatchRequestDTO;
 import com.fiap.hackathon.global.base.response.error.*;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,15 +17,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Log
 @Validated
@@ -38,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse422.class))),
         @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse500.class)))
 })
-@Tag(name = "Submissão de Formulário - Endpoints de Submissão de Formulário")
+@Tag(name = "Submissão de Formulário - Endpoints de Submissões de Formulário")
 public class FormSubmissionController {
 
     private final FormSubmissionServiceGateway formSubmissionServiceGateway;
@@ -46,6 +49,15 @@ public class FormSubmissionController {
     @Autowired
     public FormSubmissionController(FormSubmissionServiceGateway formSubmissionServiceGateway) {
         this.formSubmissionServiceGateway = formSubmissionServiceGateway;
+    }
+
+    @Operation(method = "POST", summary = "Criar submissão de formulário.", description = "Criar submissão de formulário.")
+    @ApiResponse(responseCode = "201", description = "Created")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PostMapping
+    public ResponseEntity<BaseSuccessResponse201<FormSubmissionResponseDTO>> create(@RequestBody @Valid FormSubmissionPostRequestDTO formSubmissionPostRequestDTO) {
+        log.info("Criando submissão de formulário...");
+        return new BaseSuccessResponse201<>(formSubmissionServiceGateway.create(formSubmissionPostRequestDTO)).buildResponse();
     }
 
     @Operation(method = "PATCH", summary = "Submeter um formulário.", description = "Submeter um formulário.")
@@ -56,5 +68,23 @@ public class FormSubmissionController {
         log.info("Submetendo um formulário...");
         formSubmissionServiceGateway.submitForm(submitFormPatchRequestDTO);
         return new NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>().buildResponseWithoutPayload();
+    }
+
+    @Operation(method = "GET", summary = "Buscar submissão de formulário por filtro.", description = "Buscar submissão de formulário por filtro.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @GetMapping(value = "/filter")
+    public ResponseEntity<BasePageableSuccessResponse200<FormSubmissionResponseDTO>> find(@ParameterObject @Valid FormSubmissionGetFilter filter) {
+        log.info("Buscando submissões de formulário por filtro...");
+        return new BasePageableSuccessResponse200<>(formSubmissionServiceGateway.find(filter)).buildPageableResponse();
+    }
+
+    @Operation(method = "GET", summary = "Buscar submissão de formulário.", description = "Buscar submissão de formulário.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @GetMapping(value = "/{hashId}")
+    public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> find(@PathVariable("hashId") String hashId) {
+        log.info("Buscando submissão de formulário...");
+        return new BaseSuccessResponse200<>(formSubmissionServiceGateway.find(hashId)).buildResponse();
     }
 }
