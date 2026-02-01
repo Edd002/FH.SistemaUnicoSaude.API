@@ -32,6 +32,9 @@ public class Answer extends Audit implements Serializable {
     protected Answer() {}
 
     public Answer(@NonNull VisitationAlternativeEnum visitationAlternative, @NonNull String deliveredAnswer, @NonNull Question question, @NonNull User patient, @NonNull FormSubmission formSubmission) {
+        if (formSubmission.getIsSubmitted()) {
+            throw new IllegalArgumentException("Não é possível responder um formulário que já foi submetido.");
+        }
         this.setVisitationAlternative(visitationAlternative);
         this.setDeliveredAnswer(deliveredAnswer);
         this.setQuestion(question);

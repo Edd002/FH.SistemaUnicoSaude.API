@@ -21,6 +21,10 @@ public class UserSpecificationBuilder extends BasicSpecificationBuilder<User, Us
         if (ValidationUtil.isNotBlank(filter.getEmail())) {
             where("email", SearchOperationEnum.LIKE, filter.getEmail());
         }
+
+        if (ValidationUtil.isNotNull(filter.getType())) {
+            where("userType", SearchOperationEnum.EQUAL, filter.getType());
+        }
     }
 
     @Override
