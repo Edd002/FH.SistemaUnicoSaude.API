@@ -35,11 +35,11 @@ public class AnswerRegisterPatchRequestDTO extends BaseRequestDTO {
 
     @Schema(description = "Hash id do paciente.", example = "7ed80b4757554fa28e5588f41808cd48")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
-    @JsonProperty("hashIdQuestion")
+    @JsonProperty("hashIdPatient")
     private String hashIdPatient;
 
     @Schema(description = "Hash id da submissão de formulário.", example = "8af91c5643869eb28f4466a42218dc37")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
-    @JsonProperty("hashIdQuestion")
+    @JsonProperty("hashIdFormSubmission")
     private String hashIdFormSubmission;
 }
