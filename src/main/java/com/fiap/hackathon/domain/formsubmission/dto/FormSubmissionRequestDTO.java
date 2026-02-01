@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public abstract class FormSubmissionRequestDTO extends BaseRequestDTO {
 
-    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário submetido incompleto.")
+    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário poder ser submetido incompleto.")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
     @JsonProperty("generalObservation")
     private String generalObservation;
