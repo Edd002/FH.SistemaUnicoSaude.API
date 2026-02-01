@@ -1,28 +1,16 @@
 package com.fiap.hackathon.domain.formsubmission.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fiap.hackathon.global.base.dto.BaseRequestDTO;
-import com.fiap.hackathon.global.util.deserializer.DateDeserializer;
 import com.fiap.hackathon.global.util.deserializer.StrictStringNormalizeSpaceDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-import java.util.Date;
-
 @Getter
 public abstract class FormSubmissionRequestDTO extends BaseRequestDTO {
-
-    @Schema(description = "Data da coleta da submissão do formulário.", example = "30/01/2026")
-    @NotNull(message = "A data da coleta da submissão do formulário não pode ser nula.")
-    @JsonDeserialize(using = DateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "GMT-3")
-    @JsonProperty("collectedAt")
-    private Date collectedAt;
 
     @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário submetido incompleto.")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)

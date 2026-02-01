@@ -14,12 +14,12 @@ public class FormSubmissionSpecificationBuilder extends BasicSpecificationBuilde
 
     @Override
     protected void initParams(FormSubmissionGetFilter filter) {
-        if (ValidationUtil.isNotNull(filter.getIsAnswered())) {
-            where("isAnswered", SearchOperationEnum.EQUAL, filter.getIsAnswered());
+        if (ValidationUtil.isNotNull(filter.getIsSubmitted())) {
+            where("isSubmitted", SearchOperationEnum.EQUAL, filter.getIsSubmitted());
         }
 
-        if (ValidationUtil.isNotNull(filter.getCollectedAt())) {
-            where("collectedAt", SearchOperationEnum.EQUAL, filter.getCollectedAt());
+        if (ValidationUtil.isNotNull(filter.getSubmittedAt())) {
+            where("submittedAt", SearchOperationEnum.EQUAL, filter.getSubmittedAt());
         }
 
         if (ValidationUtil.isNotNull(filter.getSyncedAt())) {
