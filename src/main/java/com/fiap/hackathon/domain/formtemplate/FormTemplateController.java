@@ -9,7 +9,6 @@ import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,7 +51,6 @@ public class FormTemplateController {
         this.formTemplateServiceGateway = formTemplateServiceGateway;
     }
 
-    @Hidden
     @Operation(method = "POST", summary = "Criar formulário.", description = "Criar formulário.")
     @ApiResponse(responseCode = "201", description = "Created")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
@@ -62,7 +60,6 @@ public class FormTemplateController {
         return new BaseSuccessResponse201<>(formTemplateServiceGateway.create(formTemplatePostRequestDTO)).buildResponse();
     }
 
-    @Hidden
     @Operation(method = "PUT", summary = "Atualizar formulário.", description = "Atualizar formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
@@ -90,7 +87,6 @@ public class FormTemplateController {
         return new BaseSuccessResponse200<>(formTemplateServiceGateway.find(hashId)).buildResponse();
     }
 
-    @Hidden
     @Operation(method = "DELETE", summary = "Excluir formulário.", description = "Excluir formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")

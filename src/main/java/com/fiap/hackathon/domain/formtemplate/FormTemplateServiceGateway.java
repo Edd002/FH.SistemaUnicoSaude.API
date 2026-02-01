@@ -60,7 +60,7 @@ public class FormTemplateServiceGateway extends BaseServiceGateway<IFormTemplate
         return specification
                 .map(spec -> findAll(spec, pageable))
                 .orElseGet(() -> new PageImpl<>(new ArrayList<>()))
-                .map(user -> modelMapperPresenter.map(user, FormTemplateResponseDTO.class));
+                .map(formTemplate -> modelMapperPresenter.map(formTemplate, FormTemplateResponseDTO.class));
     }
 
     @Transactional

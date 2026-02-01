@@ -49,7 +49,7 @@ public class QuestionServiceGateway extends BaseServiceGateway<IQuestionReposito
         return specification
                 .map(spec -> findAll(spec, pageable))
                 .orElseGet(() -> new PageImpl<>(new ArrayList<>()))
-                .map(user -> modelMapperPresenter.map(user, QuestionResponseDTO.class));
+                .map(question -> modelMapperPresenter.map(question, QuestionResponseDTO.class));
     }
 
     @Transactional

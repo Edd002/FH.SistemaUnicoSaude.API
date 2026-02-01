@@ -22,7 +22,11 @@ public class QuestionResponseDTO extends BaseResponseDTO {
     @JsonProperty("description")
     private String description;
 
-    @Schema(description = "Tema da questão.", example = "HYPERTENSION")
+    @Schema(description = "Tema da questão.", example = "GERAL")
     @JsonProperty("topic")
     private String topic;
+
+    @Schema(description = "Tema da questão.", example = "OPEN_FIELD")
+    @JsonProperty("type")
+    private String type;
 }

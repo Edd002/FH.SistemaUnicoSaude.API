@@ -18,12 +18,16 @@ public class QuestionSpecificationBuilder extends BasicSpecificationBuilder<Ques
             where("title", SearchOperationEnum.LIKE, filter.getTitle());
         }
 
-        if (ValidationUtil.isNotBlank(filter.getBody())) {
-            where("body", SearchOperationEnum.LIKE, filter.getBody());
+        if (ValidationUtil.isNotBlank(filter.getDescription())) {
+            where("description", SearchOperationEnum.LIKE, filter.getDescription());
         }
 
         if (ValidationUtil.isNotNull(filter.getTopic())) {
             where("topic", SearchOperationEnum.EQUAL, filter.getTopic());
+        }
+
+        if (ValidationUtil.isNotNull(filter.getTopic())) {
+            where("type", SearchOperationEnum.EQUAL, filter.getTopic());
         }
     }
 
