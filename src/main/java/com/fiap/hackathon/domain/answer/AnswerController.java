@@ -1,10 +1,13 @@
 package com.fiap.hackathon.domain.answer;
 
+import com.fiap.hackathon.domain.answer.dto.AnswerGetFilter;
 import com.fiap.hackathon.domain.answer.dto.AnswerRegisterPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerReplyPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,15 +16,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Log
 @Validated
@@ -67,5 +68,23 @@ public class AnswerController {
         log.info("Respondendo uma questão...");
         answerServiceGateway.replyAnswer(answerReplyPatchRequestDTO);
         return new NoPayloadBaseSuccessResponse200<AnswerResponseDTO>().buildResponseWithoutPayload();
+    }
+
+    @Operation(method = "GET", summary = "Buscar resposta por filtro.", description = "Buscar resposta por filtro.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @GetMapping(value = "/filter")
+    public ResponseEntity<BasePageableSuccessResponse200<AnswerResponseDTO>> find(@ParameterObject @Valid AnswerGetFilter filter) {
+        log.info("Buscando respostas por filtro...");
+        return new BasePageableSuccessResponse200<>(answerServiceGateway.find(filter)).buildPageableResponse();
+    }
+
+    @Operation(method = "GET", summary = "Buscar resposta.", description = "Buscar resposta.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @GetMapping(value = "/{hashId}")
+    public ResponseEntity<BaseSuccessResponse200<AnswerResponseDTO>> find(@PathVariable("hashId") String hashId) {
+        log.info("Buscando resposta...");
+        return new BaseSuccessResponse200<>(answerServiceGateway.find(hashId)).buildResponse();
     }
 }

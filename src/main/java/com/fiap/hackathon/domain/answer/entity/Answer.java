@@ -41,7 +41,7 @@ public class Answer extends Audit implements Serializable {
 
     @Column(name = "visitation_option", nullable = false)
     @Enumerated(EnumType.STRING)
-    private VisitationAlternativeEnum answeredAlternative;
+    private VisitationAlternativeEnum visitationAlternative;
 
     @Column(name = "delivered_answer", nullable = false)
     private String deliveredAnswer;

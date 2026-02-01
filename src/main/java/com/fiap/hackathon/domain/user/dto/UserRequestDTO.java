@@ -31,7 +31,7 @@ public abstract class UserRequestDTO extends BaseRequestDTO {
     @JsonProperty("email")
     private String email;
 
-    @Schema(description = "Tipo de usuário.", example = "PATIENT", maxLength = 255)
+    @Schema(description = "Tipo de usuário.", example = "PATIENT", maxLength = 255, allowableValues = {"PATIENT", "HEALTH_PROFESSIONAL"})
     @Size(max = 255, message = "O número de caracteres máximo para o tipo de usuário é 255 caracteres.")
     @ValueOfEnum(enumClass = UserTypeEnum.class, message = "Tipo do usuário inválido.")
     @NotBlank(message = "O tipo de usuário não pode ser nulo ou em branco.")
