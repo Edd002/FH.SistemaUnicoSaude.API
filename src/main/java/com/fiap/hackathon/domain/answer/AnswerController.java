@@ -6,7 +6,6 @@ import com.fiap.hackathon.domain.answer.dto.AnswerReplyPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
-import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,25 +53,23 @@ public class AnswerController {
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @PatchMapping(value = "/register")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<AnswerResponseDTO>> registerAnswer(@RequestBody @Valid AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
+    public ResponseEntity<BaseSuccessResponse200<AnswerResponseDTO>> registerAnswer(@RequestBody @Valid AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
         log.info("Registrando resposta de uma questão...");
-        answerServiceGateway.registerAnswer(answerRegisterPatchRequestDTO);
-        return new NoPayloadBaseSuccessResponse200<AnswerResponseDTO>().buildResponseWithoutPayload();
+        return new BaseSuccessResponse200<>(answerServiceGateway.registerAnswer(answerRegisterPatchRequestDTO)).buildResponse();
     }
 
     @Operation(method = "PATCH", summary = "Responder uma questão de um questionário por um paciente.", description = "Responder uma questão de um questionário por um paciente.")
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('PATIENT')")
     @PatchMapping(value = "/reply")
-    public ResponseEntity<NoPayloadBaseSuccessResponse200<AnswerResponseDTO>> replyAnswer(@RequestBody @Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
+    public ResponseEntity<BaseSuccessResponse200<AnswerResponseDTO>> replyAnswer(@RequestBody @Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
         log.info("Respondendo uma questão...");
-        answerServiceGateway.replyAnswer(answerReplyPatchRequestDTO);
-        return new NoPayloadBaseSuccessResponse200<AnswerResponseDTO>().buildResponseWithoutPayload();
+        return new BaseSuccessResponse200<>(answerServiceGateway.replyAnswer(answerReplyPatchRequestDTO)).buildResponse();
     }
 
     @Operation(method = "GET", summary = "Buscar resposta por filtro.", description = "Buscar resposta por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<AnswerResponseDTO>> find(@ParameterObject @Valid AnswerGetFilter filter) {
         log.info("Buscando respostas por filtro...");
@@ -81,7 +78,7 @@ public class AnswerController {
 
     @Operation(method = "GET", summary = "Buscar resposta.", description = "Buscar resposta.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<AnswerResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando resposta...");

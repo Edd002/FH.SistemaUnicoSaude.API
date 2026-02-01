@@ -35,6 +35,6 @@ public class AnswerReplyPatchRequestDTO extends BaseRequestDTO {
 
     @Schema(description = "Hash id da submissão de formulário.", example = "8af91c5643869eb28f4466a42218dc37")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
-    @JsonProperty("hashIdQuestion")
+    @JsonProperty("hashIdFormSubmission")
     private String hashIdFormSubmission;
 }

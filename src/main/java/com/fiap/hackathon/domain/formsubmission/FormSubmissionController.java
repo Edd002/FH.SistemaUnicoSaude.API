@@ -70,7 +70,7 @@ public class FormSubmissionController {
 
     @Operation(method = "GET", summary = "Buscar submissão de formulário por filtro.", description = "Buscar submissão de formulário por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<FormSubmissionResponseDTO>> find(@ParameterObject @Valid FormSubmissionGetFilter filter) {
         log.info("Buscando submissões de formulário por filtro...");
@@ -79,7 +79,7 @@ public class FormSubmissionController {
 
     @Operation(method = "GET", summary = "Buscar submissão de formulário.", description = "Buscar submissão de formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando submissão de formulário...");

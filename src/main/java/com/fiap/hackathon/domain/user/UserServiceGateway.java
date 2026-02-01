@@ -106,4 +106,8 @@ public class UserServiceGateway extends BaseServiceGateway<IUserRepository, User
     public User findByHashId(String hashId) {
         return super.findByHashId(hashId, String.format("O usuário com o hash id %s não foi encontrado.", hashId));
     }
+
+    public User findByHashIdAndUserType(String hashId,  UserTypeEnum userType) {
+        return userRepository.findByHashIdAndUserType(hashId, userType).orElseThrow(() -> new EntityNotFoundException(String.format("O usuário de tipo %s com o hash id %s não foi encontrado.", userType.getDescription(), hashId)));
+    }
 }

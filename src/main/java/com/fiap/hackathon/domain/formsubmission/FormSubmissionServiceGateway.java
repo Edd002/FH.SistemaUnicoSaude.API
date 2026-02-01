@@ -51,8 +51,8 @@ public class FormSubmissionServiceGateway extends BaseServiceGateway<IFormSubmis
     @Transactional
     public FormSubmissionResponseDTO submitForm(String hashId) {
         FormSubmission existingFormSubmission = findByHashId(hashId);
-        FormSubmission newFormSubmission = save(new FormSubmissionSubmitUseCase(existingFormSubmission).getRebuiltedFormSubmission());
-        return modelMapperPresenter.map(newFormSubmission, FormSubmissionResponseDTO.class);
+        FormSubmission updatedFormSubmission = save(new FormSubmissionSubmitUseCase(existingFormSubmission).getRebuiltedFormSubmission());
+        return modelMapperPresenter.map(updatedFormSubmission, FormSubmissionResponseDTO.class);
     }
 
     @Transactional
