@@ -29,7 +29,7 @@ public class FormSubmissionResponseDTO extends BaseResponseDTO {
     @JsonProperty("submittedAt")
     private Date submittedAt;
 
-    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário submetido incompleto.")
+    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário poder ser submetido incompleto.")
     @JsonProperty("generalObservation")
     private String generalObservation;
 

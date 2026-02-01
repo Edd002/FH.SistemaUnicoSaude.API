@@ -19,7 +19,7 @@ public class FormSubmissionGetFilter extends BasePaginationFilter {
     @Schema(description = "Data da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
     private Date submittedAt;
 
-    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário submetido incompleto.")
+    @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário poder ser submetido incompleto.")
     private String generalObservation;
 
     @Schema(description = "Hash id do template do formulário.", example = "2c2fa8b0e8b74d5c9a665b577759445a")
