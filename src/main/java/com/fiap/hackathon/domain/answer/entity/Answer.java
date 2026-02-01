@@ -8,6 +8,7 @@ import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
+import com.fiap.hackathon.global.exception.EntityCannotBeUpdatedException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class Answer extends Audit implements Serializable {
 
     public Answer(@NonNull VisitationAlternativeEnum visitationAlternative, @NonNull String deliveredAnswer, @NonNull Question question, @NonNull User patient, @NonNull FormSubmission formSubmission) {
         if (formSubmission.getIsSubmitted()) {
-            throw new IllegalArgumentException("Não é possível responder um formulário que já foi submetido.");
+            throw new EntityCannotBeUpdatedException("Não é possível responder um formulário que já foi submetido.");
         }
         this.setVisitationAlternative(visitationAlternative);
         this.setDeliveredAnswer(deliveredAnswer);
