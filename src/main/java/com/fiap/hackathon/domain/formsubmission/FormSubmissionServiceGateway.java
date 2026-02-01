@@ -3,10 +3,11 @@ package com.fiap.hackathon.domain.formsubmission;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionGetFilter;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
-import com.fiap.hackathon.domain.formsubmission.dto.SubmitFormPatchRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.domain.formsubmission.specification.FormSubmissionSpecificationBuilder;
+import com.fiap.hackathon.domain.formsubmission.usecase.FormSubmissionCheckForDeleteUseCase;
 import com.fiap.hackathon.domain.formsubmission.usecase.FormSubmissionCreateUseCase;
+import com.fiap.hackathon.domain.formsubmission.usecase.FormSubmissionSubmitUseCase;
 import com.fiap.hackathon.domain.formtemplate.FormTemplateServiceGateway;
 import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.user.authuser.AuthUserContextHolder;
@@ -44,11 +45,14 @@ public class FormSubmissionServiceGateway extends BaseServiceGateway<IFormSubmis
         User healthProfessionalUser = AuthUserContextHolder.getAuthUser();
         FormTemplate formTemplate = formTemplateServiceGateway.findByHashId(formSubmissionPostRequestDTO.getHashIdFormTemplate());
         FormSubmission newFormSubmission = save(new FormSubmissionCreateUseCase(healthProfessionalUser, formTemplate, formSubmissionPostRequestDTO).getBuiltedFormSubmission());
-        return modelMapperPresenter.map(formTemplate, FormSubmissionResponseDTO.class);
+        return modelMapperPresenter.map(newFormSubmission, FormSubmissionResponseDTO.class);
     }
 
     @Transactional
-    public void submitForm(SubmitFormPatchRequestDTO submitFormPatchRequestDTO) {
+    public FormSubmissionResponseDTO submitForm(String hashId) {
+        FormSubmission existingFormSubmission = findByHashId(hashId);
+        FormSubmission newFormSubmission = save(new FormSubmissionSubmitUseCase(existingFormSubmission).getRebuiltedFormSubmission());
+        return modelMapperPresenter.map(newFormSubmission, FormSubmissionResponseDTO.class);
     }
 
     @Transactional
@@ -69,5 +73,13 @@ public class FormSubmissionServiceGateway extends BaseServiceGateway<IFormSubmis
     @Override
     public FormSubmission findByHashId(String hashId) {
         return super.findByHashId(hashId, String.format("A submissão de formulário com o hash id %s não foi encontrada.", hashId));
+    }
+
+    @Transactional
+    public void delete(String hashId) {
+        FormSubmission formSubmission = findByHashId(hashId);
+        if (new FormSubmissionCheckForDeleteUseCase(formSubmission).isAllowedToDelete()) {
+            delete(formSubmission);
+        }
     }
 }

@@ -13,11 +13,11 @@ import java.util.Date;
 public class FormSubmissionGetFilter extends BasePaginationFilter {
 
     @Schema(description = "Se o formulário está submetido (respondido).", example = "false")
-    private Boolean isAnswered;
+    private Boolean isSubmitted;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Schema(description = "Data da coleta da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
-    private Date collectedAt;
+    @Schema(description = "Data da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
+    private Date submittedAt;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "Data da sincronização da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
