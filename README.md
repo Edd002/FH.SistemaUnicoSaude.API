@@ -17,7 +17,7 @@ Este sistema foi desenvolvido utilizando **Java 21**, **Spring Boot 3.4.4** e **
 Para iniciar a aplicação e o banco de dados, execute o seguinte comando na raiz do projeto:
 
 ```bash
-docker-compose up -d
+docker compose --profile docker up --build
 ```
 
 A API estará disponível em `http://localhost:8085`.
@@ -53,7 +53,7 @@ O sistema é inicializado com os seguintes usuários para teste (definidos em `s
 
 A documentação completa dos endpoints da API pode ser acessada através do Swagger UI:
 
-[http://localhost:8084/fh-sistema-unico-saude/swagger-ui/index.html](http://localhost:8084/fh-sistema-unico-saude/swagger-ui/index.html)
+[http://localhost:8085/fh-sistema-unico-saude/swagger-ui/index.html](http://localhost:8084/fh-sistema-unico-saude/swagger-ui/index.html)
 
 *(Nota: A porta pode variar dependendo da configuração local. No docker-compose padrão a porta mapeada é 8085.)*
 
