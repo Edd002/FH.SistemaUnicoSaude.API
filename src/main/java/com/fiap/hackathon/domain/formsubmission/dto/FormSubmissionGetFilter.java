@@ -19,10 +19,6 @@ public class FormSubmissionGetFilter extends BasePaginationFilter {
     @Schema(description = "Data da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
     private Date submittedAt;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Schema(description = "Data da sincronização da submissão do formulário.", type = "string", format = "date", example = "30/01/2026")
-    private Date syncedAt;
-
     @Schema(description = "Observação geral da submissão do formulário.", example = "Formulário submetido incompleto.")
     private String generalObservation;
 

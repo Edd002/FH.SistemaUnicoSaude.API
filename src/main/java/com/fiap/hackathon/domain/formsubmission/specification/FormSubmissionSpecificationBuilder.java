@@ -22,10 +22,6 @@ public class FormSubmissionSpecificationBuilder extends BasicSpecificationBuilde
             where("submittedAt", SearchOperationEnum.EQUAL, filter.getSubmittedAt());
         }
 
-        if (ValidationUtil.isNotNull(filter.getSyncedAt())) {
-            where("syncedAt", SearchOperationEnum.EQUAL, filter.getSyncedAt());
-        }
-
         if (ValidationUtil.isNotBlank(filter.getGeneralObservation())) {
             where("generalObservation", SearchOperationEnum.LIKE, filter.getGeneralObservation());
         }

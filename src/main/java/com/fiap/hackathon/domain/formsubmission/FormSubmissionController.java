@@ -6,6 +6,7 @@ import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
+import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -83,5 +84,15 @@ public class FormSubmissionController {
     public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando submissão de formulário...");
         return new BaseSuccessResponse200<>(formSubmissionServiceGateway.find(hashId)).buildResponse();
+    }
+
+    @Operation(method = "DELETE", summary = "Excluir submissão de formulário.", description = "Excluir submissão de formulário.")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @DeleteMapping(value = "/{hashId}")
+    public ResponseEntity<NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>> delete(@PathVariable("hashId") String hashId) {
+        log.info("Excluindo template de formulário...");
+        formSubmissionServiceGateway.delete(hashId);
+        return new NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>().buildResponseWithoutPayload();
     }
 }
