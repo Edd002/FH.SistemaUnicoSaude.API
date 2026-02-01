@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 public enum UserTypeEnum {
 
-    ADMIN("Tipo de usuário administrador."),
-    PATIENT("Tipo de usuário de paciente."),
-    HEALTH_PROFESSIONAL("Tipo de usuário de profissional de saúde.");
+    ADMIN("Administrador."),
+    PATIENT("Paciente."),
+    HEALTH_PROFESSIONAL("Profissional de Saúde.");
 
     private final String description;
 

@@ -2,15 +2,16 @@ package com.fiap.hackathon.domain.answer.entity;
 
 import com.fiap.hackathon.domain.answer.AnswerEntityListener;
 import com.fiap.hackathon.domain.answer.enumerated.constraint.AnswerConstraint;
+import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.domain.question.entity.Question;
 import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
-import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -29,6 +30,14 @@ import java.io.Serializable;
 public class Answer extends Audit implements Serializable {
 
     protected Answer() {}
+
+    public Answer(@NonNull VisitationAlternativeEnum visitationAlternative, @NonNull String deliveredAnswer, @NonNull Question question, @NonNull User patient, @NonNull FormSubmission formSubmission) {
+        this.setVisitationAlternative(visitationAlternative);
+        this.setDeliveredAnswer(deliveredAnswer);
+        this.setQuestion(question);
+        this.setPatient(patient);
+        this.setFormSubmission(formSubmission);
+    }
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -6,6 +6,15 @@ import com.fiap.hackathon.domain.answer.dto.AnswerReplyPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
 import com.fiap.hackathon.domain.answer.entity.Answer;
 import com.fiap.hackathon.domain.answer.specification.AnswerSpecificationBuilder;
+import com.fiap.hackathon.domain.answer.usecase.AnswerCreateUseCase;
+import com.fiap.hackathon.domain.formsubmission.FormSubmissionServiceGateway;
+import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
+import com.fiap.hackathon.domain.question.QuestionServiceGateway;
+import com.fiap.hackathon.domain.question.entity.Question;
+import com.fiap.hackathon.domain.user.UserServiceGateway;
+import com.fiap.hackathon.domain.user.authuser.AuthUserContextHolder;
+import com.fiap.hackathon.domain.user.entity.User;
+import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
 import com.fiap.hackathon.global.base.BaseServiceGateway;
 import com.fiap.hackathon.global.search.builder.PageableBuilder;
 import jakarta.transaction.Transactional;
@@ -25,19 +34,35 @@ public class AnswerServiceGateway extends BaseServiceGateway<IAnswerRepository, 
 
     private final PageableBuilder pageableBuilder;
     private final ModelMapper modelMapperPresenter;
+    private final QuestionServiceGateway questionServiceGateway;
+    private final UserServiceGateway userServiceGateway;
+    private final FormSubmissionServiceGateway formSubmissionServiceGateway;
 
     @Autowired
-    public AnswerServiceGateway(IAnswerRepository answerRepository, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter) {
+    public AnswerServiceGateway(IAnswerRepository answerRepository, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter, QuestionServiceGateway questionServiceGateway, UserServiceGateway userServiceGateway, FormSubmissionServiceGateway formSubmissionServiceGateway) {
         this.pageableBuilder = pageableBuilder;
         this.modelMapperPresenter = modelMapperPresenter;
+        this.questionServiceGateway = questionServiceGateway;
+        this.userServiceGateway = userServiceGateway;
+        this.formSubmissionServiceGateway = formSubmissionServiceGateway;
     }
 
     @Transactional
-    public void registerAnswer(AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
+    public AnswerResponseDTO registerAnswer(AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
+        Question existingQuestion = questionServiceGateway.findByHashId(answerRegisterPatchRequestDTO.getHashIdQuestion());
+        User existingUserPatient = userServiceGateway.findByHashIdAndUserType(answerRegisterPatchRequestDTO.getHashIdPatient(), UserTypeEnum.PATIENT);
+        FormSubmission existingFormSubmission = formSubmissionServiceGateway.findByHashId(answerRegisterPatchRequestDTO.getHashIdFormSubmission());
+        Answer newAnswer = save(new AnswerCreateUseCase(existingQuestion, existingUserPatient, existingFormSubmission, answerRegisterPatchRequestDTO).getBuiltedAnswer());
+        return modelMapperPresenter.map(newAnswer, AnswerResponseDTO.class);
     }
 
     @Transactional
-    public void replyAnswer(AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
+    public AnswerResponseDTO replyAnswer(AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
+        Question existingQuestion = questionServiceGateway.findByHashId(answerReplyPatchRequestDTO.getHashIdQuestion());
+        User existingUserPatient = AuthUserContextHolder.getAuthUser();
+        FormSubmission existingFormSubmission = formSubmissionServiceGateway.findByHashId(answerReplyPatchRequestDTO.getHashIdFormSubmission());
+        Answer newAnswer = save(new AnswerCreateUseCase(existingQuestion, existingUserPatient, existingFormSubmission, answerReplyPatchRequestDTO).getBuiltedAnswer());
+        return modelMapperPresenter.map(newAnswer, AnswerResponseDTO.class);
     }
 
     @Transactional
