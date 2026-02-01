@@ -71,7 +71,7 @@ public class FormTemplateController {
 
     @Operation(method = "GET", summary = "Buscar template de formulário por filtro.", description = "Buscar template de formulário por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<FormTemplateResponseDTO>> find(@ParameterObject @Valid FormTemplateGetFilter filter) {
         log.info("Buscando templates de formulário por filtro...");
@@ -80,7 +80,7 @@ public class FormTemplateController {
 
     @Operation(method = "GET", summary = "Buscar template de formulário.", description = "Buscar template de formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<FormTemplateResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando template de formulário...");

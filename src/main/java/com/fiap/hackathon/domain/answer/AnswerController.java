@@ -69,7 +69,7 @@ public class AnswerController {
 
     @Operation(method = "GET", summary = "Buscar resposta por filtro.", description = "Buscar resposta por filtro.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/filter")
     public ResponseEntity<BasePageableSuccessResponse200<AnswerResponseDTO>> find(@ParameterObject @Valid AnswerGetFilter filter) {
         log.info("Buscando respostas por filtro...");
@@ -78,7 +78,7 @@ public class AnswerController {
 
     @Operation(method = "GET", summary = "Buscar resposta.", description = "Buscar resposta.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'HEALTH_PROFESSIONAL')")
     @GetMapping(value = "/{hashId}")
     public ResponseEntity<BaseSuccessResponse200<AnswerResponseDTO>> find(@PathVariable("hashId") String hashId) {
         log.info("Buscando resposta...");
