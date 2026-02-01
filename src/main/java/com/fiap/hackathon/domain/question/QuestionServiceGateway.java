@@ -1,8 +1,6 @@
 package com.fiap.hackathon.domain.question;
 
 import com.fiap.hackathon.domain.question.dto.QuestionGetFilter;
-import com.fiap.hackathon.domain.question.dto.QuestionPostRequestDTO;
-import com.fiap.hackathon.domain.question.dto.QuestionPutRequestDTO;
 import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.domain.question.entity.Question;
 import com.fiap.hackathon.domain.question.specification.QuestionSpecificationBuilder;
@@ -33,27 +31,13 @@ public class QuestionServiceGateway extends BaseServiceGateway<IQuestionReposito
     }
 
     @Transactional
-    public QuestionResponseDTO create(QuestionPostRequestDTO questionPostRequestDTO) {
-        return null;
-    }
-
-    @Transactional
-    public QuestionResponseDTO update(QuestionPutRequestDTO questionPutRequestDTO) {
-        return null;
-    }
-
-    @Transactional
     public Page<QuestionResponseDTO> find(QuestionGetFilter filter) {
         Pageable pageable = pageableBuilder.build(filter);
         Optional<Specification<Question>> specification = new QuestionSpecificationBuilder().build(filter);
         return specification
                 .map(spec -> findAll(spec, pageable))
                 .orElseGet(() -> new PageImpl<>(new ArrayList<>()))
-                .map(user -> modelMapperPresenter.map(user, QuestionResponseDTO.class));
-    }
-
-    @Transactional
-    public void delete() {
+                .map(question -> modelMapperPresenter.map(question, QuestionResponseDTO.class));
     }
 
     @Transactional

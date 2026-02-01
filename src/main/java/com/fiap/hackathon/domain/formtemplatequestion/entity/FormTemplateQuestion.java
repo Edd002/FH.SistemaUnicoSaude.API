@@ -9,6 +9,7 @@ import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -25,6 +26,17 @@ import java.io.Serializable;
 @EntityListeners({ FormTemplateQuestionEntityListener.class })
 @ConstraintMapper(constraintClass = FormTemplateQuestionConstraint.class)
 public class FormTemplateQuestion extends Audit implements Serializable {
+
+    protected FormTemplateQuestion() {}
+
+    public FormTemplateQuestion(@NonNull Question question) {
+        this.setQuestion(question);
+    }
+
+    public FormTemplateQuestion rebuild(@NonNull FormTemplate formTemplate) {
+        this.setFormTemplate(formTemplate);
+        return this;
+    }
 
     @Serial
     private static final long serialVersionUID = 1L;

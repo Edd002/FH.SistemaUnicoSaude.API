@@ -14,27 +14,31 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FormTemplateResponseDTO extends BaseResponseDTO {
 
-    @Schema(description = "Nome do questionário", example = "")
+    @Schema(description = "Hash id do formulário.", example = "2c2fa8b0e8b74d5c9a665b577759445a")
+    @JsonProperty("hashId")
+    private String hashId;
+
+    @Schema(description = "Nome do formulário.", example = "FICHA DE VISITA DOMICILIAR E TERRITORIAL")
     @JsonProperty("name")
     private String name;
 
-    @Schema(description = "Descrição do questionário", example = "")
+    @Schema(description = "Nome do formulário.", example = "Formulário de ficha de visita domiciliar e territorial")
     @JsonProperty("description")
     private String description;
 
-    @Schema(description = "CNS profissional do questionário", example = "")
+    @Schema(description = "CNS (Cartão Nacional de Saúde) do profissional do formulário.", example = "000.0000.0000.0000")
     @JsonProperty("professionalCns")
     private String professionalCns;
 
-    @Schema(description = "CBO do questionário", example = "")
+    @Schema(description = "CBO (Classificação Brasileira de Ocupações) do profissional do formulário.", example = "5151-05 – Agente Comunitário de Saúde (ACS)")
     @JsonProperty("cbo")
     private String cbo;
 
-    @Schema(description = "CNES do questionário", example = "")
+    @Schema(description = "CNES (Cadastro Nacional de Estabelecimentos de Saúde) do formulário.", example = "2005456")
     @JsonProperty("cnes")
     private String cnes;
 
-    @Schema(description = "INE do questionário", example = "")
+    @Schema(description = "INE (Identificador Nacional de Equipe) do formulário.", example = "000000000")
     @JsonProperty("ine")
     private String ine;
 }

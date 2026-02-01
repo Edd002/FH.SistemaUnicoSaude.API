@@ -29,6 +29,8 @@ import java.util.List;
 @ConstraintMapper(constraintClass = QuestionConstraint.class)
 public class Question extends Audit implements Serializable {
 
+    protected Question() {}
+
     @Serial
     private static final long serialVersionUID = 1L;
 

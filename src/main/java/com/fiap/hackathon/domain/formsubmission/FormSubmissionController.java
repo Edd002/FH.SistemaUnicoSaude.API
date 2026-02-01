@@ -1,10 +1,9 @@
-package com.fiap.hackathon.domain.question;
+package com.fiap.hackathon.domain.formsubmission;
 
-import com.fiap.hackathon.domain.question.dto.QuestionGetFilter;
-import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
+import com.fiap.hackathon.domain.formsubmission.dto.SubmitFormPatchRequestDTO;
 import com.fiap.hackathon.global.base.response.error.*;
-import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
-import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,21 +12,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log
 @Validated
 @RestController
-@RequestMapping(value = "/api/v1/questions")
+@RequestMapping(value = "/api/v1/form-submissions")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse400.class))),
         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse401.class))),
@@ -40,31 +38,23 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse422.class))),
         @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseErrorResponse500.class)))
 })
-@Tag(name = "Questões - Endpoints de Questões")
-public class QuestionController {
+@Tag(name = "Submissão de Formulário - Endpoints de Submissão de Formulário")
+public class FormSubmissionController {
 
-    private final QuestionServiceGateway questionServiceGateway;
+    private final FormSubmissionServiceGateway formSubmissionServiceGateway;
 
     @Autowired
-    public QuestionController(QuestionServiceGateway questionServiceGateway) {
-        this.questionServiceGateway = questionServiceGateway;
+    public FormSubmissionController(FormSubmissionServiceGateway formSubmissionServiceGateway) {
+        this.formSubmissionServiceGateway = formSubmissionServiceGateway;
     }
 
-    @Operation(method = "GET", summary = "Buscar questão por filtro.", description = "Buscar questão por filtro.")
+    @Operation(method = "PATCH", summary = "Submeter um formulário.", description = "Submeter um formulário.")
     @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "isAuthenticated()")
-    @GetMapping(value = "/filter")
-    public ResponseEntity<BasePageableSuccessResponse200<QuestionResponseDTO>> find(@ParameterObject @Valid QuestionGetFilter filter) {
-        log.info("Buscando questões por filtro...");
-        return new BasePageableSuccessResponse200<>(questionServiceGateway.find(filter)).buildPageableResponse();
-    }
-
-    @Operation(method = "GET", summary = "Buscar questão.", description = "Buscar questão.")
-    @ApiResponse(responseCode = "200", description = "OK")
-    @PreAuthorize(value = "isAuthenticated()")
-    @GetMapping(value = "/{hashId}")
-    public ResponseEntity<BaseSuccessResponse200<QuestionResponseDTO>> find(@PathVariable("hashId") String hashId) {
-        log.info("Buscando questão...");
-        return new BaseSuccessResponse200<>(questionServiceGateway.find(hashId)).buildResponse();
+    @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
+    @PatchMapping(value = "/register")
+    public ResponseEntity<NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>> submitForm(@RequestBody @Valid SubmitFormPatchRequestDTO submitFormPatchRequestDTO) {
+        log.info("Submetendo um formulário...");
+        formSubmissionServiceGateway.submitForm(submitFormPatchRequestDTO);
+        return new NoPayloadBaseSuccessResponse200<FormSubmissionResponseDTO>().buildResponseWithoutPayload();
     }
 }

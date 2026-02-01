@@ -1,6 +1,7 @@
 package com.fiap.hackathon.domain.user.entity;
 
 import com.fiap.hackathon.domain.address.entity.Address;
+import com.fiap.hackathon.domain.answer.entity.Answer;
 import com.fiap.hackathon.domain.jwt.entity.Jwt;
 import com.fiap.hackathon.domain.user.UserEntityListener;
 import com.fiap.hackathon.domain.user.enumerated.UserTypeEnum;
@@ -89,7 +90,7 @@ public class User extends Audit implements Serializable {
     private List<Jwt> jwts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
-    private List<FormSubmission> formSubmissionPatients;
+    private List<Answer> answers;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "healthProfessional")
     private List<FormSubmission> formSubmissionHealthProfessionals;

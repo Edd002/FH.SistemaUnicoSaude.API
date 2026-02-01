@@ -1,9 +1,9 @@
 package com.fiap.hackathon.domain.formsubmission.entity;
 
 import com.fiap.hackathon.domain.answer.entity.Answer;
-import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.formsubmission.FormSubmissionEntityListener;
 import com.fiap.hackathon.domain.formsubmission.enumerated.constraint.FormSubmissionConstraint;
+import com.fiap.hackathon.domain.formtemplate.entity.FormTemplate;
 import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
@@ -28,6 +28,8 @@ import java.util.List;
 @EntityListeners({FormSubmissionEntityListener.class})
 @ConstraintMapper(constraintClass = FormSubmissionConstraint.class)
 public class FormSubmission extends Audit implements Serializable {
+
+    protected FormSubmission() {}
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,10 +57,6 @@ public class FormSubmission extends Audit implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_form_template", nullable = false)
     private FormTemplate formTemplate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_patient", nullable = false)
-    private User patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_health_professional", nullable = false)

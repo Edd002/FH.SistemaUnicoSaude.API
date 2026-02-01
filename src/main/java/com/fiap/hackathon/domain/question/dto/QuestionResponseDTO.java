@@ -14,6 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class QuestionResponseDTO extends BaseResponseDTO {
 
+    @Schema(description = "Hash id da questão.", example = "42ebf8dfbe08445ead3c524e1e691944")
+    @JsonProperty("hashId")
+    private String hashId;
+
     @Schema(description = "Título da questão.", example = "Exame")
     @JsonProperty("title")
     private String title;
@@ -22,7 +26,11 @@ public class QuestionResponseDTO extends BaseResponseDTO {
     @JsonProperty("description")
     private String description;
 
-    @Schema(description = "Tema da questão.", example = "HYPERTENSION")
+    @Schema(description = "Tema da questão.", example = "GERAL")
     @JsonProperty("topic")
     private String topic;
+
+    @Schema(description = "Tema da questão.", example = "OPEN_FIELD")
+    @JsonProperty("type")
+    private String type;
 }

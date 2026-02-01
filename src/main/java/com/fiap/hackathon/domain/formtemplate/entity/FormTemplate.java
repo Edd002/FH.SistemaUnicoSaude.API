@@ -1,14 +1,15 @@
 package com.fiap.hackathon.domain.formtemplate.entity;
 
+import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.domain.formtemplate.FormTemplateEntityListener;
 import com.fiap.hackathon.domain.formtemplate.enumerated.constraint.FormTemplateConstraint;
 import com.fiap.hackathon.domain.formtemplatequestion.entity.FormTemplateQuestion;
-import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
 import com.fiap.hackathon.global.audit.Audit;
 import com.fiap.hackathon.global.constraint.ConstraintMapper;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -26,6 +27,30 @@ import java.util.List;
 @EntityListeners({ FormTemplateEntityListener.class })
 @ConstraintMapper(constraintClass = FormTemplateConstraint.class)
 public class FormTemplate extends Audit implements Serializable {
+
+    protected FormTemplate() {}
+
+    public FormTemplate(@NonNull String name, @NonNull String description, @NonNull String professionalCns, @NonNull String cbo, @NonNull String cnes, @NonNull String ine, @NonNull Boolean isActive, @NonNull List<FormTemplateQuestion> formTemplateQuestions) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setProfessionalCns(professionalCns);
+        this.setCbo(cbo);
+        this.setCnes(cnes);
+        this.setIne(ine);
+        this.setIsActive(isActive);
+        this.setFormTemplateQuestions(formTemplateQuestions.stream().map(formTemplateQuestion -> formTemplateQuestion.rebuild(this)).toList());
+    }
+
+    public FormTemplate rebuild(@NonNull String name, @NonNull String description, @NonNull String professionalCns, @NonNull String cbo, @NonNull String cnes, @NonNull String ine, @NonNull Boolean isActive) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setProfessionalCns(professionalCns);
+        this.setCbo(cbo);
+        this.setCnes(cnes);
+        this.setIne(ine);
+        this.setIsActive(isActive);
+        return this;
+    }
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,9 +80,9 @@ public class FormTemplate extends Audit implements Serializable {
     private String ine;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive = Boolean.FALSE;
+    private Boolean isActive = Boolean.TRUE;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<FormTemplateQuestion> formTemplateQuestions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate")
