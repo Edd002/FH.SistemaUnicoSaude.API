@@ -1,12 +1,15 @@
 package com.fiap.hackathon.domain.formtemplate.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.global.base.dto.BaseResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,4 +44,8 @@ public class FormTemplateResponseDTO extends BaseResponseDTO {
     @Schema(description = "INE (Identificador Nacional de Equipe) do template do formulário.", example = "000000000")
     @JsonProperty("ine")
     private String ine;
+
+    @Schema(description = "Lista de questões do template do formulário.")
+    @JsonProperty("questions")
+    private List<QuestionResponseDTO> questions;
 }
