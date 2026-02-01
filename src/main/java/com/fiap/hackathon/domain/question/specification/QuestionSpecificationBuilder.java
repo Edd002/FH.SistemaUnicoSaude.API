@@ -26,8 +26,8 @@ public class QuestionSpecificationBuilder extends BasicSpecificationBuilder<Ques
             where("topic", SearchOperationEnum.EQUAL, filter.getTopic());
         }
 
-        if (ValidationUtil.isNotNull(filter.getTopic())) {
-            where("type", SearchOperationEnum.EQUAL, filter.getTopic());
+        if (ValidationUtil.isNotNull(filter.getType())) {
+            where("type", SearchOperationEnum.EQUAL, filter.getType());
         }
     }
 
