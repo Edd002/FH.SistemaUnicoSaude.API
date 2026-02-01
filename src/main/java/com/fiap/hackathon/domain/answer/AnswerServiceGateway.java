@@ -6,7 +6,6 @@ import com.fiap.hackathon.domain.answer.entity.Answer;
 import com.fiap.hackathon.global.base.BaseServiceGateway;
 import com.fiap.hackathon.global.search.builder.PageableBuilder;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,10 @@ public class AnswerServiceGateway extends BaseServiceGateway<IAnswerRepository, 
     }
 
     @Transactional
-    public void registerAnswer(@Valid AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
+    public void registerAnswer(AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO) {
     }
 
     @Transactional
-    public void replyAnswer(@Valid AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
+    public void replyAnswer(AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO) {
     }
 }
