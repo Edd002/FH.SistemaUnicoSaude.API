@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   # FH FHSistemaUnicoSaudeAPI Service
@@ -15,7 +13,6 @@ services:
       - "5005:5005"
     depends_on:
       - fh_sistema_unico_saude_database
-      - broker
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fh_sistema_unico_saude_database:5432/fh_sistema_unico_saude_database
