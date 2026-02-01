@@ -9,9 +9,9 @@ import com.fiap.hackathon.domain.formtemplate.specification.FormTemplateSpecific
 import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateCheckForDeleteUseCase;
 import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateCreateUseCase;
 import com.fiap.hackathon.domain.formtemplate.usecase.FormTemplateUpdateUseCase;
+import com.fiap.hackathon.domain.formtemplatequestion.FormTemplateQuestionServiceGateway;
+import com.fiap.hackathon.domain.formtemplatequestion.usecase.FormTemplateQuestionCreateUseCase;
 import com.fiap.hackathon.domain.question.QuestionServiceGateway;
-import com.fiap.hackathon.domain.user.authuser.AuthUserContextHolder;
-import com.fiap.hackathon.domain.user.entity.User;
 import com.fiap.hackathon.global.base.BaseServiceGateway;
 import com.fiap.hackathon.global.search.builder.PageableBuilder;
 import jakarta.transaction.Transactional;
@@ -32,19 +32,21 @@ public class FormTemplateServiceGateway extends BaseServiceGateway<IFormTemplate
     private final PageableBuilder pageableBuilder;
     private final ModelMapper modelMapperPresenter;
     private final QuestionServiceGateway questionServiceGateway;
+    private final FormTemplateQuestionServiceGateway formTemplateQuestionServiceGateway;
 
     @Autowired
-    public FormTemplateServiceGateway(IFormTemplateRepository formTemplateRepository, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter, QuestionServiceGateway questionServiceGateway) {
+    public FormTemplateServiceGateway(IFormTemplateRepository formTemplateRepository, PageableBuilder pageableBuilder, ModelMapper modelMapperPresenter, QuestionServiceGateway questionServiceGateway, FormTemplateQuestionServiceGateway formTemplateQuestionServiceGateway) {
         this.pageableBuilder = pageableBuilder;
         this.modelMapperPresenter = modelMapperPresenter;
         this.questionServiceGateway = questionServiceGateway;
+        this.formTemplateQuestionServiceGateway = formTemplateQuestionServiceGateway;
     }
 
     @Transactional
     public FormTemplateResponseDTO create(FormTemplatePostRequestDTO formTemplatePostRequestDTO) {
-        User healthProfessionalUser = AuthUserContextHolder.getAuthUser();
-        FormTemplate newFormTemplate = new FormTemplateCreateUseCase(healthProfessionalUser, formTemplatePostRequestDTO, questionServiceGateway.findAll()).getBuiltedFormTemplate();
-        return modelMapperPresenter.map(save(newFormTemplate), FormTemplateResponseDTO.class);
+        FormTemplate newFormTemplate = save(new FormTemplateCreateUseCase(formTemplatePostRequestDTO).getBuiltedFormTemplate());
+        formTemplateQuestionServiceGateway.saveAll(questionServiceGateway.findAll().stream().map(question -> new FormTemplateQuestionCreateUseCase(newFormTemplate, question).getBuiltedFormTemplateQuestion()).toList());
+        return modelMapperPresenter.map(newFormTemplate, FormTemplateResponseDTO.class);
     }
 
     @Transactional

@@ -16,8 +16,8 @@ create table public.t_form_template_question
 
 create sequence public.sq_form_template_question start with 1 increment by 1;
 
-alter table if exists public.t_form_template_question add constraint t_form_template_question__fk_form_template foreign key (fk_form_template) references t_form_template_question;
-alter table if exists public.t_form_template_question add constraint t_form_template_question__fk_question foreign key (fk_question) references t_form_template_question;
+alter table if exists public.t_form_template_question add constraint t_form_template_question__fk_form_template foreign key (fk_form_template) references t_form_template;
+alter table if exists public.t_form_template_question add constraint t_form_template_question__fk_question foreign key (fk_question) references t_question;
 
 CREATE UNIQUE INDEX T_FORM_TEMPLATE_QUESTION__HASH_ID_UK ON public.t_form_template_question (hash_id);
 CREATE UNIQUE INDEX T_FORM_TEMPLATE_QUESTION__FK_FORM_TEMPLATE_AND_FK_QUESTION_UK ON public.t_form_template_question (fk_form_template, fk_question, deleted) WHERE deleted IS NULL OR deleted = false;

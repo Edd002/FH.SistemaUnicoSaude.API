@@ -29,8 +29,9 @@ public class FormTemplateQuestion extends Audit implements Serializable {
 
     protected FormTemplateQuestion() {}
 
-    public FormTemplateQuestion(@NonNull Question question) {
+    public FormTemplateQuestion(@NonNull FormTemplate formTemplate, @NonNull Question question) {
         this.setFormTemplate(formTemplate);
+        this.setQuestion(question);
     }
 
     @Serial

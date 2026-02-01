@@ -30,7 +30,7 @@ public class FormTemplate extends Audit implements Serializable {
 
     protected FormTemplate() {}
 
-    public FormTemplate(@NonNull String name, @NonNull String description, @NonNull String professionalCns, @NonNull String cbo, @NonNull String cnes, @NonNull String ine, @NonNull Boolean isActive, @NonNull List<FormTemplateQuestion> formTemplateQuestions) {
+    public FormTemplate(@NonNull String name, @NonNull String description, @NonNull String professionalCns, @NonNull String cbo, @NonNull String cnes, @NonNull String ine, @NonNull Boolean isActive) {
         this.setName(name);
         this.setDescription(description);
         this.setProfessionalCns(professionalCns);
@@ -38,7 +38,6 @@ public class FormTemplate extends Audit implements Serializable {
         this.setCnes(cnes);
         this.setIne(ine);
         this.setIsActive(isActive);
-        this.setFormTemplateQuestions(formTemplateQuestions);
     }
 
     public FormTemplate rebuild(@NonNull String name, @NonNull String description, @NonNull String professionalCns, @NonNull String cbo, @NonNull String cnes, @NonNull String ine, @NonNull Boolean isActive) {
@@ -82,7 +81,7 @@ public class FormTemplate extends Audit implements Serializable {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = Boolean.TRUE;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate", cascade = { CascadeType.REMOVE })
     private List<FormTemplateQuestion> formTemplateQuestions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "formTemplate")
