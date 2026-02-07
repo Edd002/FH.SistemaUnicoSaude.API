@@ -5,8 +5,6 @@ Projeto Hackathon Sistema Único de Saúde API do Curso de Pós-Graduação Lato
 
 Este sistema foi desenvolvido utilizando **Java 21**, **Spring Boot 3.4.4** e **PostgreSQL 17.4**.
 
-## Configuração e Execução
-
 ### Pré-requisitos
 
 *   Docker e Docker Compose instalados.
@@ -36,6 +34,8 @@ Essa estrutura modular possibilita:
 - Desenvolvimento mais organizado
 - Manutenção facilitada
 - Maior flexibilidade para futuras expansões
+
+## Configuração e Execução
 
 ### Variáveis de Ambiente
 
@@ -85,6 +85,16 @@ docker exec -it fh_sistema_unico_saude_database psql -U postgres # entrar no con
 \dt # listar as tabelas
 SELECT * FROM t_question; # ver o conteúdo delas
 ```
+
+### Como acessar o banco de dados em memória H2 de testes automatizados via console?
+Em contexto de desenvolvimento, enquanto os testes automatizados estiverem em execução ou em pausa (thread breakpoint) é possível acessar a estrutura do banco de dados enquanto está em memória em http://localhost:8085/restaurant-manager/h2-console com as credenciais:
+
+Driver Class: org.h2.Driver<br>
+JDBC URL: jdbc:h2:tcp://localhost:9093/mem:db<br>
+User Name: sa<br>
+Password:<br>
+
+O breakpoint pode ser configurado para suspender apenas uma única thread para que o acesso ao H2-console seja possível (https://hrrbrt.medium.com/using-h2-during-test-debugging-in-spring-f6a3db355e3a).
 
 ## Troubleshooting
 
