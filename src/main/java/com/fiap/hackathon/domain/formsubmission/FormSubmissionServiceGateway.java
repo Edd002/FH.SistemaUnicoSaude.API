@@ -1,6 +1,7 @@
 package com.fiap.hackathon.domain.formsubmission;
 
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionGetFilter;
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPatchRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.domain.formsubmission.entity.FormSubmission;
@@ -49,9 +50,9 @@ public class FormSubmissionServiceGateway extends BaseServiceGateway<IFormSubmis
     }
 
     @Transactional
-    public FormSubmissionResponseDTO submitForm(String hashId) {
+    public FormSubmissionResponseDTO submitForm(String hashId, FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO) {
         FormSubmission existingFormSubmission = findByHashId(hashId);
-        FormSubmission updatedFormSubmission = save(new FormSubmissionSubmitUseCase(existingFormSubmission).getRebuiltedFormSubmission());
+        FormSubmission updatedFormSubmission = save(new FormSubmissionSubmitUseCase(existingFormSubmission, formSubmissionPatchRequestDTO).getRebuiltedFormSubmission());
         return modelMapperPresenter.map(updatedFormSubmission, FormSubmissionResponseDTO.class);
     }
 

@@ -1,6 +1,7 @@
 package com.fiap.hackathon.domain.formsubmission;
 
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionGetFilter;
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPatchRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.*;
@@ -63,9 +64,9 @@ public class FormSubmissionController {
     @ApiResponse(responseCode = "200", description = "OK")
     @PreAuthorize(value = "hasAnyAuthority('HEALTH_PROFESSIONAL')")
     @PatchMapping(value = "/submit/{hashId}")
-    public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> submitForm(@PathVariable("hashId") String hashId) {
+    public ResponseEntity<BaseSuccessResponse200<FormSubmissionResponseDTO>> submitForm(@PathVariable("hashId") String hashId, @RequestBody @Valid FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO) {
         log.info("Submetendo um formulário...");
-        return new BaseSuccessResponse200<>(formSubmissionServiceGateway.submitForm(hashId)).buildResponse();
+        return new BaseSuccessResponse200<>(formSubmissionServiceGateway.submitForm(hashId, formSubmissionPatchRequestDTO)).buildResponse();
     }
 
     @Operation(method = "GET", summary = "Buscar submissão de formulário por filtro.", description = "Buscar submissão de formulário por filtro.")
