@@ -53,6 +53,8 @@ A API estará disponível em `http://localhost:8085`.
 O banco de dados PostgreSQL estará acessível na porta `5453`.
 O PGAdmin estará disponível na porta `80`.
 
+**Observação:** Na primeira execução da aplicação, devido à pré carga de registros na base de dados, levará alguns minutos para finalizar.
+
 ## Documentação da API
 
 A documentação completa dos endpoints da API pode ser acessada através do Swagger UI uma vez a aplicação em execução:
