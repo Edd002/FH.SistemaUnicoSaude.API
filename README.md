@@ -12,6 +12,10 @@ Este sistema foi desenvolvido utilizando **Java 21**, **Spring Boot 3.4.4** e **
 *   Docker e Docker Compose instalados.
 *   Java 21 (para desenvolvimento local sem Docker).
 
+### Variáveis de Ambiente
+
+As configurações de ambiente são gerenciadas através de um arquivo `.env` (com conteúdo igual ao .env.example incluído no repositório).
+
 ### Executando com Docker Compose
 
 Para iniciar a aplicação e o banco de dados, execute o seguinte comando na raiz do projeto:
@@ -24,20 +28,13 @@ A API estará disponível em `http://localhost:8085`.
 O banco de dados PostgreSQL estará acessível na porta `5453`.
 O PGAdmin estará disponível na porta `80`.
 
-### Variáveis de Ambiente
+## Documentação da API
 
-As configurações de ambiente são gerenciadas através de um arquivo `.env` (com conteúdo igual ao .env.example incluído no repositório).
+A documentação completa dos endpoints da API pode ser acessada através do Swagger UI:
 
-## Acesso ao Banco de Dados
+[http://localhost:8085/fh-sistema-unico-saude/swagger-ui/index.html](http://localhost:8084/fh-sistema-unico-saude/swagger-ui/index.html)
 
-### Acessando o banco pelo terminal
-```shell
-docker exec -it fh_sistema_unico_saude_database psql -U postgres # entrar no container do banco
-\l # listar todos os bancos
-\c fh_sistema_unico_saude_database # se conectar no banco
-\dt # listar as tabelas
-SELECT * FROM t_question; # ver o conteúdo delas
-```
+*(Nota: A porta pode variar dependendo da configuração local. No docker-compose padrão a porta mapeada é 8085.)*
 
 ## Usuários de Teste
 
@@ -49,13 +46,16 @@ O sistema é inicializado com os seguintes usuários para teste (definidos em `s
 | Patient 1 | `patient1` | `patient1` | PATIENT |
 | Health Professional 1 | `healthprofessional1` | `healthprofessional1` | HEALTH_PROFESSIONAL |
 
-## Documentação da API
+## Acesso ao Banco de Dados
 
-A documentação completa dos endpoints da API pode ser acessada através do Swagger UI:
-
-[http://localhost:8085/fh-sistema-unico-saude/swagger-ui/index.html](http://localhost:8084/fh-sistema-unico-saude/swagger-ui/index.html)
-
-*(Nota: A porta pode variar dependendo da configuração local. No docker-compose padrão a porta mapeada é 8085.)*
+### Acessando o banco pelo terminal
+```shell
+docker exec -it fh_sistema_unico_saude_database psql -U postgres # entrar no container do banco
+\l # listar todos os bancos
+\c fh_sistema_unico_saude_database # se conectar no banco
+\dt # listar as tabelas
+SELECT * FROM t_question; # ver o conteúdo delas
+```
 
 ## Troubleshooting
 
