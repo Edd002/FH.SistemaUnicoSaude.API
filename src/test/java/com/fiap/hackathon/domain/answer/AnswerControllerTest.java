@@ -1,7 +1,6 @@
 package com.fiap.hackathon.domain.answer;
 
 import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
-import com.fiap.hackathon.domain.question.dto.QuestionResponseDTO;
 import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
@@ -147,7 +146,7 @@ public class AnswerControllerTest {
         final String EXISTING_ANSWER_HASH_ID = "2990b614636342c088ae15b2d709ca70";
         HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/" + EXISTING_ANSWER_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
-        BaseSuccessResponse200<QuestionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        BaseSuccessResponse200<AnswerResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());

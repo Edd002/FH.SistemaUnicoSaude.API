@@ -1,16 +1,27 @@
 package com.fiap.hackathon.domain.formsubmission;
 
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
 import com.fiap.hackathon.global.component.HttpHeaderComponent;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.fiap.hackathon.global.util.DateTimeUtil;
+import com.fiap.hackathon.global.util.ValidationUtil;
+import com.fiap.hackathon.global.util.enumerated.DatePatternEnum;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.net.URI;
 import java.util.List;
 
 @ExtendWith(value = {SpringExtension.class})
@@ -53,5 +64,108 @@ public class FormSubmissionControllerTest {
     @AfterEach
     public void clearDatabase() {
         databaseManagementComponent.clearDatabase();
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de se foi submetido")
+    @Test
+    public void findByFilterIsSubmittedSuccess() {
+        final Boolean isSubmitted = Boolean.TRUE;
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .queryParam("isSubmitted", isSubmitted)
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BasePageableSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertEquals(4, responseObject.getList().size());
+        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> formSubmissionResponseDTO.getIsSubmitted().equals(isSubmitted)));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de data de submissão")
+    @Test
+    public void findByFilterSubmittedAtSuccess() {
+        final String submittedAt = "07/02/2026";
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .queryParam("submittedAt", submittedAt)
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BasePageableSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertEquals(3, responseObject.getList().size());
+        Assertions.assertEquals(3, responseObject.getTotalElements());
+        Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> DateTimeUtil.format(DatePatternEnum.DATE_FORMAT_dd_mm_yyyy_WITH_SLASH.getValue(), formSubmissionResponseDTO.getSubmittedAt()).equals(submittedAt)));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de observação geral")
+    @Test
+    public void findByFilterGeneralObservationSuccess() {
+        final String generalObservation = "Formulário poder ser submetido incompleto. Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.";
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .queryParam("generalObservation", generalObservation)
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BasePageableSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertEquals(3, responseObject.getList().size());
+        Assertions.assertEquals(3, responseObject.getTotalElements());
+        Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> formSubmissionResponseDTO.getGeneralObservation().equals(generalObservation)));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de hash id de template de formulário")
+    @Test
+    public void findByFilterHashIdFormTemplateSuccess() {
+        final String hashIdFormTemplate = "8a2d4778c1214ce48c8601ffffa62ba4";
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .queryParam("hashIdFormTemplate", hashIdFormTemplate)
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BasePageableSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertEquals(1, responseObject.getList().size());
+        Assertions.assertEquals(1, responseObject.getTotalElements());
+        Assertions.assertEquals(hashIdFormTemplate, responseObject.getList().stream().toList().get(NumberUtils.INTEGER_ZERO).getFormTemplate().getHashId());
+    }
+
+    @DisplayName(value = "Teste de sucesso - Busca de informações de submissão de formulário por hash id")
+    @Test
+    public void findSuccess() {
+        final String EXISTING_FORM_SUBMISSION_HASH_ID = "107fd39245d94438befc9950b56b655a";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_FORM_SUBMISSION_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertEquals(EXISTING_FORM_SUBMISSION_HASH_ID, responseObject.getItem().getHashId());
+    }
+
+    @DisplayName(value = "Teste de falha - Busca de informações de submissão de formulário sem estar autenticado")
+    @Test
+    public void findWithoutBeingAuthenticatedFailure() {
+        final String EXISTING_FORM_SUBMISSION_HASH_ID = "107fd39245d94438befc9950b56b655a";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_FORM_SUBMISSION_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 }
