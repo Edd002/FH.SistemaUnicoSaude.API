@@ -38,7 +38,7 @@ spring:
       ALLOW_COERCION_OF_SCALARS: false
     time-zone: America/Sao_Paulo
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: com.fiap.hackathon.config.CustomH2Dialect
     generate-ddl: false
     hibernate:
       ddl-auto: none
