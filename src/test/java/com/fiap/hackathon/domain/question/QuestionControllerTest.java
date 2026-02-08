@@ -120,7 +120,7 @@ public class QuestionControllerTest {
         Assertions.assertTrue(responseObject.isSuccess());
         Assertions.assertEquals(8, responseObject.getList().size());
         Assertions.assertEquals(8, responseObject.getTotalElements());
-        Assertions.assertEquals(topic, QuestionTopicEnum.valueOf(responseObject.getList().stream().toList().get(NumberUtils.INTEGER_ZERO).getTopic()));
+        Assertions.assertTrue(responseObject.getList().stream().allMatch(questionResponseDTO -> QuestionTopicEnum.valueOf(questionResponseDTO.getTopic()).equals(topic)));
     }
 
     @DisplayName(value = "Teste de sucesso - Questão existe ao verificar por filtro de tipo")
@@ -139,7 +139,7 @@ public class QuestionControllerTest {
         Assertions.assertTrue(responseObject.isSuccess());
         Assertions.assertEquals(7, responseObject.getList().size());
         Assertions.assertEquals(7, responseObject.getTotalElements());
-        Assertions.assertEquals(type, QuestionTypeEnum.valueOf(responseObject.getList().stream().toList().get(NumberUtils.INTEGER_ZERO).getType()));
+        Assertions.assertTrue(responseObject.getList().stream().allMatch(questionResponseDTO -> QuestionTypeEnum.valueOf(questionResponseDTO.getType()).equals(type)));
     }
 
     @DisplayName(value = "Teste de sucesso - Busca de informações de questão por hash id")
