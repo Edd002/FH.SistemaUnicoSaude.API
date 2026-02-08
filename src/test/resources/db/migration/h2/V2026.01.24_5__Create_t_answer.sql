@@ -1,0 +1,33 @@
+create table public.t_answer
+(
+    id                      int8         not null,
+    created_in              timestamp(6) not null,
+    created_by              varchar(255),
+    deleted                 boolean      not null,
+    deleted_in              timestamp(6),
+    deleted_by              varchar(255),
+    hash_id                 varchar(255) not null,
+    updated_in              timestamp(6),
+    updated_by              varchar(255),
+    visitation_option       varchar(255) not null,
+    delivered_answer        varchar(255) not null,
+    fk_question             int8         not null,
+    fk_patient              int8         not null,
+    fk_form_submission      int8         not null,
+    primary key (id)
+);
+
+create sequence public.sq_answer start with 1 increment by 1;
+
+alter table if exists public.t_answer add constraint t_answer__fk_question foreign key (fk_question) references t_question;
+alter table if exists public.t_answer add constraint t_answer__fk_patient foreign key (fk_patient) references t_user;
+alter table if exists public.t_answer add constraint t_answer__fk_form_submission foreign key (fk_form_submission) references t_form_submission;
+
+ALTER TABLE public.t_answer ADD VISITATION_OPTION_UK_FIELD VARCHAR(255) AS (CASE deleted WHEN TRUE THEN NULL ELSE visitation_option END);
+ALTER TABLE public.t_answer ADD FK_QUESTION_UK_FIELD INT8 AS (CASE deleted WHEN TRUE THEN NULL ELSE fk_question END);
+ALTER TABLE public.t_answer ADD FK_FORM_SUBMISSION_UK_FIELD INT8 AS (CASE deleted WHEN TRUE THEN NULL ELSE fk_form_submission END);
+
+CREATE UNIQUE INDEX T_ANSWER__HASH_ID_UK ON public.t_answer (hash_id);
+CREATE UNIQUE INDEX T_ANSWER__FK_QUES_AND_FK_PAT_AND_VIS_OPTION_AND_FK_FORM_SUB_UK ON public.t_answer (FK_QUESTION_UK_FIELD, VISITATION_OPTION_UK_FIELD, FK_FORM_SUBMISSION_UK_FIELD);
+
+ALTER TABLE public.t_answer ADD CONSTRAINT T_ANSWER__VISITATION_OPTION_CHECK CHECK (visitation_option IN ('V_1', 'V_2', 'V_3', 'V_4', 'V_5', 'V_6', 'V_7', 'V_8', 'V_9', 'V_10', 'V_11', 'V_12', 'V_13', 'V_14', 'V_15', 'V_16', 'V_17', 'V_18', 'V_19', 'V_20', 'V_21', 'V_22', 'V_23'));

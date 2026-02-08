@@ -1,0 +1,12 @@
+INSERT INTO public.t_form_submission
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, is_submitted, submitted_at, general_observation, fk_form_template, fk_health_professional)
+VALUES(nextval('SQ_FORM_SUBMISSION'), '2026-02-01 17:33:05.524', 'healthprofessional1', false, NULL, NULL, '107fd39245d94438befc9950b56b655a', '2026-02-01 17:58:28.172', 'healthprofessional1', true, '2026-02-01 17:58:28.166', 'Formulário submetido incompleto.', 1, 3);
+INSERT INTO public.t_form_submission
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, is_submitted, submitted_at, general_observation, fk_form_template, fk_health_professional)
+VALUES(nextval('SQ_FORM_SUBMISSION'), '2026-02-07 23:04:20.719', 'healthprofessional1', false, NULL, NULL, '215c29b4d29d409cb728f4b80ca5be72', '2026-02-07 23:10:10.614', 'healthprofessional1', true, '2026-02-07 23:10:10.612', 'Formulário poder ser submetido incompleto. Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.', 2, 3);
+INSERT INTO public.t_form_submission
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, is_submitted, submitted_at, general_observation, fk_form_template, fk_health_professional)
+VALUES(nextval('SQ_FORM_SUBMISSION'), '2026-02-07 21:00:02.709', 'healthprofessional1', false, NULL, NULL, 'dae98d6522264348816e49c5c2f9b7cb', '2026-02-07 21:02:32.331', 'healthprofessional1', true, '2026-02-07 21:02:32.329', 'Formulário poder ser submetido incompleto. Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.', 3, 3);
+INSERT INTO public.t_form_submission
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, is_submitted, submitted_at, general_observation, fk_form_template, fk_health_professional)
+VALUES(nextval('SQ_FORM_SUBMISSION'), '2026-02-07 21:16:47.692', 'healthprofessional1', false, NULL, NULL, '7414982860184ef2a66e8703a17add60', '2026-02-07 21:19:36.738', 'healthprofessional1', true, '2026-02-07 21:19:36.736', 'Formulário poder ser submetido incompleto. Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.', 4, 3);

@@ -1,0 +1,12 @@
+INSERT INTO public.t_form_template
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, name, description, professional_cns, cbo, cnes, ine, is_active)
+VALUES(nextval('SQ_FORM_TEMPLATE'), '2026-02-01 15:29:07.001', NULL, false, NULL, NULL, '8a2d4778c1214ce48c8601ffffa62ba4', '2026-02-01 15:29:07.001', NULL, 'FICHA DE VISITA DOMICILIAR E TERRITORIAL', 'Formulário de ficha de visita domiciliar e territorial', '000.0000.0000.0000', '5151-05 – Agente Comunitário de Saúde (ACS)', '2005456', '000000000', true);
+INSERT INTO public.t_form_template
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, name, description, professional_cns, cbo, cnes, ine, is_active)
+VALUES(nextval('SQ_FORM_TEMPLATE'), '2026-02-07 23:03:54.360', 'healthprofessional1', false, NULL, NULL, '91e6b0f2dc094f169600f59e56be755a', '2026-02-07 23:03:54.360', 'healthprofessional1', 'FICHA DE VISITA DOMICILIAR E TERRITORIAL 2', 'Formulário de ficha de visita domiciliar e territorial', '000.0000.0000.0000', '5151-05 – Agente Comunitário de Saúde (ACS)', '2005456', '000000000', true);
+INSERT INTO public.t_form_template
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, name, description, professional_cns, cbo, cnes, ine, is_active)
+VALUES(nextval('SQ_FORM_TEMPLATE'), '2026-02-07 20:59:37.431', 'healthprofessional1', false, NULL, NULL, '6f69a7f25b5143159f4be3656fdbc8ad', '2026-02-07 20:59:37.431', 'healthprofessional1', 'FICHA DE VISITA DOMICILIAR E TERRITORIAL 3', 'Formulário de ficha de visita domiciliar e territorial', '000.0000.0000.0000', '5151-05 – Agente Comunitário de Saúde (ACS)', '2005456', '000000000', true);
+INSERT INTO public.t_form_template
+(id, created_in, created_by, deleted, deleted_in, deleted_by, hash_id, updated_in, updated_by, name, description, professional_cns, cbo, cnes, ine, is_active)
+VALUES(nextval('SQ_FORM_TEMPLATE'), '2026-02-07 21:16:34.207', 'healthprofessional1', false, NULL, NULL, '52a66ba0338c4164a2aee2e2f78383b8', '2026-02-07 21:16:34.207', 'healthprofessional1', 'FICHA DE VISITA DOMICILIAR E TERRITORIAL 4', 'Formulário de ficha de visita domiciliar e territorial', '000.0000.0000.0000', '5151-05 – Agente Comunitário de Saúde (ACS)', '2005456', '000000000', true);
