@@ -2,7 +2,9 @@ package com.fiap.hackathon.domain.formsubmission;
 
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
@@ -99,8 +101,8 @@ public class FormSubmissionControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(3, responseObject.getList().size());
-        Assertions.assertEquals(3, responseObject.getTotalElements());
+        Assertions.assertEquals(4, responseObject.getList().size());
+        Assertions.assertEquals(4, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> DateTimeUtil.format(DatePatternEnum.DATE_FORMAT_dd_mm_yyyy_WITH_SLASH.getValue(), formSubmissionResponseDTO.getSubmittedAt()).equals(submittedAt)));
     }
 
@@ -118,8 +120,8 @@ public class FormSubmissionControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(3, responseObject.getList().size());
-        Assertions.assertEquals(3, responseObject.getTotalElements());
+        Assertions.assertEquals(4, responseObject.getList().size());
+        Assertions.assertEquals(4, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> formSubmissionResponseDTO.getGeneralObservation().equals(generalObservation)));
     }
 
@@ -165,6 +167,30 @@ public class FormSubmissionControllerTest {
         BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Deletar submissão de formulário")
+    @Test
+    public void deleteFormSubmissionSuccess() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        NoPayloadBaseSuccessResponse200<?> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertNull(responseObject);
+    }
+
+    @DisplayName(value = "Teste de falha - Deletar submissão de formulário já concluída")
+    @Test
+    public void deleteFormSubmissionAlreadyConcludedFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "107fd39245d94438befc9950b56b655a";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse409 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
         Assertions.assertFalse(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
