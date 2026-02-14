@@ -286,4 +286,30 @@ public class FormSubmissionControllerTest {
         Assertions.assertFalse(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
+
+    @DisplayName(value = "Teste de sucesso - Deletar submissão de formulário sem estar autenticado")
+    @Test
+    public void deleteWithoutBeingAuthenticatedFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Deletar submissão de formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void deleteAuthenticatedWithWrongUserTypeFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
 }
