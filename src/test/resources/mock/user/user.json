@@ -53,7 +53,7 @@
       }
     }
   },
-  "userPostRequestDTHealthProfessional": {
+  "userPostRequestDTOHealthProfessional": {
     "name": "New Health Professional",
     "email": "newhealthprofessional@email.com",
     "login": "newhealthprofessional",

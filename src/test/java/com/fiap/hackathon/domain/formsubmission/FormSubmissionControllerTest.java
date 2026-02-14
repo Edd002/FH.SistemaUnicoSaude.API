@@ -1,15 +1,18 @@
 package com.fiap.hackathon.domain.formsubmission;
 
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
 import com.fiap.hackathon.global.component.HttpHeaderComponent;
 import com.fiap.hackathon.global.util.DateTimeUtil;
+import com.fiap.hackathon.global.util.JsonUtil;
 import com.fiap.hackathon.global.util.ValidationUtil;
 import com.fiap.hackathon.global.util.enumerated.DatePatternEnum;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +69,20 @@ public class FormSubmissionControllerTest {
     @AfterEach
     public void clearDatabase() {
         databaseManagementComponent.clearDatabase();
+    }
+
+    @DisplayName(value = "Teste de sucesso - Criar uma submissão de formulário")
+    @Test
+    public void createFormSubmissionSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormSubmissionPostRequestDTO formSubmissionPostRequestDTO = JsonUtil.objectFromJson("formSubmissionPostRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions", HttpMethod.POST, new HttpEntity<>(formSubmissionPostRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse201<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CREATED.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getFormTemplate().getHashId()));
     }
 
     @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de se foi submetido")

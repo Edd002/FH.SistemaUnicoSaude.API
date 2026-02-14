@@ -1,15 +1,20 @@
 package com.fiap.hackathon.domain.formtemplate;
 
+import com.fiap.hackathon.domain.formtemplate.dto.FormTemplatePostRequestDTO;
 import com.fiap.hackathon.domain.formtemplate.dto.FormTemplateResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse422;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
 import com.fiap.hackathon.global.component.HttpHeaderComponent;
+import com.fiap.hackathon.global.util.JsonUtil;
 import com.fiap.hackathon.global.util.ValidationUtil;
+import com.fiap.hackathon.global.util.enumerated.DatePatternEnum;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,6 +68,32 @@ public class FormTemplateControllerTest {
     @AfterEach
     public void clearDatabase() {
         databaseManagementComponent.clearDatabase();
+    }
+
+    @DisplayName(value = "Teste de sucesso - Criar um template de formulário")
+    @Test
+    public void createFormTemplateSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormTemplatePostRequestDTO formTemplatePostRequestDTO = JsonUtil.objectFromJson("formTemplatePostRequestDTO", PATH_RESOURCE_FORM_TEMPLATE, FormTemplatePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-templates", HttpMethod.POST, new HttpEntity<>(formTemplatePostRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse201<FormTemplateResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CREATED.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+    }
+
+    @DisplayName(value = "Teste de falha - Criar um template de formulário com nome já existente")
+    @Test
+    public void createFormTemplateNameAlreadyExistsFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormTemplatePostRequestDTO formTemplatePostRequestDTO = JsonUtil.objectFromJson("formTemplatePostRequestDTOWithExistingNome", PATH_RESOURCE_FORM_TEMPLATE, FormTemplatePostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-templates", HttpMethod.POST, new HttpEntity<>(formTemplatePostRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse422 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 
     @DisplayName(value = "Teste de sucesso - Template de formulário existe ao verificar por filtro de nome")

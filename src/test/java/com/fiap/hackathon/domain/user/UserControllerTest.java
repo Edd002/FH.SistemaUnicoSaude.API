@@ -69,7 +69,7 @@ public class UserControllerTest {
     @Test
     public void createUserHealthProfessionalSuccess() {
         HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
-        UserPostRequestDTO userPostRequestDTO = JsonUtil.objectFromJson("userPostRequestDTHealthProfessional", PATH_RESOURCE_USER, UserPostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        UserPostRequestDTO userPostRequestDTO = JsonUtil.objectFromJson("userPostRequestDTOHealthProfessional", PATH_RESOURCE_USER, UserPostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/users", HttpMethod.POST, new HttpEntity<>(userPostRequestDTO, headers), new ParameterizedTypeReference<>() {});
         BaseSuccessResponse201<UserResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.CREATED.value(), responseEntity.getStatusCode().value());
