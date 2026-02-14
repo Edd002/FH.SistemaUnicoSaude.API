@@ -1,14 +1,19 @@
 package com.fiap.hackathon.domain.answer;
 
+import com.fiap.hackathon.domain.answer.dto.AnswerRegisterPatchRequestDTO;
+import com.fiap.hackathon.domain.answer.dto.AnswerReplyPatchRequestDTO;
 import com.fiap.hackathon.domain.answer.dto.AnswerResponseDTO;
 import com.fiap.hackathon.domain.question.enumerated.VisitationAlternativeEnum;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse422;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
 import com.fiap.hackathon.global.component.HttpHeaderComponent;
+import com.fiap.hackathon.global.util.JsonUtil;
 import com.fiap.hackathon.global.util.ValidationUtil;
+import com.fiap.hackathon.global.util.enumerated.DatePatternEnum;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,6 +67,63 @@ public class AnswerControllerTest {
     @AfterEach
     public void clearDatabase() {
         databaseManagementComponent.clearDatabase();
+    }
+
+    @DisplayName(value = "Teste de sucesso - Registrar uma resposta")
+    @Test
+    public void updateRegisterAnswerSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO = JsonUtil.objectFromJson("answerRegisterPatchRequestDTO", PATH_RESOURCE_ANSWER, AnswerRegisterPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/register", HttpMethod.PATCH, new HttpEntity<>(answerRegisterPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse200<AnswerResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertEquals(responseObject.getItem().getFormSubmission().getHashId(), answerRegisterPatchRequestDTO.getHashIdFormSubmission());
+        Assertions.assertEquals(responseObject.getItem().getPatient().getHashId(), answerRegisterPatchRequestDTO.getHashIdPatient());
+        Assertions.assertEquals(responseObject.getItem().getQuestion().getHashId(), answerRegisterPatchRequestDTO.getHashIdQuestion());
+    }
+
+    @DisplayName(value = "Teste de falha - Registrar uma resposta já cadastrada")
+    @Test
+    public void updateRegisterAnswerAlreadyDeliveredFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO = JsonUtil.objectFromJson("answerRegisterPatchRequestDTOAlreadyRegistered", PATH_RESOURCE_ANSWER, AnswerRegisterPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/register", HttpMethod.PATCH, new HttpEntity<>(answerRegisterPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse422 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de falha - Registrar uma resposta de formulário já submetido")
+    @Test
+    public void updateRegisterAnswerFormAlreadyDeliveredFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO = JsonUtil.objectFromJson("answerRegisterPatchRequestDTOFormAlreadySubmitted", PATH_RESOURCE_ANSWER, AnswerRegisterPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/register", HttpMethod.PATCH, new HttpEntity<>(answerRegisterPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse422 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Responder uma questão")
+    @Test
+    public void updateReplyAnswerSuccess() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO = JsonUtil.objectFromJson("answerReplyPatchRequestDTO", PATH_RESOURCE_ANSWER, AnswerReplyPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/reply", HttpMethod.PATCH, new HttpEntity<>(answerReplyPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse200<AnswerResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertEquals(responseObject.getItem().getFormSubmission().getHashId(), answerReplyPatchRequestDTO.getHashIdFormSubmission());
+        Assertions.assertEquals(responseObject.getItem().getQuestion().getHashId(), answerReplyPatchRequestDTO.getHashIdQuestion());
     }
 
     @DisplayName(value = "Teste de sucesso - Resposta existe ao verificar por filtro de alternativa de visita")
