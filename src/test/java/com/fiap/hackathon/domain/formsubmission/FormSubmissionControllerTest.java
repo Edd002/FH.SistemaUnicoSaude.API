@@ -88,6 +88,32 @@ public class FormSubmissionControllerTest {
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getFormTemplate().getHashId()));
     }
 
+    @DisplayName(value = "Teste de sucesso - Criar submissão de formulário sem estar autenticado")
+    @Test
+    public void createFormSubmissionWithoutBeingAuthenticatedFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        FormSubmissionPostRequestDTO formSubmissionPostRequestDTO = JsonUtil.objectFromJson("formSubmissionPostRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions", HttpMethod.POST, new HttpEntity<>(formSubmissionPostRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Criar submissão de formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void createFormSubmissionAuthenticatedWithWrongUserTypeFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        FormSubmissionPostRequestDTO formSubmissionPostRequestDTO = JsonUtil.objectFromJson("formSubmissionPostRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPostRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions", HttpMethod.POST, new HttpEntity<>(formSubmissionPostRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
     @DisplayName(value = "Teste de sucesso - Submeter um formulário")
     @Test
     public void updateSubmitFormSubmissionSuccess() {
@@ -101,6 +127,34 @@ public class FormSubmissionControllerTest {
         Assertions.assertTrue(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
         Assertions.assertEquals(responseObject.getItem().getGeneralObservation(), formSubmissionPatchRequestDTO.getGeneralObservation());
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submeter um formulário sem estar autenticado")
+    @Test
+    public void updateSubmitFormSubmissionWithoutBeingAuthenticatedFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO = JsonUtil.objectFromJson("formSubmissionPatchRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/submit/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.PATCH, new HttpEntity<>(formSubmissionPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Submeter um formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void updateSubmitFormSubmissionAuthenticatedWithWrongUserTypeFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO = JsonUtil.objectFromJson("formSubmissionPatchRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/submit/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.PATCH, new HttpEntity<>(formSubmissionPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 
     @DisplayName(value = "Teste de falha - Submeter um formulário já submetido")
