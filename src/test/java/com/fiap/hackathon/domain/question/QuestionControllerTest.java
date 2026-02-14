@@ -142,6 +142,21 @@ public class QuestionControllerTest {
         Assertions.assertTrue(responseObject.getList().stream().allMatch(questionResponseDTO -> QuestionTypeEnum.valueOf(questionResponseDTO.getType()).equals(type)));
     }
 
+    @DisplayName(value = "Teste de falha - Buscar questão sem estar autenticado")
+    @Test
+    public void findByFilterWithoutBeingAuthenticatedFailure() {
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/questions/filter")
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
     @DisplayName(value = "Teste de sucesso - Busca de informações de questão por hash id")
     @Test
     public void findSuccess() {
@@ -156,7 +171,7 @@ public class QuestionControllerTest {
         Assertions.assertEquals(EXISTING_QUESTION_HASH_ID, responseObject.getItem().getHashId());
     }
 
-    @DisplayName(value = "Teste de falha - Busca de informações de questão sem estar autenticado")
+    @DisplayName(value = "Teste de falha - Busca informações de questão sem estar autenticado")
     @Test
     public void findWithoutBeingAuthenticatedFailure() {
         final String EXISTING_QUESTION_HASH_ID = "3aecb2404f444b15a498cccaf2b2c820";
