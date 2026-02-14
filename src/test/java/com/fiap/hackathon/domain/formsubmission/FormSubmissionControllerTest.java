@@ -4,6 +4,7 @@ import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPatchRequestDT
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse403;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse422;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
@@ -192,6 +193,36 @@ public class FormSubmissionControllerTest {
         Assertions.assertEquals(hashIdFormTemplate, responseObject.getList().stream().toList().get(NumberUtils.INTEGER_ZERO).getFormTemplate().getHashId());
     }
 
+    @DisplayName(value = "Teste de falha - Buscar submissão de formulário sem estar autenticado")
+    @Test
+    public void findByFilterWithoutBeingAuthenticatedFailure() {
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de falha - Buscar submissão de formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void findByFilterAuthenticatedWithWrongUserTypeFailure() {
+        URI uriTemplate = httpHeaderComponent.buildUriWithDefaultQueryParamsGetFilter("/api/v1/form-submissions/filter")
+                .build().encode()
+                .toUri();
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange(uriTemplate, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
     @DisplayName(value = "Teste de sucesso - Busca de informações de submissão de formulário por hash id")
     @Test
     public void findSuccess() {
@@ -215,6 +246,19 @@ public class FormSubmissionControllerTest {
         BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de falha - Busca de informações de submissão de formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void findAuthenticatedWithWrongUserTypeFailure() {
+        final String EXISTING_FORM_SUBMISSION_HASH_ID = "107fd39245d94438befc9950b56b655a";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_FORM_SUBMISSION_HASH_ID, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
         Assertions.assertFalse(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
