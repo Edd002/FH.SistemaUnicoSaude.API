@@ -2,7 +2,9 @@ package com.fiap.hackathon.domain.formtemplate;
 
 import com.fiap.hackathon.domain.formtemplate.dto.FormTemplateResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
+import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.pageable.BasePageableSuccessResponse200;
 import com.fiap.hackathon.global.component.DatabaseManagementComponent;
 import com.fiap.hackathon.global.component.HttpBodyComponent;
@@ -77,8 +79,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getName().contains(name)));
     }
 
@@ -96,8 +98,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getDescription().contains(description)));
     }
 
@@ -115,8 +117,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getProfessionalCns().contains(professionalCns)));
     }
 
@@ -134,8 +136,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getCbo().equals(cbo)));
     }
 
@@ -153,8 +155,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getCnes().equals(cnes)));
     }
 
@@ -172,8 +174,8 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(5, responseObject.getList().size());
+        Assertions.assertEquals(5, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formTemplateResponseDTO -> formTemplateResponseDTO.getIne().equals(ine)));
     }
 
@@ -200,6 +202,30 @@ public class FormTemplateControllerTest {
         BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Deletar template de formulário")
+    @Test
+    public void deleteFormTemplateSuccess() {
+        final String EXISTING_HASH_ID_FORM_TEMPLATE = "c36eadf69dd547ae917aa926c9862893";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-templates/" + EXISTING_HASH_ID_FORM_TEMPLATE, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        NoPayloadBaseSuccessResponse200<?> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertNull(responseObject);
+    }
+
+    @DisplayName(value = "Teste de falha - Deletar template de formulário com submissões")
+    @Test
+    public void deleteFormTemplateWithSubmissionsFailure() {
+        final String EXISTING_HASH_ID_FORM_TEMPLATE = "8a2d4778c1214ce48c8601ffffa62ba4";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-templates/" + EXISTING_HASH_ID_FORM_TEMPLATE, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse409 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
         Assertions.assertFalse(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
