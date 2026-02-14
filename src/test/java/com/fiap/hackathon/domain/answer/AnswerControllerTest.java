@@ -112,6 +112,32 @@ public class AnswerControllerTest {
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 
+    @DisplayName(value = "Teste de sucesso - Registrar uma resposta de formulário sem estar autenticado")
+    @Test
+    public void updateRegisterAnswerWithoutBeingAuthenticatedFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO = JsonUtil.objectFromJson("answerRegisterPatchRequestDTOFormAlreadySubmitted", PATH_RESOURCE_ANSWER, AnswerRegisterPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/register", HttpMethod.PATCH, new HttpEntity<>(answerRegisterPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Registrar uma resposta de formulário autenticado como tipo de usuário não permitido")
+    @Test
+    public void updateRegisterAnswerAuthenticatedWithWrongUserTypeFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithPatientBearerToken();
+        AnswerRegisterPatchRequestDTO answerRegisterPatchRequestDTO = JsonUtil.objectFromJson("answerRegisterPatchRequestDTOFormAlreadySubmitted", PATH_RESOURCE_ANSWER, AnswerRegisterPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/register", HttpMethod.PATCH, new HttpEntity<>(answerRegisterPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
     @DisplayName(value = "Teste de sucesso - Responder uma questão")
     @Test
     public void updateReplyAnswerSuccess() {
@@ -125,6 +151,32 @@ public class AnswerControllerTest {
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
         Assertions.assertEquals(responseObject.getItem().getFormSubmission().getHashId(), answerReplyPatchRequestDTO.getHashIdFormSubmission());
         Assertions.assertEquals(responseObject.getItem().getQuestion().getHashId(), answerReplyPatchRequestDTO.getHashIdQuestion());
+    }
+
+    @DisplayName(value = "Teste de sucesso - Responder uma questão sem estar autenticado")
+    @Test
+    public void updateReplyAnswerWithoutBeingAuthenticatedFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithoutBearerToken();
+        AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO = JsonUtil.objectFromJson("answerReplyPatchRequestDTO", PATH_RESOURCE_ANSWER, AnswerReplyPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/reply", HttpMethod.PATCH, new HttpEntity<>(answerReplyPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse401 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Responder uma questão autenticado como tipo de usuário não permitido")
+    @Test
+    public void updateReplyAnswerAuthenticatedWithWrongUserTypeFailure() {
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        AnswerReplyPatchRequestDTO answerReplyPatchRequestDTO = JsonUtil.objectFromJson("answerReplyPatchRequestDTO", PATH_RESOURCE_ANSWER, AnswerReplyPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/answers/reply", HttpMethod.PATCH, new HttpEntity<>(answerReplyPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse403 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.FORBIDDEN.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
     }
 
     @DisplayName(value = "Teste de sucesso - Resposta existe ao verificar por filtro de alternativa de visita")
