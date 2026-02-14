@@ -10,10 +10,8 @@ import lombok.Getter;
 @Getter
 public class FormSubmissionPatchRequestDTO extends BaseRequestDTO {
 
-    @Schema(description = "Observação geral da submissão do formulário.",
-            example = "Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.")
+    @Schema(description = "Observação geral da submissão do formulário.", example = "Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica.")
     @JsonDeserialize(using = StrictStringNormalizeSpaceDeserializer.class)
     @JsonProperty("generalObservation")
     private String generalObservation;
-
 }

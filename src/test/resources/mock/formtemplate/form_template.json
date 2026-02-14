@@ -14,5 +14,13 @@
     "ine": "000000000",
     "name": "FICHA DE VISITA DOMICILIAR E TERRITORIAL",
     "professionalCns": "000.0000.0000.0000"
+  },
+  "formTemplatePutRequestDTO": {
+    "cbo": "5151-05 – Agente Comunitário de Saúde (ACS)",
+    "cnes": "2005456",
+    "description": "Formulário de ficha de visita domiciliar e territorial",
+    "ine": "000000000",
+    "name": "FICHA DE VISITA DOMICILIAR E TERRITORIAL 7",
+    "professionalCns": "000.0000.0000.0000"
   }
 }

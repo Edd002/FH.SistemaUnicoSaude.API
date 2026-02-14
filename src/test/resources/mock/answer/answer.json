@@ -1,0 +1,29 @@
+{
+  "answerRegisterPatchRequestDTO": {
+    "deliveredAnswer": "80kg.",
+    "hashIdFormSubmission": "026ca461ab024616a2f573aa2bfc6421",
+    "hashIdPatient": "ab15a4s1a5qa7af15a41s8a4sa15d1fa",
+    "hashIdQuestion": "3aecb2404f444b15a498cccaf2b2c820",
+    "visitationAlternative": "V_1"
+  },
+  "answerRegisterPatchRequestDTOAlreadyRegistered": {
+    "deliveredAnswer": "80kg.",
+    "hashIdFormSubmission": "107fd39245d94438befc9950b56b655a",
+    "hashIdPatient": "ab15a4s1a5qa7af15a41s8a4sa15d1fa",
+    "hashIdQuestion": "3aecb2404f444b15a498cccaf2b2c820",
+    "visitationAlternative": "V_1"
+  },
+  "answerRegisterPatchRequestDTOFormAlreadySubmitted": {
+    "deliveredAnswer": "80kg.",
+    "hashIdFormSubmission": "215c29b4d29d409cb728f4b80ca5be72",
+    "hashIdPatient": "ab15a4s1a5qa7af15a41s8a4sa15d1fa",
+    "hashIdQuestion": "3aecb2404f444b15a498cccaf2b2c820",
+    "visitationAlternative": "V_1"
+  },
+  "answerReplyPatchRequestDTO": {
+    "deliveredAnswer": "80kg.",
+    "hashIdFormSubmission": "026ca461ab024616a2f573aa2bfc6421",
+    "hashIdQuestion": "3aecb2404f444b15a498cccaf2b2c820",
+    "visitationAlternative": "V_1"
+  }
+}

@@ -1,9 +1,11 @@
 package com.fiap.hackathon.domain.formsubmission;
 
+import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPatchRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionPostRequestDTO;
 import com.fiap.hackathon.domain.formsubmission.dto.FormSubmissionResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
+import com.fiap.hackathon.global.base.response.error.BaseErrorResponse422;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse200;
 import com.fiap.hackathon.global.base.response.success.BaseSuccessResponse201;
 import com.fiap.hackathon.global.base.response.success.nocontent.NoPayloadBaseSuccessResponse200;
@@ -85,6 +87,35 @@ public class FormSubmissionControllerTest {
         Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getFormTemplate().getHashId()));
     }
 
+    @DisplayName(value = "Teste de sucesso - Submeter um formulário")
+    @Test
+    public void updateSubmitFormSubmissionSuccess() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "026ca461ab024616a2f573aa2bfc6421";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO = JsonUtil.objectFromJson("formSubmissionPatchRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/submit/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.PATCH, new HttpEntity<>(formSubmissionPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse200<FormSubmissionResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertEquals(responseObject.getItem().getGeneralObservation(), formSubmissionPatchRequestDTO.getGeneralObservation());
+    }
+
+    @DisplayName(value = "Teste de falha - Submeter um formulário já submetido")
+    @Test
+    public void createFormTemplateNameAlreadyExistsFailure() {
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "215c29b4d29d409cb728f4b80ca5be72";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormSubmissionPatchRequestDTO formSubmissionPatchRequestDTO = JsonUtil.objectFromJson("formSubmissionPatchRequestDTO", PATH_RESOURCE_FORM_SUBMISSION, FormSubmissionPatchRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/submit/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.PATCH, new HttpEntity<>(formSubmissionPatchRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseErrorResponse422 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.CONFLICT.value(), responseObject.getStatus());
+        Assertions.assertFalse(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
     @DisplayName(value = "Teste de sucesso - Submissão de formulário existe ao verificar por filtro de se foi submetido")
     @Test
     public void findByFilterIsSubmittedSuccess() {
@@ -99,8 +130,8 @@ public class FormSubmissionControllerTest {
         Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
         Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
         Assertions.assertTrue(responseObject.isSuccess());
-        Assertions.assertEquals(4, responseObject.getList().size());
-        Assertions.assertEquals(4, responseObject.getTotalElements());
+        Assertions.assertEquals(3, responseObject.getList().size());
+        Assertions.assertEquals(3, responseObject.getTotalElements());
         Assertions.assertTrue(responseObject.getList().stream().allMatch(formSubmissionResponseDTO -> formSubmissionResponseDTO.getIsSubmitted().equals(isSubmitted)));
     }
 
@@ -202,7 +233,7 @@ public class FormSubmissionControllerTest {
     @DisplayName(value = "Teste de falha - Deletar submissão de formulário já concluída")
     @Test
     public void deleteFormSubmissionAlreadyConcludedFailure() {
-        final String EXISTING_HASH_ID_FORM_SUBMISSION = "107fd39245d94438befc9950b56b655a";
+        final String EXISTING_HASH_ID_FORM_SUBMISSION = "215c29b4d29d409cb728f4b80ca5be72";
         HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
         ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-submissions/" + EXISTING_HASH_ID_FORM_SUBMISSION, HttpMethod.DELETE, new HttpEntity<>(headers), new ParameterizedTypeReference<>() {});
         BaseErrorResponse409 responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});

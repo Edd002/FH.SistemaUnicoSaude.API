@@ -2,5 +2,8 @@
   "formSubmissionPostRequestDTO": {
     "generalObservation": "Formulário poder ser submetido incompleto.",
     "hashIdFormTemplate": "8a2d4778c1214ce48c8601ffffa62ba4"
+  },
+  "formSubmissionPatchRequestDTO": {
+    "generalObservation": "Paciente relatou tontura constante, mas não aferiu pressão. Necessário revisão médica."
   }
 }

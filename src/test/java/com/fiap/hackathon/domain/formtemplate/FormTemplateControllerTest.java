@@ -1,6 +1,7 @@
 package com.fiap.hackathon.domain.formtemplate;
 
 import com.fiap.hackathon.domain.formtemplate.dto.FormTemplatePostRequestDTO;
+import com.fiap.hackathon.domain.formtemplate.dto.FormTemplatePutRequestDTO;
 import com.fiap.hackathon.domain.formtemplate.dto.FormTemplateResponseDTO;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse401;
 import com.fiap.hackathon.global.base.response.error.BaseErrorResponse409;
@@ -94,6 +95,21 @@ public class FormTemplateControllerTest {
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseObject.getStatus());
         Assertions.assertFalse(responseObject.isSuccess());
         Assertions.assertTrue(ValidationUtil.isNotEmpty(responseObject.getMessages()));
+    }
+
+    @DisplayName(value = "Teste de sucesso - Atualizar um template de formulário")
+    @Test
+    public void updateFormTemplateSuccess() {
+        final String EXISTING_HASH_ID_FORM_TEMPLATE = "8a2d4778c1214ce48c8601ffffa62ba4";
+        HttpHeaders headers = httpHeaderComponent.generateHeaderWithHealthProfessionalBearerToken();
+        FormTemplatePutRequestDTO formTemplatePutRequestDTO = JsonUtil.objectFromJson("formTemplatePutRequestDTO", PATH_RESOURCE_FORM_TEMPLATE, FormTemplatePutRequestDTO.class, DatePatternEnum.DATE_FORMAT_mm_dd_yyyy_WITH_SLASH.getValue());
+        ResponseEntity<?> responseEntity = testRestTemplate.exchange("/api/v1/form-templates/" + EXISTING_HASH_ID_FORM_TEMPLATE, HttpMethod.PUT, new HttpEntity<>(formTemplatePutRequestDTO, headers), new ParameterizedTypeReference<>() {});
+        BaseSuccessResponse200<FormTemplateResponseDTO> responseObject = httpBodyComponent.responseEntityToObject(responseEntity, new TypeToken<>() {});
+        Assertions.assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
+        Assertions.assertEquals(HttpStatus.OK.value(), responseObject.getStatus());
+        Assertions.assertTrue(responseObject.isSuccess());
+        Assertions.assertTrue(ValidationUtil.isNotBlank(responseObject.getItem().getHashId()));
+        Assertions.assertEquals(responseObject.getItem().getName(), formTemplatePutRequestDTO.getName());
     }
 
     @DisplayName(value = "Teste de sucesso - Template de formulário existe ao verificar por filtro de nome")
